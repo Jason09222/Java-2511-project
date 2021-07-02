@@ -15,3 +15,5 @@ Client requirement does not specify how the enemies will move along the path, on
 Players will have 12 slots for equipment
 
 Players will have 13 slots for cards
+
+The shop at the Hero's Castle will offer six items every cycle at random. Can range from potions, weapons, armour, helmet, shield.
