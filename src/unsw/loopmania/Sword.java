@@ -8,6 +8,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class Sword extends BasicItem {
     // TODO = add more weapon/item types
     public Sword(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y);
+        super(x, y, "Sword");
     }
 }
