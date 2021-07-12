@@ -192,12 +192,65 @@ public class LoopManiaWorld {
     public List<BasicEnemy> runBattles() {
         // TODO = modify this - currently the character automatically wins all battles without any damage!
         List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
+        List<Ally> defeatedAllies = new ArrayList<Ally>();
         for (BasicEnemy e: enemies){
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
+            boolean hasAttacked = false;
+            int transferToZombie = 0;
+            for (Ally ally : allies) {
+                if (ally.getHp() <= 0) {
+                    continue;
+                }
+                if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4) {
+                    e.attack_ally(ally);
+                    hasAttacked = true;
+                    if (ally.getHp() <= 0) {
+                        if (e.getType().equals("Zombie")) {
+                            Random rand = new Random();
+                            int int_random = rand.nextInt(5);
+                            if (int_random == 0) transferToZombie++; 
+                        }
+                        defeatedAllies.add(ally);
+                    }
+                    break;
+                }
+            }
+            if (!hasAttacked) {
+                e.attack_character(character);
+            }
+            
+        }
+
+
+
+        for (Ally ally : allies) {
+            for (BasicEnemy e : enemies) {
+                if (e.getHP() <= 0) {
+                    continue;
+                }
+                if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
+
+                    //TODO ally attack
+                    if (e.getHP() <= 0) {
+                        defeatedEnemies.add(e);
+                    }
+                    break;
+                }
+            }
+        }
+
+        for (BasicEnemy e : enemies) {
+            if (e.getHP() <= 0) {
+                continue;
+            }
+            // add character attacked
             if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
-                // fight...
-                defeatedEnemies.add(e);
+                character.attack(e);
+                if (e.getHP() <= 0) {
+                    defeatedEnemies.add(e);
+                }
+                break;
             }
         }
         for (BasicEnemy e: defeatedEnemies){
