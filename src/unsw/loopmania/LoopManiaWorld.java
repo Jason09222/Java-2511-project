@@ -56,6 +56,9 @@ public class LoopManiaWorld {
 
     private List<Ally> allies;
 
+    private int goldOwned;
+
+    private int experience;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -79,6 +82,8 @@ public class LoopManiaWorld {
         unequippedInventoryItems = new ArrayList<>();
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
+        goldOwned = 0;
+        experience = 0;
         buildings = new ArrayList<>();
         allies =new ArrayList<>();
         campfires = new ArrayList<>();
@@ -182,7 +187,6 @@ public class LoopManiaWorld {
         return spawningEnemies;
     }
 
-
     /**
      * spawns items if the conditions warrant it, adds to world
      * @return list of the gold to be displayed on screen
@@ -206,11 +210,6 @@ public class LoopManiaWorld {
         return spawningItems;
     }
 
-
-
-
-
-
     /**
      * kill an enemy
      * @param enemy enemy to be killed
@@ -220,6 +219,11 @@ public class LoopManiaWorld {
         enemies.remove(enemy);
     }
 
+
+    private void killAlly(Ally ally) {
+        ally.destroy();
+        allies.remove(ally);
+    }
     /**
      * run the expected battles in the world, based on current world state
      * @return list of enemies which have been killed
@@ -227,12 +231,72 @@ public class LoopManiaWorld {
     public List<BasicEnemy> runBattles() {
         // TODO = modify this - currently the character automatically wins all battles without any damage!
         List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
+        List<Ally> defeatedAllies = new ArrayList<Ally>();
+        List<BasicEnemy> transferZombies = new ArrayList<BasicEnemy>();
         for (BasicEnemy e: enemies){
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
+            boolean hasAttacked = false;
+            for (Ally ally : allies) {
+                if (ally.getHp() <= 0) {
+                    continue;
+                }
+                if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4) {
+                    e.attack_ally(ally);
+                    hasAttacked = true;
+                    if (ally.getHp() <= 0) {
+                        if (e.getType().equals("Zombie")) {
+                            Random rand = new Random();
+                            int int_random = rand.nextInt(5);
+                            if (int_random == 0) {
+                                BasicEnemy newZombie = new Zombie(ally.getPathPosition());
+                                transferZombies.add(newZombie);
+                            }
+                        }
+                        defeatedAllies.add(ally);
+                    }
+                    break;
+                }
+            }
+            if (!hasAttacked) {
+                e.attack_character(character);
+            }
+
+
+            for (BasicEnemy enemy : transferZombies) {
+                enemies.add(enemy);
+            }
+        }
+
+
+
+        for (Ally ally : allies) {
+            for (BasicEnemy e : enemies) {
+                if (e.getHP() <= 0) {
+                    continue;
+                }
+                if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
+
+                    //TODO ally attack
+                    if (e.getHP() <= 0) {
+                        defeatedEnemies.add(e);
+                    }
+                    break;
+                }
+            }
+        }
+
+        for (BasicEnemy e : enemies) {
+            if (e.getHP() <= 0) {
+                continue;
+            }
+            // add character attacked
             if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
-                // fight...
-                defeatedEnemies.add(e);
+                character.attack(e);
+                if (e.getHP() <= 0) {
+                    defeatedEnemies.add(e);
+                }
+                break;
             }
         }
         for (BasicEnemy e: defeatedEnemies){
@@ -240,6 +304,14 @@ public class LoopManiaWorld {
             // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
             // due to mutating list we're iterating over
             killEnemy(e);
+        }
+
+        for (Ally ally: defeatedAllies) {
+            killAlly(ally);
+        }
+        if (character.getHp() <=0) {
+            //TODO
+            //Lose Game;
         }
         return defeatedEnemies;
     }
@@ -383,7 +455,7 @@ public class LoopManiaWorld {
         for (BasicEnemy e: enemies){
             for (int i = 0; i < e.getSpeed(); i++) {
                 Building nearestCamp = this.getShortestCampire(e);
-                if (e.getType().equals("Slug") && nearestCamp != null) {
+                if (e.getType().equals("Vampire") && nearestCamp != null) {
                     if (e.getDistance(nearestCamp.getX(), nearestCamp.getY()) <= 2) {
                         e.moveDownPath();
                         continue;
@@ -433,9 +505,7 @@ public class LoopManiaWorld {
         return null;
     }
 
-
-
- /**
+    /**
      * get a randomly generated position which could be used to spawn an item
      * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
      */
@@ -462,12 +532,6 @@ public class LoopManiaWorld {
         }
         return null;
     }
-
-
-
-
-
-
 
     /**
      * remove a card by its x, y coordinates
@@ -498,7 +562,25 @@ public class LoopManiaWorld {
         return newBuilding;
     }
 
+    public int getGold() {
+        return this.goldOwned;
+    }
 
+    public void addGold(int numGained) {
+        this.goldOwned += numGained;
+    }
+
+    public void spendGold(int numLost) {
+        this.goldOwned += numLost;
+    }
+
+    public int getExperience() {
+        return this.experience;
+    }
+
+    public void addExperience(int numGained) {
+        this.experience += numGained;
+    }
 
     public Building getShortestCampire(BasicEnemy e) {
         if (this.getCampfire().isEmpty()) return null;
@@ -512,6 +594,5 @@ public class LoopManiaWorld {
             }
         }
         return tmp;
-
     }
 }
