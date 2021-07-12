@@ -4,6 +4,7 @@ package unsw.loopmania;
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import org.javatuples.Pair;
 
 abstract public class Building extends StaticEntity {
     private int pathCycle = 0;
@@ -30,7 +31,6 @@ abstract public class Building extends StaticEntity {
         this.pathCycle = newPathCycle;
     }
 
-    public abstract boolean checkPathType(); // TODO: check if the tile type is allowed to be place a building
 
     //public abstract boolean checkPathCycle();
 
@@ -48,5 +48,30 @@ abstract public class Building extends StaticEntity {
 
     public void characterLeave() {
         this.characterStepOn = false;
+    }
+
+    public PathPosition getNearestPath(LoopManiaWorld l) {
+        PathPosition position = null;
+
+        int i = 0;
+        for (Pair<Integer, Integer> p : l.getOrderedPath()) {
+            if (p.equals(new Pair<>(super.getX(), super.getY())) ||
+            p.equals(new Pair<>(super.getX() - 1, super.getY())) ||
+            p.equals(new Pair<>(super.getX() + 1, super.getY())) ||
+            p.equals(new Pair<>(super.getX(), super.getY() + 1)) ||
+            p.equals(new Pair<>(super.getX(), super.getY() - 1)) ||
+            p.equals(new Pair<>(super.getX() - 1, super.getY() - 1)) ||
+            p.equals(new Pair<>(super.getX() + 1, super.getY() + 1)) ||
+            p.equals(new Pair<>(super.getX() - 1, super.getY() + 1)) ||
+            p.equals(new Pair<>(super.getX() + 1, super.getY() - 1))) {
+                
+                position = new PathPosition(i, l.getOrderedPath());
+                
+            }
+
+            
+            i++;
+        }
+        return position; // non-pathtile if return value is null
     }
 }

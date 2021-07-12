@@ -25,6 +25,7 @@ public class Character extends MovingEntity {
     }
 
     public void setHp(int hp) {
+        // TODO: Check if it reaches the highest possible hp
         this.hp = hp;
     }
 

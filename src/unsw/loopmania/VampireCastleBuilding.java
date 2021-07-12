@@ -6,17 +6,11 @@ import javafx.beans.property.SimpleIntegerProperty;
  * a basic form of building in the world
  */
 public class VampireCastleBuilding extends Building {
-    // TODO = add more types of building, and make sure buildings have effects on entities as required by the spec
+
     public VampireCastleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
     }
 
-    public boolean checkPathType() {
-        // Get the Pathtype at (x, y)
-        // If it is non-pathtiles and no other buildings exsits on it
-        // place the village
-        return true;
-    }
 
     public boolean checkPathCycle() {
         if (this.getPathCycle() % 5 == 0) {
@@ -25,7 +19,10 @@ public class VampireCastleBuilding extends Building {
         return false;
     }
 
-    public void spawnVampire() {
-        // create a new class of zombie and put it in the global data
+    public void spawnVampire(LoopManiaWorld l) {
+        // create a new class of vampire and put it in the global data
+        PathPosition position = getNearestPath(l);
+        BasicEnemy newVam = new Vampire(position);
+        l.getEnemy().add(newVam);
     }
 }

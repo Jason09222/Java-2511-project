@@ -50,6 +50,10 @@ public class LoopManiaWorld {
 
     // TODO = expand the range of buildings
     private List<VampireCastleBuilding> buildingEntities;
+    private List<Building> campfires;
+    private List<Building> buildings;
+
+    private List<Ally> allies;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -73,6 +77,59 @@ public class LoopManiaWorld {
         unequippedInventoryItems = new ArrayList<>();
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
+        buildings = new ArrayList<>();
+        allies =new ArrayList<>();
+        campfires = new ArrayList<>();
+    }
+
+    public List<Ally> getAllies() {
+        return this.allies;
+    }
+
+    public List<Building> getBuildings() {
+        return this.buildings;
+    }
+
+    public List<BasicEnemy> getEnemy() {
+        return this.enemies;
+    }
+
+    public List<Building> getCampfire() {
+        return this.campfires;
+    }
+
+    public List<Pair<Integer, Integer>> getOrderedPath() {
+        return this.orderedPath;
+    }
+
+    public void createbuilding(String type, SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        Building newBuilding = null;
+        // TODO: Check pathType
+        switch(type) {
+            case "Village":
+                newBuilding = new Village(x, y);
+                break;
+            case "Barracks":
+                newBuilding = new Barracks(x, y);
+                break;
+            case "Tower":
+                newBuilding = new Tower(x, y);
+                break;
+            case "Trap":
+                newBuilding = new Trap(x, y);
+                break;
+            case "VampireCastleBuuilding":
+                newBuilding = new VampireCastleBuilding(x, y);
+                break;
+            case "ZombiePit":
+                newBuilding = new ZombiePit(x, y);
+                break;
+            case "Campfire":
+                newBuilding = new Campfire(x, y);
+                this.campfires.add(newBuilding);
+        }
+        
+        this.buildings.add(newBuilding);
     }
 
     public int getWidth() {

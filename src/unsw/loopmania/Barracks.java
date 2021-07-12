@@ -1,6 +1,5 @@
 package unsw.loopmania;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -9,18 +8,16 @@ public class Barracks extends Building{
         super(x, y);
     }
 
-    public Ally produceAlly() {
+    public Ally produceAlly(LoopManiaWorld l) {
         if (getCharacterStepOn()) {
             //TODO: create a new class of ally
             // and put it in the global data
+            PathPosition position = super.getNearestPath(l);
+            Ally newAlly = new Ally("", 5, 3, position);
+            l.getAllies().add(newAlly);
         }
+        characterLeave();
         return null;
     }
 
-    public boolean checkPathType() {
-        // Get the Pathtype at (x, y)
-        // If it is pathtiles and no other buildings exsits on it
-        // place the village
-        return true;
-    }
 }
