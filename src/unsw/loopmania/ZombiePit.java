@@ -7,14 +7,11 @@ public class ZombiePit extends Building {
         super(x, y);
     }
 
-    public boolean checkPathType() {
-        // Get the Pathtype at (x, y)
-        // If it is non-pathtiles and no other buildings exsits on it
-        // place the village
-        return true;
-    }
 
-    public void spawnZombie() {
+    public void spawnZombie(LoopManiaWorld l) {
         // create a new class of zombie and put it in the global data
+        PathPosition position = getNearestPath(l);
+        BasicEnemy newZom = new Zombie(position);
+        l.getEnemy().add(newZom);
     }
 }

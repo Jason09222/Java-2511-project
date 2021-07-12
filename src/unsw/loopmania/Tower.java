@@ -9,12 +9,6 @@ public class Tower extends Building {
         super(x, y);
     }
 
-    public boolean checkPathType() {
-        // Get the Pathtype at (x, y)
-        // If it is non-pathtiles and no other buildings exsits on it
-        // place the village
-        return true;
-    } 
 
     public void addEnemyNearBy() {
         // loop through all enemies

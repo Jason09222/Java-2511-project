@@ -9,22 +9,22 @@ public class Trap extends Building {
         super(x, y);
     }
 
-    public boolean checkPathType() {
-        // Get the Pathtype at (x, y)
-        // If it is pathtiles and no other buildings exsits on it
-        // place the village
-        return true;
-    }
 
-    public void destroyTrap() {
+    public void destroyTrap(LoopManiaWorld l) {
         //fetch from the global buildings and remove this object
+        for (Building b : l.getBuildings()) {
+            if (b.equals(this)) l.getBuildings().remove(b);
+        }
     }
 
     public int getDamage() {
         return this.damage;
     }
 
-    public void exertDamage(BasicEnemy stepOn) {
+    public void exertDamage() {
         // TODO: Deduct corresponding hp from the enemy
+        for (BasicEnemy enemy : super.getEnemies()) {
+            enemy.setHP(enemy.getHP() - this.damage);
+        }
     }
 }

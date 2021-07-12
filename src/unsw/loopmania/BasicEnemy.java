@@ -97,6 +97,7 @@ public class BasicEnemy extends MovingEntity {
     }
     
     public void setHP(int hp) {
+        // TODO: set the limit of hp
         this.hp = hp;
     }
 

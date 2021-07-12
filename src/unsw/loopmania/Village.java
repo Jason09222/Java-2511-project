@@ -9,18 +9,15 @@ public class Village extends Building{
         super(x, y);
     }
 
-    public boolean checkPathType() {
-        // Get the Pathtype at (x, y)
-        // If it is pathtiles and no other buildings exsits on it
-        // place the village
-        return true;
-    }
 
     public int getHpGain() {
         return this.hpGain;
     }
 
-    public void increaseHp() {
-        // TODO: Add on the character's hp
+    public void increaseHp(Character c) {
+        if (getCharacterStepOn()) {
+            // Add on the character's hp
+            c.setHp(c.getHp() + this.getHpGain());
+        }
     }
 }
