@@ -56,6 +56,10 @@ public class LoopManiaWorld {
 
     private List<Ally> allies;
 
+    private int goldOwned;
+
+    private int experience;
+
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
      */
@@ -78,6 +82,8 @@ public class LoopManiaWorld {
         unequippedInventoryItems = new ArrayList<>();
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
+        goldOwned = 0;
+        experience = 0;
         buildings = new ArrayList<>();
         allies =new ArrayList<>();
         campfires = new ArrayList<>();
@@ -135,6 +141,7 @@ public class LoopManiaWorld {
         }
         
         this.buildings.add(newBuilding);
+>>>>>>> 6878ded7aed932a0e57587ee921e29d3b6c14d89
     }
 
     public int getWidth() {
@@ -505,6 +512,24 @@ public class LoopManiaWorld {
         return newBuilding;
     }
 
+    public int getGold() {
+        return this.goldOwned;
+    }
+
+    public void addGold(int numGained) {
+        this.goldOwned += numGained;
+    }
+
+    public void spendGold(int numLost) {
+        this.goldOwned += numLost;
+    }
+
+    public int getExperience() {
+        return this.experience;
+    }
+
+    public void addExperience(int numGained) {
+        this.experience += numGained;
 
 
     public Building getShortestCampire(BasicEnemy e) {
@@ -519,6 +544,5 @@ public class LoopManiaWorld {
             }
         }
         return tmp;
-
     }
 }
