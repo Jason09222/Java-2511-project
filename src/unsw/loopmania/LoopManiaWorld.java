@@ -47,7 +47,7 @@ public class LoopManiaWorld {
 
     // TODO = expand the range of items
     private List<Entity> unequippedInventoryItems;
-    private List<Pair<BasicItem, PathPosition>> unPickedItem;
+    private List<BasicItem> unPickedItem;
 
     // TODO = expand the range of buildings
     private List<VampireCastleBuilding> buildingEntities;
@@ -56,6 +56,7 @@ public class LoopManiaWorld {
 
     private List<Ally> allies;
 
+
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
      */
@@ -63,7 +64,7 @@ public class LoopManiaWorld {
 
     /**
      * create the world (constructor)
-     * 
+     *
      * @param width width of world in number of cells
      * @param height height of world in number of cells
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
@@ -133,7 +134,7 @@ public class LoopManiaWorld {
                 newBuilding = new Campfire(x, y);
                 this.campfires.add(newBuilding);
         }
-        
+
         this.buildings.add(newBuilding);
     }
 
@@ -254,7 +255,7 @@ public class LoopManiaWorld {
             removeItemByPositionInUnequippedInventoryItems(0);
             firstAvailableSlot = getFirstAvailableSlotForItem();
         }
-        
+
         // now we insert the new sword, as we know we have at least made a slot available...
         Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
         unequippedInventoryItems.add(sword);
@@ -349,7 +350,7 @@ public class LoopManiaWorld {
     private void moveBasicEnemies() {
         // TODO = expand to more types of enemy
 
-        
+
         for (BasicEnemy e: enemies){
             for (int i = 0; i < e.getSpeed(); i++) {
                 Building nearestCamp = this.getShortestCampire(e);
@@ -379,7 +380,7 @@ public class LoopManiaWorld {
      */
     private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition(){
         // TODO = modify this
-        
+
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
@@ -419,7 +420,7 @@ public class LoopManiaWorld {
                 break;
             }
         }
-        
+
         // now spawn building
         VampireCastleBuilding newBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
         buildingEntities.add(newBuilding);
@@ -442,7 +443,7 @@ public class LoopManiaWorld {
             int currDist = e.getDistance(b.getX(), b.getY());
             if (currDist < shortest) {
                 tmp = b;
-                shortest = currDist; 
+                shortest = currDist;
             }
         }
         return tmp;
