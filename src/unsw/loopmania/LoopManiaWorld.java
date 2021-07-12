@@ -111,7 +111,8 @@ public class LoopManiaWorld {
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            BasicEnemy enemy = new BasicEnemy(new PathPosition(indexInPath, orderedPath));
+            //BasicEnemy enemy = new BasicEnemy(new PathPosition(indexInPath, orderedPath));
+            BasicEnemy enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
@@ -285,8 +286,12 @@ public class LoopManiaWorld {
      */
     private void moveBasicEnemies() {
         // TODO = expand to more types of enemy
+
+        
         for (BasicEnemy e: enemies){
-            e.move();
+            for (int i = 0; i < e.getSpeed(); i++) {
+                e.move();
+            }
         }
     }
 

@@ -28,7 +28,7 @@ public class Zombie extends BasicEnemy{
     
     @Override
     //TODO add character object as parameter
-    public void attack() {
+    public void attack_ally(Ally ally) {
         Random rand = new Random();
         int int_random = rand.nextInt(5);
         if (int_random == 0) {
@@ -37,8 +37,12 @@ public class Zombie extends BasicEnemy{
             return;
         }
         //TODO deduct hp of ally/Character
+
+        ally.setHp(ally.getHp() - this.getDamage());
         return;
     }
+
+
 
     @Override
     public void move() {
