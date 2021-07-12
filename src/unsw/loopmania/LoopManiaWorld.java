@@ -168,7 +168,8 @@ public class LoopManiaWorld {
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            BasicEnemy enemy = new BasicEnemy(new PathPosition(indexInPath, orderedPath));
+            //BasicEnemy enemy = new BasicEnemy(new PathPosition(indexInPath, orderedPath));
+            BasicEnemy enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
@@ -342,8 +343,28 @@ public class LoopManiaWorld {
      */
     private void moveBasicEnemies() {
         // TODO = expand to more types of enemy
+
+        
         for (BasicEnemy e: enemies){
-            e.move();
+            for (int i = 0; i < e.getSpeed(); i++) {
+                Building nearestCamp = this.getShortestCampire(e);
+                if (e.getType().equals("Slug") && nearestCamp != null) {
+                    if (e.getDistance(nearestCamp.getX(), nearestCamp.getY()) <= 2) {
+                        e.moveDownPath();
+                        continue;
+                    } else if (e.getDistance(nearestCamp.getX(), nearestCamp.getY()) == 3) {
+                        if (e.getLastDirec().equals("Up")) {
+                            e.moveDownPath();
+                            e.setLastDirec("Down");
+                        } else {
+                            e.moveUpPath();
+                            e.setLastDirec("Up");
+                        }
+                        continue;
+                    }
+                }
+                e.move();
+            }
         }
     }
 
@@ -404,5 +425,22 @@ public class LoopManiaWorld {
         shiftCardsDownFromXCoordinate(cardNodeX);
 
         return newBuilding;
+    }
+
+
+
+    public Building getShortestCampire(BasicEnemy e) {
+        if (this.getCampfire().isEmpty()) return null;
+        int shortest = 1000;
+        Building tmp = new Campfire(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
+        for (Building b : this.getCampfire()) {
+            int currDist = e.getDistance(b.getX(), b.getY());
+            if (currDist < shortest) {
+                tmp = b;
+                shortest = currDist; 
+            }
+        }
+        return tmp;
+
     }
 }

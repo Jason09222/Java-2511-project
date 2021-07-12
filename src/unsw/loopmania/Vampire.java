@@ -27,15 +27,32 @@ public class Vampire extends BasicEnemy{
     
     @Override
     //TODO add character object as parameter
-    public void attack() {
+    public void attack_ally(Ally ally) {
         Random rand = new Random();
         int int_random = rand.nextInt(5);
         if (int_random == 0) {
-            //int times = rand.nextInt(10);
+            int times = rand.nextInt(10);
+            ally.setHp(ally.getHp() - this.getDamage() * times);
             //TODO random additional damage with every vampire attack, for a random number of vampire attacks
             return;
         }
         //TODO deduct hp of ally/Character
+        ally.setHp(ally.getHp() - this.getDamage());
+        return;
+    }
+
+    @Override
+    public void attack_character(Character c) {
+        Random rand = new Random();
+        int int_random = rand.nextInt(5);
+        if (int_random == 0) {
+            int times = rand.nextInt(10);
+            c.setHp(c.getHp() - this.getDamage() * times);
+            //TODO random additional damage with every vampire attack, for a random number of vampire attacks
+            return;
+        }
+        //TODO deduct hp of ally/Character
+        c.setHp(c.getHp() - this.getDamage());
         return;
     }
 }
