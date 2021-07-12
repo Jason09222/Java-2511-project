@@ -104,7 +104,7 @@ public class LoopManiaWorld {
         return this.orderedPath;
     }
 
-    public List<Pair<BasicItem, PathPosition>> getUnpickedItems() {
+    public List<BasicItem> getUnpickedItems() {
         return this.unPickedItem;
     }
 
@@ -181,6 +181,26 @@ public class LoopManiaWorld {
         }
         return spawningEnemies;
     }
+
+
+    /**
+     * spawns items if the conditions warrant it, adds to world
+     * @return list of the items to be displayed on screen
+     */
+    public List<Gold> possiblySpawnItems(){
+        Pair<Integer, Integer> pos = possiblyGetBasicItemSpawnPosition();
+        List<Gold> spawningItems = new ArrayList<>();
+        if (pos != null){
+            int indexInPath = orderedPath.indexOf(pos);
+            PathPosition newPathPosition =  new PathPosition(indexInPath, orderedPath);
+            Gold item = new Gold(newPathPosition.getX(), newPathPosition.getY());
+            unPickedItem.add(item);
+            spawningItems.add(item);
+        }
+        return spawningItems;
+    }
+
+
 
     /**
      * kill an enemy
@@ -403,6 +423,42 @@ public class LoopManiaWorld {
         }
         return null;
     }
+
+
+
+ /**
+     * get a randomly generated position which could be used to spawn an item
+     * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
+     */
+    private Pair<Integer, Integer> possiblyGetBasicItemSpawnPosition(){
+
+        // has a chance spawning a basic item on a tile the character isn't on or immediately before or after (currently space required = 2)...
+        Random rand = new Random();
+        int choice = rand.nextInt(2);
+        if ((choice == 0) && (enemies.size() < 2)){
+            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+            // inclusive start and exclusive end of range of positions not allowed
+            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+            // note terminating condition has to be != rather than < since wrap around...
+            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+                orderedPathSpawnCandidates.add(orderedPath.get(i));
+            }
+
+            // choose random choice
+            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+
+            return spawnPosition;
+        }
+        return null;
+    }
+
+
+
+
+
+
 
     /**
      * remove a card by its x, y coordinates
