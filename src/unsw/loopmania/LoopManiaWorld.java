@@ -530,7 +530,7 @@ public class LoopManiaWorld {
 
     public void addExperience(int numGained) {
         this.experience += numGained;
-
+    }
 
     public Building getShortestCampire(BasicEnemy e) {
         if (this.getCampfire().isEmpty()) return null;
