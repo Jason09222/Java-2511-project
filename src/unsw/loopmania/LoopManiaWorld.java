@@ -198,11 +198,11 @@ public class LoopManiaWorld {
         // TODO = modify this - currently the character automatically wins all battles without any damage!
         List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
         List<Ally> defeatedAllies = new ArrayList<Ally>();
+        List<BasicEnemy> transferZombies = new ArrayList<BasicEnemy>(); 
         for (BasicEnemy e: enemies){
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
             boolean hasAttacked = false;
-            int transferToZombie = 0;
             for (Ally ally : allies) {
                 if (ally.getHp() <= 0) {
                     continue;
@@ -214,7 +214,10 @@ public class LoopManiaWorld {
                         if (e.getType().equals("Zombie")) {
                             Random rand = new Random();
                             int int_random = rand.nextInt(5);
-                            if (int_random == 0) transferToZombie++; 
+                            if (int_random == 0) {
+                                BasicEnemy newZombie = new Zombie(ally.getPathPosition());
+                                transferZombies.add(newZombie);
+                            }
                         }
                         defeatedAllies.add(ally);
                     }
@@ -225,6 +228,10 @@ public class LoopManiaWorld {
                 e.attack_character(character);
             }
             
+
+            for (BasicEnemy enemy : transferZombies) {
+                enemies.add(enemy);
+            }
         }
 
 
