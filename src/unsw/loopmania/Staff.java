@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import java.util.Random;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
@@ -16,5 +18,17 @@ public class Staff extends BasicItem {
     }
     public int getPrice() {
         return price;
+    }
+    public void trance(BasicEnemy enemy, LoopManiaWorld world) {
+        Random rand = new Random();
+        int random = rand.nextInt(5);
+        if (random == 0) {
+            PathPosition position = enemy.getPathPosition();
+            enemy.setHP(0);
+            Ally ally = new Ally(position);
+            ally.setRound(5);
+            ally.setOriginalType(enemy.getType());
+            world.addAlly(ally);
+        }
     }
 }

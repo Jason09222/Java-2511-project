@@ -113,6 +113,10 @@ public class LoopManiaWorld {
         return this.unPickedItem;
     }
 
+    public void addAlly(Ally ally) {
+        allies.add(ally);
+    }
+
     public void createbuilding(String type, SimpleIntegerProperty x, SimpleIntegerProperty y) {
         Building newBuilding = null;
         // TODO: Check pathType
