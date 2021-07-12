@@ -47,6 +47,7 @@ public class LoopManiaWorld {
 
     // TODO = expand the range of items
     private List<Entity> unequippedInventoryItems;
+    private List<Pair<BasicItem, PathPosition>> unPickedItem;
 
     // TODO = expand the range of buildings
     private List<VampireCastleBuilding> buildingEntities;
@@ -100,6 +101,10 @@ public class LoopManiaWorld {
 
     public List<Pair<Integer, Integer>> getOrderedPath() {
         return this.orderedPath;
+    }
+
+    public List<Pair<BasicItem, PathPosition>> getUnpickedItems() {
+        return this.unPickedItem;
     }
 
     public void createbuilding(String type, SimpleIntegerProperty x, SimpleIntegerProperty y) {
