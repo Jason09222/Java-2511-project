@@ -8,7 +8,7 @@ import java.util.List;
 public class Character extends MovingEntity {
     // TODO = potentially implement relationships between this class and other classes
     private int hp = 500;
-    private int damage = 100;
+    private int damage = 10;
     private List<Entity> equippedInventoryItems;
     private Boolean inBattle;
 
