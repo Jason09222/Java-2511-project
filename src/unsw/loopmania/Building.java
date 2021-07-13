@@ -27,6 +27,16 @@ abstract public class Building extends StaticEntity {
         return this.characterStepOn;
     }
 
+    @Override
+    public int getX() {
+        return super.getX();
+    }
+
+    @Override
+    public int getY() {
+        return super.getY();
+    }
+
     public void setPathCycle(int newPathCycle) {
         this.pathCycle = newPathCycle;
     }
