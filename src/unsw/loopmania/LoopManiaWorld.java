@@ -219,15 +219,63 @@ public class LoopManiaWorld {
      * @return a card to be spawned in the controller as a JavaFX node
      */
     public VampireCastleCard loadVampireCard(){
-        // if adding more cards than have, remove the first card...
-        if (cardEntities.size() >= getWidth()){
-            // TODO = give some cash/experience/item rewards for the discarding of the oldest card
-            removeCard(0);
-        }
+        checkCardEntity();
         VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
         cardEntities.add(vampireCastleCard);
         return vampireCastleCard;
     }
+
+
+    public CampfireCard loadCampfireCard(){
+        checkCardEntity();
+        CampfireCard campfireCard = new CampfireCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        cardEntities.add(campfireCard);
+        return campfireCard;
+    }
+
+    public BarracksCard loadBarracksCard(){
+        checkCardEntity();
+        BarracksCard barracksCard = new BarracksCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        cardEntities.add(barracksCard);
+        return barracksCard;
+    }
+
+    public TowerCard loadTowerCard(){
+        checkCardEntity();
+        TowerCard towerCard = new TowerCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        cardEntities.add(towerCard);
+        return towerCard;
+    }
+
+    public TrapCard loadTrapCard(){
+        checkCardEntity();
+        TrapCard trapCard = new TrapCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        cardEntities.add(trapCard);
+        return trapCard;
+    }
+
+    public VillageCard loadVillageCard(){
+        checkCardEntity();
+        VillageCard villageCard = new VillageCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        cardEntities.add(villageCard);
+        return villageCard;
+    }
+
+    public ZombiePitCard loadZombiePitCard(){
+        checkCardEntity();
+        ZombiePitCard zombiePitCard = new ZombiePitCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        cardEntities.add(zombiePitCard);
+        return zombiePitCard;
+    }
+
+    public void checkCardEntity () {
+        if (cardEntities.size() >= getWidth()){
+            // TODO = give some cash/experience/item rewards for the discarding of the oldest card
+            
+            removeCard(0);
+        }
+    }
+
 
     /**
      * remove card at a particular index of cards (position in gridpane of unplayed cards)
