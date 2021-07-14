@@ -20,6 +20,9 @@ public class LoopManiaWorld {
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
 
+    public static final int equippedInventoryWidth = 4;
+    public static final int equippedInventoryHeight = 1;
+
     /**
      * width of the world in GridPane cells
      */
@@ -46,6 +49,7 @@ public class LoopManiaWorld {
     private List<Card> cardEntities;
 
     // TODO = expand the range of items
+    private List<Entity> equippedItems;
     private List<Entity> unequippedInventoryItems;
     private List<BasicItem> unPickedItem;
 
@@ -80,6 +84,7 @@ public class LoopManiaWorld {
         enemies = new ArrayList<>();
         cardEntities = new ArrayList<>();
         unequippedInventoryItems = new ArrayList<>();
+        equippedItems = new ArrayList<>();
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
         goldOwned = 0;
@@ -484,7 +489,7 @@ public class LoopManiaWorld {
      * spawn a sword in the world and return the sword entity
      * @return a sword to be spawned in the controller as a JavaFX node
      */
-    public Sword addUnequippedSword(){
+/*    public Sword addUnequippedSword(){
         // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
@@ -498,7 +503,129 @@ public class LoopManiaWorld {
         Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
         unequippedInventoryItems.add(sword);
         return sword;
+    } */
+    /**
+     * spawn an item in the world and return the item entity
+     * @param type of item to be added
+     * @return a item to be spawned in the controller as a JavaFX node
+     */
+    public BasicItem addUnequippedItem(String type){
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null) {
+            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+            // gives random amount of cash/experience reward for discarding oldest item
+            Random rand = new Random();
+            int result = rand.nextInt(10)%2;
+            switch(result) {
+                case 0: 
+                    addExperience(rand.nextInt(10));
+                    break;
+                case 1:
+                    addGold(rand.nextInt(10));
+                    break;
+                default:
+                    break;
+            }
+        }
+        SimpleIntegerProperty x = new SimpleIntegerProperty(firstAvailableSlot.getValue0());
+        SimpleIntegerProperty y = new SimpleIntegerProperty(firstAvailableSlot.getValue1());
+        // insert new item as it is now we know we have a slot available
+        BasicItem item;
+        switch(type) {
+            case "Sword":
+                item = new Sword(x, y);
+                break;
+            case "Helmet":
+                item = new Helmet(x, y);
+                break;
+            case "Armour":
+                item = new Armour(x, y);
+                break;
+            case "Shield":
+                item = new Shield(x, y);
+                break;
+            case "HealthPotion":
+                item = new HealthPotion(x, y);
+                break;
+            default:
+                item = new BasicItem(x, y, null);
+                break;
+        }
+        unequippedInventoryItems.add(item);
+        return item;
     }
+
+    /**
+     * moves an "item" from unequippedInventory into equippedInventory
+     * @param item to be equipped
+     * 
+     */
+
+    public void equipItem(BasicItem item) {
+        unequippedInventoryItems.remove(item);
+        switch(item.getType()) {
+            case "Sword":
+                if (equippedItems.get(0) != null) {
+                    unequippedInventoryItems.add(equippedItems.get(0));
+                }
+                equippedItems.set(0, item);
+            case "Helmet":
+                if (equippedItems.get(1) != null) {
+                    unequippedInventoryItems.add(equippedItems.get(1));
+                }
+                equippedItems.set(1, item);
+            case "Armour":
+                if (equippedItems.get(2) != null) {
+                    unequippedInventoryItems.add(equippedItems.get(2));
+                }
+                equippedItems.set(2, item);
+            case "Shield":                
+                if (equippedItems.get(3) != null) {
+                    unequippedInventoryItems.add(equippedItems.get(3));
+                }
+                equippedItems.set(3, item);
+            default:
+                break;
+        }
+    }
+
+    public void unEquipItem(BasicItem item) {
+        unequippedInventoryItems.add(item);
+        equippedItems.set(equippedItems.indexOf(item), null);
+    }
+
+/*    public void equipSword(Sword sword) {
+        if (equippedItems.get(0) != null) {
+            unequippedInventoryItems.add(equippedItems.get(0));
+        }
+        equippedItems.set(0, sword);
+    }
+
+    public void equipHelmet(Helmet helmet) {
+        if (equippedItems.get(1) != null) {
+            unequippedInventoryItems.add(equippedItems.get(1));
+        }
+        equippedItems.set(1, helmet);
+    }
+
+    public void equipArmour(Armour armour) {
+        if (equippedItems.get(2) != null) {
+            unequippedInventoryItems.add(equippedItems.get(2));
+        }
+        equippedItems.set(2, armour);
+    }
+
+    public void equipShield(Shield shield) {
+        if (equippedItems.get(3) != null) {
+            unequippedInventoryItems.add(equippedItems.get(3));
+        }
+        equippedItems.set(3, shield);
+    } */
+
+
+    
 
     /**
      * remove an item by x,y coordinates
