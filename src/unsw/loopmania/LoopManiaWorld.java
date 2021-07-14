@@ -20,6 +20,9 @@ public class LoopManiaWorld {
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
 
+    public static final int equippedInventoryWidth = 4;
+    public static final int equippedInventoryHeight = 1;
+
     /**
      * width of the world in GridPane cells
      */
@@ -46,6 +49,7 @@ public class LoopManiaWorld {
     private List<Card> cardEntities;
 
     // TODO = expand the range of items
+    private List<Entity> equippedItems;
     private List<Entity> unequippedInventoryItems;
     private List<Pair<BasicItem, PathPosition>> unPickedItem;
 
@@ -80,6 +84,7 @@ public class LoopManiaWorld {
         enemies = new ArrayList<>();
         cardEntities = new ArrayList<>();
         unequippedInventoryItems = new ArrayList<>();
+        equippedItems = new ArrayList<>();
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
         goldOwned = 0;
@@ -141,7 +146,6 @@ public class LoopManiaWorld {
         }
         
         this.buildings.add(newBuilding);
->>>>>>> 6878ded7aed932a0e57587ee921e29d3b6c14d89
     }
 
     public int getWidth() {
@@ -342,6 +346,45 @@ public class LoopManiaWorld {
     }
 
     /**
+     * moves an "item" from unequippedInventory into equippedInventory
+     * @param sword
+     */
+    public void equipSword(Sword sword) {
+        if (equippedItems.get(0) != null) {
+            unequippedInventoryItems.add(equippedItems.get(0));
+        }
+        equippedItems.set(0, sword);
+    }
+
+    public void equipHelmet(Helmet helmet) {
+        if (equippedItems.get(1) != null) {
+            unequippedInventoryItems.add(equippedItems.get(1));
+        }
+        equippedItems.set(1, helmet);
+    }
+
+    public void equipArmour(Armour armour) {
+        if (equippedItems.get(2) != null) {
+            unequippedInventoryItems.add(equippedItems.get(2));
+        }
+        equippedItems.set(2, armour);
+    }
+
+    public void equipShield(Shield shield) {
+        if (equippedItems.get(3) != null) {
+            unequippedInventoryItems.add(equippedItems.get(3));
+        }
+        equippedItems.set(3, shield);
+    }
+
+
+    public void unequipItem(Entity item) {
+        unequippedInventoryItems.add(item);
+        equippedItems.set(equippedItems.indexOf(item), null);
+    }
+    
+
+    /**
      * remove an item by x,y coordinates
      * @param x x coordinate from 0 to width-1
      * @param y y coordinate from 0 to height-1
@@ -530,6 +573,7 @@ public class LoopManiaWorld {
 
     public void addExperience(int numGained) {
         this.experience += numGained;
+    }
 
 
     public Building getShortestCampire(BasicEnemy e) {
