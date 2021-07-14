@@ -64,6 +64,7 @@ public class LoopManiaWorld {
 
     private int experience;
 
+
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
      */
@@ -223,13 +224,13 @@ public class LoopManiaWorld {
      * kill an enemy
      * @param enemy enemy to be killed
      */
-    private void killEnemy(BasicEnemy enemy){
+    public void killEnemy(BasicEnemy enemy){
         enemy.destroy();
         enemies.remove(enemy);
     }
 
 
-    private void killAlly(Ally ally) {
+    public void killAlly(Ally ally) {
         ally.destroy();
         allies.remove(ally);
     }
@@ -422,7 +423,7 @@ public class LoopManiaWorld {
         SimpleIntegerProperty x = new SimpleIntegerProperty(firstAvailableSlot.getValue0());
         SimpleIntegerProperty y = new SimpleIntegerProperty(firstAvailableSlot.getValue1());
         switch (result) {
-            case 0: 
+            case 0:
                 addExperience(rand.nextInt(10));
                 break;
             case 1:
@@ -452,7 +453,7 @@ public class LoopManiaWorld {
             default: return;
         }
         addUnequippedInventory(reward);
-        
+
         return;
     }
 
@@ -466,7 +467,7 @@ public class LoopManiaWorld {
                 case 1: addExperience(rand.nextInt(5));
                 case 2: generateItem();
             }
-             
+
             removeCard(0);
         }
     }
@@ -504,7 +505,7 @@ public class LoopManiaWorld {
         Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
         unequippedInventoryItems.add(sword);
         return sword;
-    } 
+    }
     /**
      * spawn an item in the world and return the item entity
      * @param type of item to be added
@@ -521,7 +522,7 @@ public class LoopManiaWorld {
             Random rand = new Random();
             int result = rand.nextInt(10)%2;
             switch(result) {
-                case 0: 
+                case 0:
                     addExperience(rand.nextInt(10));
                     break;
                 case 1:
@@ -562,7 +563,7 @@ public class LoopManiaWorld {
     /**
      * moves an "item" from unequippedInventory into equippedInventory
      * @param item to be equipped
-     * 
+     *
      */
 
     public void equipItem(BasicItem item) {
@@ -573,7 +574,7 @@ public class LoopManiaWorld {
                     unequippedInventoryItems.add(equippedItems.get(0));
                 }
                 equippedItems.set(0, item);
-                
+
             case "Helmet":
                 if (equippedItems.get(1) != null) {
                     unequippedInventoryItems.add(equippedItems.get(1));
@@ -584,7 +585,7 @@ public class LoopManiaWorld {
                     unequippedInventoryItems.add(equippedItems.get(2));
                 }
                 equippedItems.set(2, item);
-            case "Shield":                
+            case "Shield":
                 if (equippedItems.get(3) != null) {
                     unequippedInventoryItems.add(equippedItems.get(3));
                 }
@@ -628,7 +629,7 @@ public class LoopManiaWorld {
     } */
 
 
-    
+
 
     /**
      * remove an item by x,y coordinates
@@ -644,11 +645,54 @@ public class LoopManiaWorld {
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves(){
-        
+
         if (!character.getInBattle()) {
             character.moveDownPath();
         }
         moveBasicEnemies();
+        boolean battleEnd = true;
+        for (BasicEnemy enemy : enemies) {
+            if (enemy.getInBattle()) {
+                battleEnd = false;
+            }
+        }
+        if (battleEnd) {
+            // kill all tranced allies
+            for (Ally ally : allies) {
+                if (!ally.getOriginalType().equals(null)) {
+                    killAlly(ally);
+                }
+            }
+        } else {
+            // Tranced ally turns back to enemy
+            for (Ally ally : allies) {
+                PathPosition position = ally.getPathPosition();
+                if (!ally.getOriginalType().equals(null)) {
+                    if (ally.getRound() - 1 == 0) {
+                        String type = ally.getOriginalType();
+                        BasicEnemy enemy;
+                        switch (type) {
+                            case "Vampire":
+                                enemy = new Vampire(position);
+                                break;
+                            case "Slug":
+                                enemy = new Slug(position);
+                                break;
+                            default:
+                                enemy = new Zombie(position);
+                                break;
+                        }
+                        enemies.add(enemy);
+                        killAlly(ally);
+                    } else {
+                        ally.setRound(ally.getRound() - 1);
+                    }
+                }
+            }
+        }
+
+
+
     }
 
     /**
@@ -740,7 +784,7 @@ public class LoopManiaWorld {
                         continue;
                     }
                 }
-                
+
                 if (character.getInBattle() && e.getDistance(character.getX(), character.getY()) <= e.getSupportRadius()) {
                     supportMove(e);
                 } else {
@@ -884,7 +928,7 @@ public class LoopManiaWorld {
 
 
     public void generateTrophy(BasicEnemy e) {
-    
+
         Random rand = new Random();
         int int_random = rand.nextInt(3);
         SimpleIntegerProperty x = e.x();
@@ -907,9 +951,9 @@ public class LoopManiaWorld {
                 return;
         }
     }
-    
+
     public void supportMove(BasicEnemy e) {
-        
+
         int enemyX = e.getX();
         int enemyY = e.getY();
         int characterX = character.getX();
@@ -939,9 +983,9 @@ public class LoopManiaWorld {
             }
             if (isStart && isEnd) {
                 break;
-            }   
+            }
         }
-        
+
         if (start - end < len && start - end > 0) {
             e.moveUpPath();
         } else {

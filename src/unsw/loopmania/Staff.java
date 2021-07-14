@@ -24,7 +24,7 @@ public class Staff extends BasicItem {
         int random = rand.nextInt(5);
         if (random == 0) {
             PathPosition position = enemy.getPathPosition();
-            enemy.setHP(0);
+            world.killEnemy(enemy);
             Ally ally = new Ally(position);
             ally.setRound(5);
             ally.setOriginalType(enemy.getType());
