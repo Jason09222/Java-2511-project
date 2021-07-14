@@ -11,6 +11,9 @@ public class Vampire extends BasicEnemy{
     private final boolean weak = false;
     private final int hp = 100;
     private final int exp = 5;
+
+    private int criticalPoss;
+
     public Vampire(PathPosition position) {
         super(position);
         setType(type);
@@ -44,7 +47,7 @@ public class Vampire extends BasicEnemy{
     @Override
     public void attack_character(Character c) {
         Random rand = new Random();
-        int int_random = rand.nextInt(5);
+        int int_random = rand.nextInt(getCriticalPoss());
         if (int_random == 0) {
             int times = rand.nextInt(10);
             c.setHp(c.getHp() - this.getDamage() * times);
@@ -54,6 +57,14 @@ public class Vampire extends BasicEnemy{
         //TODO deduct hp of ally/Character
         c.setHp(c.getHp() - this.getDamage());
         return;
+    }
+
+    public void setCriticalPoss(int value) {
+        this.criticalPoss = value;
+    }
+
+    public int getCriticalPoss() {
+        return this.criticalPoss;
     }
 }
 
