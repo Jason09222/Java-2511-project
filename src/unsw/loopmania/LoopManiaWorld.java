@@ -3,7 +3,7 @@ package unsw.loopmania;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+import java.lang.Math;
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -722,7 +722,13 @@ public class LoopManiaWorld {
                         continue;
                     }
                 }
-                e.move();
+                
+                if (e.getDistance(character.getX(), character.getY()) <= e.getSupportRadius()) {
+                    supportMove(e);
+                } else {
+                    e.move();
+                }
+                //supportMove(e);
             }
         }
     }
@@ -883,4 +889,46 @@ public class LoopManiaWorld {
                 return;
         }
     }
+    
+    public void supportMove(BasicEnemy e) {
+        
+        int enemyX = e.getX();
+        int enemyY = e.getY();
+        int characterX = character.getX();
+        int characterY = character.getY();
+
+        int len = orderedPath.size() / 2;
+        int start = 0;
+        boolean isStart = false;
+        boolean isEnd = false;
+        int end = 0;
+        for (Pair<Integer, Integer> pair : orderedPath) {
+            int tmpX = pair.getValue0();
+            int tmpY = pair.getValue1();
+            if (!isStart) {
+                start += 1;
+            }
+            if (!isEnd) {
+                end += 1;
+            }
+            if (tmpX == enemyX && tmpY == enemyY) {
+                start += 1;
+                isStart = true;
+            }
+            if (tmpX == characterX && tmpY == characterY) {
+                end += 1;
+                isEnd = true;
+            }
+            if (isStart && isEnd) {
+                break;
+            }   
+        }
+        
+        if (start - end < len && start - end > 0) {
+            e.moveUpPath();
+        } else {
+            e.moveDownPath();
+        }
+    }
+
 }
