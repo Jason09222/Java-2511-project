@@ -392,7 +392,7 @@ public class LoopManiaWorld {
 
     }
 
-    public BasicItem generateItem() {
+    public void generateItem() {
         BasicItem reward = null;
         int totalRewards = 8;
         Random rand = new Random();
@@ -429,11 +429,11 @@ public class LoopManiaWorld {
             case 8:
                 reward = new Sword(x, y);
                 break;
-            default: return null;
+            default: return;
         }
-
-        unequippedInventoryItems.add(reward);
-        return reward;
+        addUnequippedInventory(reward);
+        
+        return;
     }
 
     public void checkCardEntity () {
@@ -717,5 +717,41 @@ public class LoopManiaWorld {
             }
         }
         return tmp;
+    }
+
+
+    public void addUnequippedInventory(StaticEntity item) {
+        if (this.unequippedInventoryItems.size() == 15) {
+            this.unequippedInventoryItems.remove(0);
+            this.goldOwned += 100;
+        }
+        this.unequippedInventoryItems.add(item);
+    }
+
+
+
+    public void generateTrophy(BasicEnemy e) {
+    
+        Random rand = new Random();
+        int int_random = rand.nextInt(3);
+        SimpleIntegerProperty x = e.x();
+        SimpleIntegerProperty y = e.y();
+        switch(int_random) {
+            case 0:
+                this.goldOwned += e.getGold();
+                break;
+            case 1:
+                generateItem();
+                break;
+            case 2:
+                StaticEntity healthP = new HealthPotion(x, y);
+                addUnequippedInventory(healthP);
+                break;
+            case 3:
+                generateCard();
+                break;
+            default:
+                return;
+        }
     }
 }
