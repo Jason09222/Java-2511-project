@@ -17,7 +17,7 @@ public class Character extends MovingEntity {
         setDamage(this.damage);
         this.inBattle = false;
     }
-    
+
     public int getHp() {
         return this.hp;
     }
@@ -56,6 +56,26 @@ public class Character extends MovingEntity {
         e.setHP(e.getHP() - this.getDamage());
     }
 
+    public void useHealthPotion(HealthPotion healthPotion) {
+        hp += healthPotion.getHealth();
+    }
+
+    public void useSword(Sword sword, BasicEnemy enemy) {
+        enemy.setHP(enemy.getHP() - damage - sword.getDamage());
+    }
+
+    public void useStake(Stake stake, BasicEnemy enemy) {
+        enemy.setHP(enemy.getHP() - damage - stake.getDamage(enemy));
+    }
+
+    public void useStaff(Staff staff, BasicEnemy enemy, LoopManiaWorld world) {
+        enemy.setHP(enemy.getHP() - damage - staff.getDamage());
+        staff.trance(enemy, world);
+    }
+
+    public void useTheOneRing(TheOneRing theOneRing) {
+        hp = 500;
+    }
 }
 
 

@@ -78,27 +78,7 @@ public class BasicEnemy extends MovingEntity {
 
 
 
-    public void generateTrophy(Character c) {
     
-        Random rand = new Random();
-        int int_random = rand.nextInt(3);
-        switch(int_random) {
-            case 0:
-                //TODO set some amount of gold to map
-                break;
-            case 1:
-                //TODO: set some kind of weapon to map
-                break;
-            case 2:
-                //TODO: set one health potion to map
-                break;
-            case 3:
-                //TODO: set one card to map
-                break;
-            default:
-                return;
-        }
-    }
     
     
     public void setType(String type) {
