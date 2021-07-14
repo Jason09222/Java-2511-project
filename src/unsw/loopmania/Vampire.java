@@ -26,6 +26,7 @@ public class Vampire extends BasicEnemy{
         setIsWeak(this.weak);
         setGold(this.gold); //TODO can be changed
         setSpeed(this.speed); 
+        this.setCriticalPoss(10);
     }
     
     @Override
@@ -65,6 +66,10 @@ public class Vampire extends BasicEnemy{
 
     public int getCriticalPoss() {
         return this.criticalPoss;
+    }
+
+    public void setCriticalBack() {
+        this.criticalPoss = 10;
     }
 
    

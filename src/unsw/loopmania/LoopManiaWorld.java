@@ -275,6 +275,7 @@ public class LoopManiaWorld {
 
                     character.setInBattle(true);
                     inBattle = true;
+                    //if (shield && e.getType().equals)
                     e.attack_character(character);
                 }
             }
@@ -294,7 +295,7 @@ public class LoopManiaWorld {
                 }
                 if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= 4){
                     inBattle = true;
-                    //TODO ally attack
+                    ally.attack(e);
                     if (e.getHP() <= 0) {
                         defeatedEnemies.add(e);
                     }
