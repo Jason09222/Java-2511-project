@@ -1,23 +1,18 @@
 package unsw.loopmania;
 
 public class Ally extends MovingEntity{
-    private String id;
-    private int hp;
-    private int damage;
+    private String type = "Ally";
+    private int hp = 300;
+    private int damage = 100;
+    private int round = 0;
+    private String originalType = null;
 
-    public Ally(String id, int hp, int damage, PathPosition position) {
+    public Ally(PathPosition position) {
         super(position);
-        this.id = id;
-        this.hp = hp;
-        this.damage = damage;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public String getType() {
+        return type;
     }
 
     public int getHp() {
@@ -35,5 +30,23 @@ public class Ally extends MovingEntity{
     public void setDamage(int damage) {
         this.damage = damage;
     }
-    
+
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    public String getOriginalType() {
+        return originalType;
+    }
+
+    public void setOriginalType(String originalType) {
+        this.originalType = originalType;
+    }
+
+
 }

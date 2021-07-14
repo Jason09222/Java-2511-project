@@ -13,7 +13,7 @@ public class Barracks extends Building{
             //TODO: create a new class of ally
             // and put it in the global data
             PathPosition position = super.getNearestPath(l);
-            Ally newAlly = new Ally("", 5, 3, position);
+            Ally newAlly = new Ally(position);
             l.getAllies().add(newAlly);
         }
         characterLeave();

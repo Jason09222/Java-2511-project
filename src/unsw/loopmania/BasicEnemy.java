@@ -78,7 +78,7 @@ public class BasicEnemy extends MovingEntity {
 
 
 
-    public void generateTrophy() {
+    public void generateTrophy(Character c) {
     
         Random rand = new Random();
         int int_random = rand.nextInt(3);

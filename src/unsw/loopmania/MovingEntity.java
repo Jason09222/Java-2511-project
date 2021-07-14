@@ -50,4 +50,9 @@ public abstract class MovingEntity extends Entity {
     public int getY() {
         return y().get();
     }
+
+
+    public PathPosition getPathPosition() {
+        return this.position;
+    }
 }
