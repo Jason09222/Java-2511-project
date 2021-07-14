@@ -4,9 +4,9 @@ public class Slug extends BasicEnemy{
     //TODO can be changed
     private final String type = "Slug";
     private final int FightR = 1; 
-    private final int SupportR = 50000; 
+    private final int SupportR = 3; 
     private final int gold = 10; 
-    private final int speed = 2; 
+    private final int speed = 1; 
     private final int damage = 1; 
     //private final boolean cirtical = true;
     private final boolean weak = false;
@@ -24,6 +24,7 @@ public class Slug extends BasicEnemy{
         setIsWeak(this.weak);
         setGold(this.gold); //TODO can be changed
         setSpeed(this.speed); 
+
     }
     
     

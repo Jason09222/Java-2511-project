@@ -5,13 +5,13 @@ public class Vampire extends BasicEnemy{
     private final int FightR = 2; 
     private final int SupportR = 5; 
     private final int gold = 10; 
-    private final int speed = 2; 
+    private int speed = 2;
     private final int damage = 998; 
     //private final boolean cirtical = true;
     private final boolean weak = false;
     private final int hp = 100;
     private final int exp = 5;
-
+    
     private int criticalPoss;
 
     public Vampire(PathPosition position) {
@@ -66,5 +66,7 @@ public class Vampire extends BasicEnemy{
     public int getCriticalPoss() {
         return this.criticalPoss;
     }
+
+   
 }
 
