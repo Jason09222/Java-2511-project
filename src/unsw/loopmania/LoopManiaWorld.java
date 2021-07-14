@@ -325,15 +325,134 @@ public class LoopManiaWorld {
      * @return a card to be spawned in the controller as a JavaFX node
      */
     public VampireCastleCard loadVampireCard(){
-        // if adding more cards than have, remove the first card...
-        if (cardEntities.size() >= getWidth()){
-            // TODO = give some cash/experience/item rewards for the discarding of the oldest card
-            removeCard(0);
-        }
+        checkCardEntity();
         VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
         cardEntities.add(vampireCastleCard);
         return vampireCastleCard;
     }
+
+
+    public CampfireCard loadCampfireCard(){
+        checkCardEntity();
+        CampfireCard campfireCard = new CampfireCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        cardEntities.add(campfireCard);
+        return campfireCard;
+    }
+
+    public BarracksCard loadBarracksCard(){
+        checkCardEntity();
+        BarracksCard barracksCard = new BarracksCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        cardEntities.add(barracksCard);
+        return barracksCard;
+    }
+
+    public TowerCard loadTowerCard(){
+        checkCardEntity();
+        TowerCard towerCard = new TowerCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        cardEntities.add(towerCard);
+        return towerCard;
+    }
+
+    public TrapCard loadTrapCard(){
+        checkCardEntity();
+        TrapCard trapCard = new TrapCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        cardEntities.add(trapCard);
+        return trapCard;
+    }
+
+    public VillageCard loadVillageCard(){
+        checkCardEntity();
+        VillageCard villageCard = new VillageCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        cardEntities.add(villageCard);
+        return villageCard;
+    }
+
+    public ZombiePitCard loadZombiePitCard(){
+        checkCardEntity();
+        ZombiePitCard zombiePitCard = new ZombiePitCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        cardEntities.add(zombiePitCard);
+        return zombiePitCard;
+    }
+
+    public Card generateCard() {
+        int totalCards = 7;
+        Random rand = new Random();
+        int result = rand.nextInt(1000) % totalCards;
+
+        switch (result) {
+            case 0: return loadVampireCard();
+            case 1: return loadCampfireCard();
+            case 2: return loadTowerCard();
+            case 3: return loadTrapCard();
+            case 4: return loadVillageCard();
+            case 5: return loadZombiePitCard();
+            case 6: return loadBarracksCard();
+            default: return null;
+        }
+
+    }
+
+    public BasicItem generateItem() {
+        BasicItem reward = null;
+        int totalRewards = 8;
+        Random rand = new Random();
+        int result = rand.nextInt(1000) % totalRewards;
+
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        SimpleIntegerProperty x = new SimpleIntegerProperty(firstAvailableSlot.getValue0());
+        SimpleIntegerProperty y = new SimpleIntegerProperty(firstAvailableSlot.getValue1());
+        switch (result) {
+            case 0: 
+                addExperience(rand.nextInt(10));
+                break;
+            case 1:
+                addGold(rand.nextInt(10));
+                break;
+            case 2:
+                reward = new Armour(x, y);
+                break;
+            case 3:
+                reward = new HealthPotion(x, y);
+                break;
+            case 4:
+                reward = new Helmet(x, y);
+                break;
+            case 5:
+                reward = new Shield(x, y);
+                break;
+            case 6:
+                reward = new Staff(x, y);
+                break;
+            case 7:
+                reward = new Stake(x, y);
+                break;
+            case 8:
+                reward = new Sword(x, y);
+                break;
+            default: return null;
+        }
+
+        unequippedInventoryItems.add(reward);
+        return reward;
+    }
+
+    public void checkCardEntity () {
+        if (cardEntities.size() >= getWidth()){
+            // TODO = give some cash/experience/item rewards for the discarding of the oldest card
+            Random rand = new Random();
+            int result = rand.nextInt(10) % 3;
+            switch (result) {
+                case 0: addGold(rand.nextInt(5));
+                case 1: addExperience(rand.nextInt(5));
+                case 2: generateItem();
+            }
+             
+            removeCard(0);
+        }
+    }
+
+
+
 
     /**
      * remove card at a particular index of cards (position in gridpane of unplayed cards)
