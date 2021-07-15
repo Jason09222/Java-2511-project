@@ -27,11 +27,6 @@ public class Ally extends MovingEntity{
         return damage;
     }
 
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-
-
     public int getRound() {
         return round;
     }

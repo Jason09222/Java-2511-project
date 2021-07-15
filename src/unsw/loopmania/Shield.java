@@ -12,7 +12,7 @@ public class Shield extends BasicItem {
     public Shield(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, "Shield");
     }
-    public int getDefense(BasicEnemy enemy) {
+    public int getDefense() {
         return this.defense;
     }
     public int getPrice() {

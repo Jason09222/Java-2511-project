@@ -1,6 +1,6 @@
 package unsw.loopmania;
-import java.util.ArrayList;
-import java.util.List;
+// import java.util.ArrayList;
+// import java.util.List;
 
 /**
  * represents the main character in the backend of the game world
@@ -35,7 +35,7 @@ public class Character extends MovingEntity {
         this.damage = damage;
     }
 
-    
+
 
     public void setInBattle(Boolean flag) {
         this.inBattle = flag;
@@ -45,6 +45,9 @@ public class Character extends MovingEntity {
         return this.inBattle;
     }
 
+
+
+    //TODO : check equipped item and use weapon
     public void attack(BasicEnemy e) {
         //TODO
         e.setHP(e.getHP() - this.getDamage());
@@ -52,6 +55,9 @@ public class Character extends MovingEntity {
 
     public void useHealthPotion(HealthPotion healthPotion) {
         hp += healthPotion.getHealth();
+        if (hp >= 500) {
+            hp = 500;
+        }
     }
 
     public void useSword(Sword sword, BasicEnemy enemy) {

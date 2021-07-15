@@ -3,14 +3,14 @@ package unsw.loopmania;
 public class Slug extends BasicEnemy{
     //TODO can be changed
     private final String type = "Slug";
-    private final int FightR = 1; 
-    private final int SupportR = 3; 
-    private final int gold = 10; 
-    private final int speed = 1; 
-    private final int damage = 1; 
+    private final int FightR = 1;
+    private final int SupportR = 3;
+    private final int gold = 100;
+    private final int speed = 1;
+    private final int damage = 50;
     //private final boolean cirtical = true;
     private final boolean weak = false;
-    private final int hp = 1000;
+    private final int hp = 100;
     private final int exp = 5;
     public Slug(PathPosition position) {
         super(position);
@@ -23,12 +23,12 @@ public class Slug extends BasicEnemy{
         //setIsCritical(this.cirtical);
         setIsWeak(this.weak);
         setGold(this.gold); //TODO can be changed
-        setSpeed(this.speed); 
+        setSpeed(this.speed);
 
     }
-    
-    
+
+
 
 }
-    
+
 
