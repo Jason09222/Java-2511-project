@@ -48,5 +48,8 @@ public class Ally extends MovingEntity{
         this.originalType = originalType;
     }
 
+    public void attack(BasicEnemy e) {
+        e.setHP(e.getHP() - damage);
+    }
 
 }

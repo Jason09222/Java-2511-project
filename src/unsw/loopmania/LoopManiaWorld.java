@@ -303,6 +303,7 @@ public class LoopManiaWorld {
         List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
         List<Ally> defeatedAllies = new ArrayList<Ally>();
         List<BasicEnemy> transferZombies = new ArrayList<BasicEnemy>();
+        boolean inBattle = false;
         for (BasicEnemy e: enemies){
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
@@ -311,7 +312,9 @@ public class LoopManiaWorld {
                 if (ally.getHp() <= 0) {
                     continue;
                 }
-                if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4) {
+                if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= Math.pow(e.getFightRadius(),2)) {
+                    character.setInBattle(true);
+                    inBattle = true;
                     e.attack_ally(ally);
                     hasAttacked = true;
                     if (ally.getHp() <= 0) {
@@ -329,7 +332,13 @@ public class LoopManiaWorld {
                 }
             }
             if (!hasAttacked) {
-                e.attack_character(character);
+                if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= Math.pow(e.getFightRadius(),2)) {
+
+                    character.setInBattle(true);
+                    inBattle = true;
+                    //if (shield && e.getType().equals)
+                    e.attack_character(character);
+                }
             }
 
 
@@ -345,9 +354,9 @@ public class LoopManiaWorld {
                 if (e.getHP() <= 0) {
                     continue;
                 }
-                if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
-
-                    //TODO ally attack
+                if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= 4){
+                    inBattle = true;
+                    ally.attack(e);
                     if (e.getHP() <= 0) {
                         defeatedEnemies.add(e);
                     }
@@ -361,7 +370,8 @@ public class LoopManiaWorld {
                 continue;
             }
             // add character attacked
-            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
+            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= 4){
+                inBattle = true;
                 character.attack(e);
                 if (e.getHP() <= 0) {
                     defeatedEnemies.add(e);
@@ -383,6 +393,11 @@ public class LoopManiaWorld {
             //TODO
             //Lose Game;
         }
+        if (!inBattle) {
+
+            character.setInBattle(false);
+        }
+
         return defeatedEnemies;
     }
 
@@ -688,7 +703,10 @@ public class LoopManiaWorld {
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves(){
-        character.moveDownPath();
+        
+        if (!character.getInBattle()) {
+            character.moveDownPath();
+        }
         moveBasicEnemies();
         updatePathCycle();
         charactersStepOnBuilding();
@@ -791,7 +809,7 @@ public class LoopManiaWorld {
                     }
                 }
                 
-                if (e.getDistance(character.getX(), character.getY()) <= e.getSupportRadius()) {
+                if (character.getInBattle() && e.getDistance(character.getX(), character.getY()) <= e.getSupportRadius()) {
                     supportMove(e);
                 } else {
                     e.move();

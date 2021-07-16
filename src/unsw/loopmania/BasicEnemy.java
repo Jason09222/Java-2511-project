@@ -24,7 +24,6 @@ public class BasicEnemy extends MovingEntity {
     private int speed;
     private boolean inBattle;
     private String lastMoveDirection;
-
     public BasicEnemy(PathPosition position) {
         super(position);
         this.inBattle = false;
@@ -77,7 +76,6 @@ public class BasicEnemy extends MovingEntity {
     }
 
 
-
     
     
     
@@ -127,6 +125,8 @@ public class BasicEnemy extends MovingEntity {
     public void setLastDirec(String s) {
         this.lastMoveDirection = s;
     }
+
+  
     public void attack_ally(Ally ally) {
         //TODO
         ally.setHp(ally.getHp() - this.getDamage());
