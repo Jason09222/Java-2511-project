@@ -60,6 +60,18 @@ abstract public class Building extends StaticEntity {
         this.characterStepOn = false;
     }
 
+    public void addEnemiesWorld(LoopManiaWorld l) {
+        for (BasicEnemy enemy : l.getEnemy()) {
+            if (enemy.getPathPosition().getX().get() == super.getX() && enemy.getPathPosition().getY().get() == super.getY()) {
+                addEnemy(enemy);
+            } else {
+                for (BasicEnemy e : this.getEnemies()) {
+                    if (e.equals(enemy)) removeEnemy(enemy);
+                }
+            }
+        }
+    }
+
     public PathPosition getNearestPath(LoopManiaWorld l) {
         PathPosition position = null;
 
