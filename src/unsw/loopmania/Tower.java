@@ -21,6 +21,10 @@ public class Tower extends Building {
             double distance = getDistance(enemy.getX(), enemy.getY());
             if (distance <= this.shootRadius) {
                 super.addEnemy(enemy);
+            } else {
+                for (BasicEnemy e : l.getEnemy()) {
+                    if (e.equals(enemy)) super.removeEnemy(e);
+                }
             }
         }
         return;

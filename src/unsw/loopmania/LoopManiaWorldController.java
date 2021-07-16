@@ -43,44 +43,27 @@ enum DRAGGABLE_TYPE {
 
 /**
  * A JavaFX controller for the world.
+ * 
+ * All event handlers and the timeline in JavaFX run on the JavaFX application thread:
+ *     https://examples.javacodegeeks.com/desktop-java/javafx/javafx-concurrency-example/
+ *     Note in https://openjfx.io/javadoc/11/javafx.graphics/javafx/application/Application.html under heading "Threading", it specifies animation timelines are run in the application thread.
+ * This means that the starter code does not need locks (mutexes) for resources shared between the timeline KeyFrame, and all of the  event handlers (including between different event handlers).
+ * This will make the game easier for you to implement. However, if you add time-consuming processes to this, the game may lag or become choppy.
+ * 
+ * If you need to implement time-consuming processes, we recommend:
+ *     using Task https://openjfx.io/javadoc/11/javafx.graphics/javafx/concurrent/Task.html by itself or within a Service https://openjfx.io/javadoc/11/javafx.graphics/javafx/concurrent/Service.html
+ * 
+ *     Tasks ensure that any changes to public properties, change notifications for errors or cancellation, event handlers, and states occur on the JavaFX Application thread,
+ *         so is a better alternative to using a basic Java Thread: https://docs.oracle.com/javafx/2/threads/jfxpub-threads.htm
+ *     The Service class is used for executing/reusing tasks. You can run tasks without Service, however, if you don't need to reuse it.
  *
- * All event handlers and the timeline in JavaFX run on the JavaFX application
- * thread:
- * https://examples.javacodegeeks.com/desktop-java/javafx/javafx-concurrency-example/
- * Note in
- * https://openjfx.io/javadoc/11/javafx.graphics/javafx/application/Application.html
- * under heading "Threading", it specifies animation timelines are run in the
- * application thread. This means that the starter code does not need locks
- * (mutexes) for resources shared between the timeline KeyFrame, and all of the
- * event handlers (including between different event handlers). This will make
- * the game easier for you to implement. However, if you add time-consuming
- * processes to this, the game may lag or become choppy.
- *
- * If you need to implement time-consuming processes, we recommend: using Task
- * https://openjfx.io/javadoc/11/javafx.graphics/javafx/concurrent/Task.html by
- * itself or within a Service
- * https://openjfx.io/javadoc/11/javafx.graphics/javafx/concurrent/Service.html
- *
- * Tasks ensure that any changes to public properties, change notifications for
- * errors or cancellation, event handlers, and states occur on the JavaFX
- * Application thread, so is a better alternative to using a basic Java Thread:
- * https://docs.oracle.com/javafx/2/threads/jfxpub-threads.htm The Service class
- * is used for executing/reusing tasks. You can run tasks without Service,
- * however, if you don't need to reuse it.
- *
- * If you implement time-consuming processes in a Task or thread, you may need
- * to implement locks on resources shared with the application thread (i.e.
- * Timeline KeyFrame and drag Event handlers). You can check whether code is
- * running on the JavaFX application thread by running the helper method
- * printThreadingNotes in this class.
- *
- * NOTE: http://tutorials.jenkov.com/javafx/concurrency.html and
- * https://www.developer.com/design/multithreading-in-javafx/#:~:text=JavaFX%20has%20a%20unique%20set,in%20the%20JavaFX%20Application%20Thread.
- *
- * If you need to delay some code but it is not long-running, consider using
- * Platform.runLater
- * https://openjfx.io/javadoc/11/javafx.graphics/javafx/application/Platform.html#runLater(java.lang.Runnable)
- * This is run on the JavaFX application thread when it has enough time.
+ * If you implement time-consuming processes in a Task or thread, you may need to implement locks on resources shared with the application thread (i.e. Timeline KeyFrame and drag Event handlers).
+ * You can check whether code is running on the JavaFX application thread by running the helper method printThreadingNotes in this class.
+ * 
+ * NOTE: http://tutorials.jenkov.com/javafx/concurrency.html and https://www.developer.com/design/multithreading-in-javafx/#:~:text=JavaFX%20has%20a%20unique%20set,in%20the%20JavaFX%20Application%20Thread.
+ * 
+ * If you need to delay some code but it is not long-running, consider using Platform.runLater https://openjfx.io/javadoc/11/javafx.graphics/javafx/application/Platform.html#runLater(java.lang.Runnable)
+ *     This is run on the JavaFX application thread when it has enough time.
  */
 public class LoopManiaWorldController {
 
@@ -137,9 +120,7 @@ public class LoopManiaWorldController {
     private Image basicEnemyImage;
     private Image swordImage;
     private Image basicBuildingImage;
-    private Image goldImage;
-    private Image healthPotionImage;
-
+    private Image vampireImage;
     /**
      * the image currently being dragged, if there is one, otherwise null. Holding
      * the ImageView being dragged allows us to spawn it again in the drop location
@@ -148,7 +129,7 @@ public class LoopManiaWorldController {
     // TODO = it would be a good idea for you to instead replace this with the
     // building/item which should be dropped
     private ImageView currentlyDraggedImage;
-
+    
     /**
      * null if nothing being dragged, or the type of item being dragged
      */
@@ -198,10 +179,9 @@ public class LoopManiaWorldController {
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
         basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
-        basicBuildingImage = new Image(
-                (new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
-        goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
-        healthPotionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
+        basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
+        vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
+        
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
 
@@ -216,7 +196,7 @@ public class LoopManiaWorldController {
     @FXML
     public void initialize() {
         // TODO = load more images/entities during initialization
-
+        
         Image pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
         Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
         Rectangle2D imagePart = new Rectangle2D(0, 0, 32, 32);
@@ -235,7 +215,7 @@ public class LoopManiaWorldController {
         for (ImageView entity : entityImages) {
             squares.getChildren().add(entity);
         }
-
+        
         // add the ground underneath the cards
         for (int x = 0; x < world.getWidth(); x++) {
             ImageView groundView = new ImageView(pathTilesImage);
@@ -276,10 +256,6 @@ public class LoopManiaWorldController {
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
             for (BasicEnemy newEnemy : newEnemies) {
                 onLoad(newEnemy);
-            }
-            List<BasicItem> newItems = world.possiblySpawnItems();
-            for (BasicItem newItem : newItems) {
-                onLoad(newItem);
             }
             printThreadingNotes("HANDLED TIMER");
         }));
@@ -385,24 +361,14 @@ public class LoopManiaWorldController {
      * @param enemy
      */
     private void onLoad(BasicEnemy enemy) {
-        ImageView view = new ImageView(basicEnemyImage);
-        addEntity(enemy, view);
-        squares.getChildren().add(view);
-    }
-
-    /**
-     * load item into the GUI
-     *
-     * @param item
-     */
-    private void onLoad(BasicItem item) {
         ImageView view;
-        if (item.getType().equals("Gold")) {
-            view = new ImageView(goldImage);
+        if (enemy instanceof Slug) {
+            view = new ImageView(basicEnemyImage);
         } else {
-            view = new ImageView(healthPotionImage);
+            view = new ImageView(vampireImage);
         }
-        addEntity(item, view);
+        //ImageView view = new ImageView(basicEnemyImage);
+        addEntity(enemy, view);
         squares.getChildren().add(view);
     }
 
@@ -472,7 +438,7 @@ public class LoopManiaWorldController {
                             default:
                                 break;
                         }
-
+                        
                         draggedEntity.setVisible(false);
                         draggedEntity.setMouseTransparent(false);
                         // remove drag event handlers before setting currently dragged image to null
@@ -521,7 +487,7 @@ public class LoopManiaWorldController {
                         draggedEntity.setMouseTransparent(false);
                         // remove drag event handlers before setting currently dragged image to null
                         removeDraggableDragEventHandlers(draggableType, targetGridPane);
-
+                        
                         currentlyDraggedImage = null;
                         currentlyDraggedType = null;
                     }
@@ -547,9 +513,8 @@ public class LoopManiaWorldController {
      *                      where the building will spawn, from 0 to height-1
      * @return building entity returned from the world
      */
-    private VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX,
-            int buildingNodeY) {
-        return world.convertCardToBuildingByCoordinates(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
+    private VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
+        return (VampireCastleBuilding)world.convertCardToBuildingByCoordinates(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
     }
 
     /**
@@ -583,8 +548,8 @@ public class LoopManiaWorldController {
                 // Drag was detected, start drap-and-drop gesture
                 // Allow any transfer node
                 Dragboard db = view.startDragAndDrop(TransferMode.MOVE);
-
-                // Put ImageView on dragboard
+    
+                //Put ImageView on dragboard
                 ClipboardContent cbContent = new ClipboardContent();
                 cbContent.putImage(view.getImage());
                 db.setContent(cbContent);
@@ -603,7 +568,7 @@ public class LoopManiaWorldController {
                     default:
                         break;
                 }
-
+                
                 draggedEntity.setVisible(true);
                 draggedEntity.setMouseTransparent(true);
                 draggedEntity.toFront();
@@ -643,7 +608,7 @@ public class LoopManiaWorldController {
                             if (currentlyDraggedType == draggableType) {
                                 n.setOpacity(1);
                             }
-
+                
                             event.consume();
                         }
                     });
@@ -652,7 +617,7 @@ public class LoopManiaWorldController {
                 }
                 event.consume();
             }
-
+            
         });
     }
 
@@ -721,16 +686,13 @@ public class LoopManiaWorldController {
      * in the world.
      *
      * By connecting the model with the view in this way, the model requires no
-     * knowledge of the view and changes to the position of entities in the model
-     * will automatically be reflected in the view.
-     *
-     * note that this is put in the controller rather than the loader because we
-     * need to track positions of spawned entities such as enemy or items which
-     * might need to be removed should be tracked here
-     *
-     * NOTE teardown functions setup here also remove nodes from their GridPane. So
-     * it is vital this is handled in this Controller class
-     *
+     * knowledge of the view and changes to the position of entities in the
+     * model will automatically be reflected in the view.
+     * 
+     * note that this is put in the controller rather than the loader because we need to track positions of spawned entities such as enemy
+     * or items which might need to be removed should be tracked here
+     * 
+     * NOTE teardown functions setup here also remove nodes from their GridPane. So it is vital this is handled in this Controller class
      * @param entity
      * @param node
      */
