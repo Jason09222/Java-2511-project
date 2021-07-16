@@ -3,7 +3,7 @@ package unsw.loopmania;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class VillageCard extends Card {
-    public VillageCard (SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y);
+    public VillageCard (String type, SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        super(type, x, y);
     }
 }

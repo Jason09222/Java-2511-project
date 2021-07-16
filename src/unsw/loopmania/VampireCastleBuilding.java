@@ -19,10 +19,11 @@ public class VampireCastleBuilding extends Building {
         return false;
     }
 
-    public void spawnVampire(LoopManiaWorld l) {
+    public Vampire spawnVampire(LoopManiaWorld l) {
         // create a new class of vampire and put it in the global data
         PathPosition position = getNearestPath(l);
-        BasicEnemy newVam = new Vampire(position);
+        Vampire newVam = new Vampire(position);
         l.getEnemy().add(newVam);
+        return newVam;
     }
 }

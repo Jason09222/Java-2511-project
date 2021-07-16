@@ -35,7 +35,6 @@ public class Character extends MovingEntity {
         this.damage = damage;
     }
 
-    
 
     public void setInBattle(Boolean flag) {
         this.inBattle = flag;

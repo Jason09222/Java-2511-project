@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public class VampireCastleCard extends Card {
     // TODO = add more types of card
-    public VampireCastleCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y);
+    public VampireCastleCard(String type, SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        super(type, x, y);
     }    
 }

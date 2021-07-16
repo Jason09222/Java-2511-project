@@ -8,7 +8,13 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public abstract class Card extends StaticEntity {
     // TODO = implement other varieties of card than VampireCastleCard
-    public Card(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    private String type;
+    public Card(String type, SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
+        this.type = type;
+    }
+
+    public String getType() {
+        return this.type;
     }
 }
