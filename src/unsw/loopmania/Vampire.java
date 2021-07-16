@@ -2,16 +2,16 @@ package unsw.loopmania;
 import java.util.Random;
 public class Vampire extends BasicEnemy{
     private final String type = "Vampire";
-    private final int FightR = 2; 
-    private final int SupportR = 5; 
-    private final int gold = 10; 
+    private final int FightR = 2;
+    private final int SupportR = 5;
+    private final int gold = 500;
     private int speed = 2;
-    private final int damage = 998; 
+    private final int damage = 200;
     //private final boolean cirtical = true;
     private final boolean weak = false;
-    private final int hp = 1000;
+    private final int hp = 800;
     private final int exp = 5;
-    
+
     private int criticalPoss;
 
     public Vampire(PathPosition position) {
@@ -25,10 +25,10 @@ public class Vampire extends BasicEnemy{
         //setIsCritical(this.cirtical);
         setIsWeak(this.weak);
         setGold(this.gold); //TODO can be changed
-        setSpeed(this.speed); 
+        setSpeed(this.speed);
         this.setCriticalPoss(10);
     }
-    
+
     @Override
     //TODO add character object as parameter
     public void attack_ally(Ally ally) {
@@ -72,6 +72,6 @@ public class Vampire extends BasicEnemy{
         this.criticalPoss = 10;
     }
 
-   
+
 }
 

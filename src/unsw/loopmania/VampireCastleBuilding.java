@@ -12,8 +12,8 @@ public class VampireCastleBuilding extends Building {
     }
 
 
-    public boolean checkPathCycle() {
-        if (this.getPathCycle() % 5 == 0) {
+    public boolean checkPathCycle(LoopManiaWorld l) {
+        if (this.getPathCycle() % (5 * l.getOrderedPath().size()) == 0) {
             return true;
         }
         return false;
