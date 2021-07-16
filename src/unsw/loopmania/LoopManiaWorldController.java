@@ -387,7 +387,7 @@ public class LoopManiaWorldController {
 
     public void loadZombiePitCard() {
         ZombiePitCard zombiePitCard = world.loadZombiePitCard();
-        onload(zombiePitCard);
+        onLoad(zombiePitCard);
     }
 
 
@@ -423,13 +423,27 @@ public class LoopManiaWorldController {
         int result = rand.nextInt(1000) % totalCards;
 
         switch (result) {
-            case 0: loadVampireCard();
-            case 1: loadCampfireCard();
-            case 2: loadTowerCard();
-            case 3: loadTrapCard();
-            case 4: loadBarracksCard();
-            case 5: loadVillageCard();
-            case 6: loadZombiePitCard();
+            case 0: 
+                loadVampireCard();
+                break;
+            case 1: 
+                loadCampfireCard();
+                break;
+            case 2: 
+                loadTowerCard();
+                break;
+            case 3: 
+                loadTrapCard();
+                break;
+            case 4: 
+                loadBarracksCard();
+                break;
+            case 5: 
+                loadVillageCard();
+                break;
+            case 6: 
+                loadZombiePitCard();
+                break;
             default: return;
         }
 
@@ -465,15 +479,15 @@ public class LoopManiaWorldController {
         cards.getChildren().add(view);
     }
 
-    private void onLoad(VillageCard villageCard) {
-        ImageView view = new ImageView(villageCardImage);
+    private void onLoad(VillageCard villageCardIm) {
+        ImageView view = new ImageView(villageCard);
 
         // FROM
         // https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
         // note target setOnDragOver and setOnDragEntered defined in initialize method
         addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
 
-        addEntity(villageCard, view);
+        addEntity(villageCardIm, view);
         cards.getChildren().add(view);
     }
 
@@ -489,15 +503,15 @@ public class LoopManiaWorldController {
         cards.getChildren().add(view);
     }
 
-    private void onLoad(TrapCard trapCard) {
-        ImageView view = new ImageView(trapCardImage);
+    private void onLoad(TrapCard trapCardIm) {
+        ImageView view = new ImageView(trapCard);
 
         // FROM
         // https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
         // note target setOnDragOver and setOnDragEntered defined in initialize method
         addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
 
-        addEntity(trapCard, view);
+        addEntity(trapCardIm, view);
         cards.getChildren().add(view);
     }
 
@@ -648,8 +662,10 @@ public class LoopManiaWorldController {
                             case CARD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn a building here of different types
-                                VampireCastleBuilding newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                VampireCastleBuilding newBuilding = (VampireCastleBuilding)world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                Campfire campfire = (Campfire)world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
                                 onLoad(newBuilding);
+                                onLoad(campfire);
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
@@ -736,9 +752,9 @@ public class LoopManiaWorldController {
      *                      where the building will spawn, from 0 to height-1
      * @return building entity returned from the world
      */
-    private VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
+    /*private VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
         return (VampireCastleBuilding)world.convertCardToBuildingByCoordinates(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
-    }
+    }*/
 
     /**
      * remove an item from the unequipped inventory by its x and y coordinates in

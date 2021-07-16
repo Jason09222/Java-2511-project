@@ -1129,6 +1129,7 @@ public class LoopManiaWorld {
                 break;
             }
         }
+        if (card == null) return null;
         String type = card.getType();
 
         // now spawn building
