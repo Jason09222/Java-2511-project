@@ -12,17 +12,18 @@ public class VampireCastleBuilding extends Building {
     }
 
 
-    public boolean checkPathCycle() {
-        if (this.getPathCycle() % 5 == 0) {
+    public boolean checkPathCycle(LoopManiaWorld l) {
+        if (this.getPathCycle() % (5 * l.getOrderedPath().size()) == 0) {
             return true;
         }
         return false;
     }
 
-    public void spawnVampire(LoopManiaWorld l) {
+    public Vampire spawnVampire(LoopManiaWorld l) {
         // create a new class of vampire and put it in the global data
         PathPosition position = getNearestPath(l);
-        BasicEnemy newVam = new Vampire(position);
+        Vampire newVam = new Vampire(position);
         l.getEnemy().add(newVam);
+        return newVam;
     }
 }

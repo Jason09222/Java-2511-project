@@ -8,6 +8,13 @@ public class ZombiePit extends Building {
     }
 
 
+    public boolean checkPathCycle(LoopManiaWorld l) {
+        if (this.getPathCycle() % l.getOrderedPath().size() == 0) {
+            return true;
+        }
+        return false;
+    }
+
     public void spawnZombie(LoopManiaWorld l) {
         // create a new class of zombie and put it in the global data
         PathPosition position = getNearestPath(l);

@@ -2,6 +2,7 @@ package unsw.loopmania;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
@@ -43,44 +44,27 @@ enum DRAGGABLE_TYPE {
 
 /**
  * A JavaFX controller for the world.
+ * 
+ * All event handlers and the timeline in JavaFX run on the JavaFX application thread:
+ *     https://examples.javacodegeeks.com/desktop-java/javafx/javafx-concurrency-example/
+ *     Note in https://openjfx.io/javadoc/11/javafx.graphics/javafx/application/Application.html under heading "Threading", it specifies animation timelines are run in the application thread.
+ * This means that the starter code does not need locks (mutexes) for resources shared between the timeline KeyFrame, and all of the  event handlers (including between different event handlers).
+ * This will make the game easier for you to implement. However, if you add time-consuming processes to this, the game may lag or become choppy.
+ * 
+ * If you need to implement time-consuming processes, we recommend:
+ *     using Task https://openjfx.io/javadoc/11/javafx.graphics/javafx/concurrent/Task.html by itself or within a Service https://openjfx.io/javadoc/11/javafx.graphics/javafx/concurrent/Service.html
+ * 
+ *     Tasks ensure that any changes to public properties, change notifications for errors or cancellation, event handlers, and states occur on the JavaFX Application thread,
+ *         so is a better alternative to using a basic Java Thread: https://docs.oracle.com/javafx/2/threads/jfxpub-threads.htm
+ *     The Service class is used for executing/reusing tasks. You can run tasks without Service, however, if you don't need to reuse it.
  *
- * All event handlers and the timeline in JavaFX run on the JavaFX application
- * thread:
- * https://examples.javacodegeeks.com/desktop-java/javafx/javafx-concurrency-example/
- * Note in
- * https://openjfx.io/javadoc/11/javafx.graphics/javafx/application/Application.html
- * under heading "Threading", it specifies animation timelines are run in the
- * application thread. This means that the starter code does not need locks
- * (mutexes) for resources shared between the timeline KeyFrame, and all of the
- * event handlers (including between different event handlers). This will make
- * the game easier for you to implement. However, if you add time-consuming
- * processes to this, the game may lag or become choppy.
- *
- * If you need to implement time-consuming processes, we recommend: using Task
- * https://openjfx.io/javadoc/11/javafx.graphics/javafx/concurrent/Task.html by
- * itself or within a Service
- * https://openjfx.io/javadoc/11/javafx.graphics/javafx/concurrent/Service.html
- *
- * Tasks ensure that any changes to public properties, change notifications for
- * errors or cancellation, event handlers, and states occur on the JavaFX
- * Application thread, so is a better alternative to using a basic Java Thread:
- * https://docs.oracle.com/javafx/2/threads/jfxpub-threads.htm The Service class
- * is used for executing/reusing tasks. You can run tasks without Service,
- * however, if you don't need to reuse it.
- *
- * If you implement time-consuming processes in a Task or thread, you may need
- * to implement locks on resources shared with the application thread (i.e.
- * Timeline KeyFrame and drag Event handlers). You can check whether code is
- * running on the JavaFX application thread by running the helper method
- * printThreadingNotes in this class.
- *
- * NOTE: http://tutorials.jenkov.com/javafx/concurrency.html and
- * https://www.developer.com/design/multithreading-in-javafx/#:~:text=JavaFX%20has%20a%20unique%20set,in%20the%20JavaFX%20Application%20Thread.
- *
- * If you need to delay some code but it is not long-running, consider using
- * Platform.runLater
- * https://openjfx.io/javadoc/11/javafx.graphics/javafx/application/Platform.html#runLater(java.lang.Runnable)
- * This is run on the JavaFX application thread when it has enough time.
+ * If you implement time-consuming processes in a Task or thread, you may need to implement locks on resources shared with the application thread (i.e. Timeline KeyFrame and drag Event handlers).
+ * You can check whether code is running on the JavaFX application thread by running the helper method printThreadingNotes in this class.
+ * 
+ * NOTE: http://tutorials.jenkov.com/javafx/concurrency.html and https://www.developer.com/design/multithreading-in-javafx/#:~:text=JavaFX%20has%20a%20unique%20set,in%20the%20JavaFX%20Application%20Thread.
+ * 
+ * If you need to delay some code but it is not long-running, consider using Platform.runLater https://openjfx.io/javadoc/11/javafx.graphics/javafx/application/Platform.html#runLater(java.lang.Runnable)
+ *     This is run on the JavaFX application thread when it has enough time.
  */
 public class LoopManiaWorldController {
 
@@ -133,12 +117,39 @@ public class LoopManiaWorldController {
      */
     private Timeline timeline;
 
-    private Image vampireCastleCardImage;
-    private Image basicEnemyImage;
+    private Image armourImage;
     private Image swordImage;
-    private Image basicBuildingImage;
+    private Image brilliantBlueNewImage;
     private Image goldImage;
-    private Image healthPotionImage;
+    private Image heartImage;
+    private Image helmetImage;
+    private Image shieldImage;
+    private Image staffImage;
+    private Image stakeImage;
+    private Image theOneRingImage;
+    
+    private Image basicEnemyImage;
+    private Image vampireImage;
+    private Image zombieImage;
+
+    private Image basicBuildingImage;
+    private Image zombiePitImage;
+    private Image towerImage;
+    private Image trapImage;
+    private Image heroCastleImage;
+    private Image villageImage;
+    private Image barracksImage;
+    private Image campfireImage;
+    
+    private Image vampireCastleCardImage;
+    private Image barracksCardImage;
+    private Image campfireCardImage;
+    private Image towerCardImage;
+    private Image trapCard;
+    private Image villageCard;
+    private Image zombiePitCard;
+
+    private Image allyImage;
 
     /**
      * the image currently being dragged, if there is one, otherwise null. Holding
@@ -148,7 +159,7 @@ public class LoopManiaWorldController {
     // TODO = it would be a good idea for you to instead replace this with the
     // building/item which should be dropped
     private ImageView currentlyDraggedImage;
-
+    
     /**
      * null if nothing being dragged, or the type of item being dragged
      */
@@ -195,13 +206,42 @@ public class LoopManiaWorldController {
     public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities) {
         this.world = world;
         entityImages = new ArrayList<>(initialEntities);
+        
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
+        barracksCardImage = new Image((new File("src/images/barracks_card.png")).toURI().toString());
+        campfireCardImage = new Image((new File("src/images/campfire_card.png")).toURI().toString());
+        towerCardImage = new Image((new File("src/images/tower_card.png")).toURI().toString());
+        trapCard = new Image((new File("src/images/trap_card.png")).toURI().toString());
+        villageCard = new Image((new File("src/images/village_card.png")).toURI().toString());
+        zombiePitCard = new Image((new File("src/images/zombie_pit_card.png")).toURI().toString());
+        
+        zombiePitImage = new Image((new File("src/images/zombie_pit.png")).toURI().toString());
+        basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
+        towerImage = new Image((new File("src/images/tower.png")).toURI().toString());
+        trapImage = new Image((new File("src/images/trap.png")).toURI().toString());
+        barracksImage = new Image((new File("src/images/barracks.png")).toURI().toString());
+        villageImage = new Image((new File("src/images/village.png")).toURI().toString());
+        heroCastleImage = new Image((new File("src/images/heros_castle.png")).toURI().toString());
+        campfireImage = new Image((new File("src/images/campfire.png")).toURI().toString());
+
         basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
+        vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
+        zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());
+
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
-        basicBuildingImage = new Image(
-                (new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
+        armourImage = new Image((new File("src/images/armour.png")).toURI().toString());
+        brilliantBlueNewImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
         goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
-        healthPotionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
+        heartImage = new Image((new File("src/images/heart.png")).toURI().toString());
+        helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
+        shieldImage = new Image((new File("src/images/shield.png")).toURI().toString());
+        staffImage = new Image((new File("src/images/staff.png")).toURI().toString());
+        stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
+        theOneRingImage = new Image((new File("src/images/the_one_ring.png")).toURI().toString());
+
+        allyImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
+
+
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
 
@@ -216,7 +256,7 @@ public class LoopManiaWorldController {
     @FXML
     public void initialize() {
         // TODO = load more images/entities during initialization
-
+        
         Image pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
         Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
         Rectangle2D imagePart = new Rectangle2D(0, 0, 32, 32);
@@ -235,7 +275,7 @@ public class LoopManiaWorldController {
         for (ImageView entity : entityImages) {
             squares.getChildren().add(entity);
         }
-
+        
         // add the ground underneath the cards
         for (int x = 0; x < world.getWidth(); x++) {
             ImageView groundView = new ImageView(pathTilesImage);
@@ -276,10 +316,6 @@ public class LoopManiaWorldController {
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
             for (BasicEnemy newEnemy : newEnemies) {
                 onLoad(newEnemy);
-            }
-            List<BasicItem> newItems = world.possiblySpawnItems();
-            for (BasicItem newItem : newItems) {
-                onLoad(newItem);
             }
             printThreadingNotes("HANDLED TIMER");
         }));
@@ -322,6 +358,43 @@ public class LoopManiaWorldController {
         onLoad(vampireCastleCard);
     }
 
+    private void loadCampfireCard() {
+        // TODO = load more types of card
+        CampfireCard campfireCard = world.loadCampfireCard();
+        onLoad(campfireCard);
+    }
+
+    private void loadTowerCard() {
+        // TODO = load more types of card
+        TowerCard towerCard = world.loadTowerCard();
+        onLoad(towerCard);
+    }
+
+    private void loadTrapCard() {
+        // TODO = load more types of card
+        TrapCard trapCard = world.loadTrapCard();
+        onLoad(trapCard);
+    }
+
+    private void loadVillageCard() {
+        // TODO = load more types of card
+        VillageCard villageCard = world.loadVillageCard();
+        onLoad(villageCard);
+    }
+
+    private void loadBarracksCard() {
+        // TODO = load more types of card
+        BarracksCard barracksCard = world.loadBarracksCard();
+        onLoad(barracksCard);
+    }
+    
+
+    public void loadZombiePitCard() {
+        ZombiePitCard zombiePitCard = world.loadZombiePitCard();
+        onLoad(zombiePitCard);
+    }
+
+
     /**
      * load a sword from the world, and pair it with an image in the GUI
      */
@@ -344,7 +417,40 @@ public class LoopManiaWorldController {
         // TODO = provide different benefits to defeating the enemy based on the type of
         // enemy
         loadSword();
-        loadVampireCard();
+        //loadVampireCard();
+        generateCard();
+    }
+
+    public void generateCard() {
+        int totalCards = 7;
+        Random rand = new Random();
+        int result = rand.nextInt(1000) % totalCards;
+
+        switch (result) {
+            case 0: 
+                loadVampireCard();
+                break;
+            case 1: 
+                loadCampfireCard();
+                break;
+            case 2: 
+                loadTowerCard();
+                break;
+            case 3: 
+                loadTrapCard();
+                break;
+            case 4: 
+                loadBarracksCard();
+                break;
+            case 5: 
+                loadVillageCard();
+                break;
+            case 6: 
+                loadZombiePitCard();
+                break;
+            default: return;
+        }
+
     }
 
     /**
@@ -362,6 +468,78 @@ public class LoopManiaWorldController {
         addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
 
         addEntity(vampireCastleCard, view);
+        cards.getChildren().add(view);
+    }
+
+    private void onLoad(CampfireCard campfireCard) {
+        ImageView view = new ImageView(campfireCardImage);
+
+        // FROM
+        // https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
+        // note target setOnDragOver and setOnDragEntered defined in initialize method
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+
+        addEntity(campfireCard, view);
+        cards.getChildren().add(view);
+    }
+
+    private void onLoad(VillageCard villageCardIm) {
+        ImageView view = new ImageView(villageCard);
+
+        // FROM
+        // https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
+        // note target setOnDragOver and setOnDragEntered defined in initialize method
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+
+        addEntity(villageCardIm, view);
+        cards.getChildren().add(view);
+    }
+
+    private void onLoad(TowerCard towerCard) {
+        ImageView view = new ImageView(towerCardImage);
+
+        // FROM
+        // https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
+        // note target setOnDragOver and setOnDragEntered defined in initialize method
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+
+        addEntity(towerCard, view);
+        cards.getChildren().add(view);
+    }
+
+    private void onLoad(TrapCard trapCardIm) {
+        ImageView view = new ImageView(trapCard);
+
+        // FROM
+        // https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
+        // note target setOnDragOver and setOnDragEntered defined in initialize method
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+
+        addEntity(trapCardIm, view);
+        cards.getChildren().add(view);
+    }
+
+    private void onLoad(BarracksCard barracksCard) {
+        ImageView view = new ImageView(barracksCardImage);
+
+        // FROM
+        // https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
+        // note target setOnDragOver and setOnDragEntered defined in initialize method
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+
+        addEntity(barracksCard, view);
+        cards.getChildren().add(view);
+    }
+
+    private void onLoad(ZombiePitCard zombiePitCard) {
+        ImageView view = new ImageView(zombiePitImage);
+
+        // FROM
+        // https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
+        // note target setOnDragOver and setOnDragEntered defined in initialize method
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+
+        addEntity(zombiePitCard, view);
         cards.getChildren().add(view);
     }
 
@@ -385,24 +563,16 @@ public class LoopManiaWorldController {
      * @param enemy
      */
     private void onLoad(BasicEnemy enemy) {
-        ImageView view = new ImageView(basicEnemyImage);
-        addEntity(enemy, view);
-        squares.getChildren().add(view);
-    }
-
-    /**
-     * load item into the GUI
-     *
-     * @param item
-     */
-    private void onLoad(BasicItem item) {
         ImageView view;
-        if (item.getType().equals("Gold")) {
-            view = new ImageView(goldImage);
+        if (enemy instanceof Slug) {
+            view = new ImageView(basicEnemyImage);
+        } else if (enemy instanceof Zombie) {
+            view = new ImageView(zombieImage);
         } else {
-            view = new ImageView(healthPotionImage);
+            view = new ImageView(vampireImage);
         }
-        addEntity(item, view);
+        //ImageView view = new ImageView(basicEnemyImage);
+        addEntity(enemy, view);
         squares.getChildren().add(view);
     }
 
@@ -413,6 +583,43 @@ public class LoopManiaWorldController {
      */
     private void onLoad(VampireCastleBuilding building) {
         ImageView view = new ImageView(basicBuildingImage);
+        addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
+
+    private void onLoad(Campfire building) {
+        ImageView view = new ImageView(campfireImage);
+        addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(Barracks building) {
+        ImageView view = new ImageView(barracksImage);
+        addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(Tower building) {
+        ImageView view = new ImageView(towerImage);
+        addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(Trap building) {
+        ImageView view = new ImageView(trapImage);
+        addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(ZombiePit building) {
+        ImageView view = new ImageView(zombiePitImage);
+        addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(Village building) {
+        ImageView view = new ImageView(villageImage);
         addEntity(building, view);
         squares.getChildren().add(view);
     }
@@ -459,19 +666,22 @@ public class LoopManiaWorldController {
                             case CARD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn a building here of different types
-                                VampireCastleBuilding newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                VampireCastleBuilding newBuilding = (VampireCastleBuilding)world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                Campfire campfire = (Campfire)world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
                                 onLoad(newBuilding);
+                                onLoad(campfire);
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
                                 removeItemByCoordinates(nodeX, nodeY);
+                                //world.equipItem()
                                 targetGridPane.add(image, x, y, 1, 1);
                                 break;
                             default:
                                 break;
                         }
-
+                        
                         draggedEntity.setVisible(false);
                         draggedEntity.setMouseTransparent(false);
                         // remove drag event handlers before setting currently dragged image to null
@@ -520,7 +730,7 @@ public class LoopManiaWorldController {
                         draggedEntity.setMouseTransparent(false);
                         // remove drag event handlers before setting currently dragged image to null
                         removeDraggableDragEventHandlers(draggableType, targetGridPane);
-
+                        
                         currentlyDraggedImage = null;
                         currentlyDraggedType = null;
                     }
@@ -546,10 +756,9 @@ public class LoopManiaWorldController {
      *                      where the building will spawn, from 0 to height-1
      * @return building entity returned from the world
      */
-    private VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX,
-            int buildingNodeY) {
-        return world.convertCardToBuildingByCoordinates(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
-    }
+    /*private VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
+        return (VampireCastleBuilding)world.convertCardToBuildingByCoordinates(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
+    }*/
 
     /**
      * remove an item from the unequipped inventory by its x and y coordinates in
@@ -582,8 +791,8 @@ public class LoopManiaWorldController {
                 // Drag was detected, start drap-and-drop gesture
                 // Allow any transfer node
                 Dragboard db = view.startDragAndDrop(TransferMode.MOVE);
-
-                // Put ImageView on dragboard
+    
+                //Put ImageView on dragboard
                 ClipboardContent cbContent = new ClipboardContent();
                 cbContent.putImage(view.getImage());
                 db.setContent(cbContent);
@@ -602,7 +811,7 @@ public class LoopManiaWorldController {
                     default:
                         break;
                 }
-
+                
                 draggedEntity.setVisible(true);
                 draggedEntity.setMouseTransparent(true);
                 draggedEntity.toFront();
@@ -642,7 +851,7 @@ public class LoopManiaWorldController {
                             if (currentlyDraggedType == draggableType) {
                                 n.setOpacity(1);
                             }
-
+                
                             event.consume();
                         }
                     });
@@ -651,7 +860,7 @@ public class LoopManiaWorldController {
                 }
                 event.consume();
             }
-
+            
         });
     }
 
@@ -720,16 +929,13 @@ public class LoopManiaWorldController {
      * in the world.
      *
      * By connecting the model with the view in this way, the model requires no
-     * knowledge of the view and changes to the position of entities in the model
-     * will automatically be reflected in the view.
-     *
-     * note that this is put in the controller rather than the loader because we
-     * need to track positions of spawned entities such as enemy or items which
-     * might need to be removed should be tracked here
-     *
-     * NOTE teardown functions setup here also remove nodes from their GridPane. So
-     * it is vital this is handled in this Controller class
-     *
+     * knowledge of the view and changes to the position of entities in the
+     * model will automatically be reflected in the view.
+     * 
+     * note that this is put in the controller rather than the loader because we need to track positions of spawned entities such as enemy
+     * or items which might need to be removed should be tracked here
+     * 
+     * NOTE teardown functions setup here also remove nodes from their GridPane. So it is vital this is handled in this Controller class
      * @param entity
      * @param node
      */
