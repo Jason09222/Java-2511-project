@@ -44,10 +44,7 @@ public class Zombie extends BasicEnemy{
 
 
 
-    @Override
-    public void move() {
-        return;
-    }
+  
 
 
 }

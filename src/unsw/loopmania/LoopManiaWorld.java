@@ -193,6 +193,20 @@ public class LoopManiaWorld {
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
+
+        for (Building building : buildings) {
+            //int indexInPath = orderedPath.indexOf(pos);
+            if (building instanceof VampireCastleBuilding && building.getPathCycle() % 5 == 0) {
+                //pos = (building);
+                PathPosition newPos = building.getNearestPath(this);
+                
+                if (pos != null) {
+                    BasicEnemy enemy = new Vampire(newPos);
+                    enemies.add(enemy);
+                    spawningEnemies.add(enemy);
+                }
+            }
+        }
         return spawningEnemies;
     }
 
@@ -597,33 +611,6 @@ public class LoopManiaWorld {
         equippedItems.set(equippedItems.indexOf(item), null);
     }
 
-/*    public void equipSword(Sword sword) {
-        if (equippedItems.get(0) != null) {
-            unequippedInventoryItems.add(equippedItems.get(0));
-        }
-        equippedItems.set(0, sword);
-    }
-
-    public void equipHelmet(Helmet helmet) {
-        if (equippedItems.get(1) != null) {
-            unequippedInventoryItems.add(equippedItems.get(1));
-        }
-        equippedItems.set(1, helmet);
-    }
-
-    public void equipArmour(Armour armour) {
-        if (equippedItems.get(2) != null) {
-            unequippedInventoryItems.add(equippedItems.get(2));
-        }
-        equippedItems.set(2, armour);
-    }
-
-    public void equipShield(Shield shield) {
-        if (equippedItems.get(3) != null) {
-            unequippedInventoryItems.add(equippedItems.get(3));
-        }
-        equippedItems.set(3, shield);
-    } */
 
 
     
@@ -642,6 +629,10 @@ public class LoopManiaWorld {
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves(){
+        
+        for (Building building : buildings) {
+            building.setPathCycle(4);
+        }
         
         if (!character.getInBattle()) {
             character.moveDownPath();
@@ -760,7 +751,13 @@ public class LoopManiaWorld {
         Random rand = new Random();
         int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
         // TODO = change based on spec
-        if ((choice == 0) && (enemies.size() < 2)){
+        int slugNum = 0;
+        for (BasicEnemy enemy : enemies) {
+            if (enemy instanceof Slug) {
+                slugNum++;
+            }
+        }
+        if ((choice == 0) && (slugNum < 2)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -779,6 +776,31 @@ public class LoopManiaWorld {
         return null;
     }
 
+    /*
+    private Pair<Integer, Integer> possiblyGetVampireSpawnPosition(Building building) {
+        Random rand = new Random();
+        //int choice = rand.nextInt(2); 
+        if (building instanceof VampireCastleBuilding && building.getPathCycle() == 4) {
+            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+            // inclusive start and exclusive end of range of positions not allowed
+            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+        // note terminating condition has to be != rather than < since wrap around...
+            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+                orderedPathSpawnCandidates.add(orderedPath.get(i));
+            }
+
+            // choose random choice
+            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+            building.setPathCycle(0);
+            return spawnPosition;
+            
+        }
+        return null;
+    }
+    */
+
     /**
      * get a randomly generated position which could be used to spawn an item
      * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
@@ -788,7 +810,7 @@ public class LoopManiaWorld {
         // has a chance spawning a basic item on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(2);
-        if ((choice == 0) && (enemies.size() < 2)){
+        if ((choice == 0)) {
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -827,7 +849,7 @@ public class LoopManiaWorld {
         // now spawn building
         VampireCastleBuilding newBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
         buildingEntities.add(newBuilding);
-
+        buildings.add(newBuilding);
         // destroy the card
         card.destroy();
         cardEntities.remove(card);

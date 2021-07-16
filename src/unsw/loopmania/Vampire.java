@@ -9,7 +9,7 @@ public class Vampire extends BasicEnemy{
     private final int damage = 998; 
     //private final boolean cirtical = true;
     private final boolean weak = false;
-    private final int hp = 100;
+    private final int hp = 1000;
     private final int exp = 5;
     
     private int criticalPoss;
