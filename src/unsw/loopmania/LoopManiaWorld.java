@@ -370,12 +370,6 @@ public class LoopManiaWorld {
         SimpleIntegerProperty x = new SimpleIntegerProperty(firstAvailableSlot.getValue0());
         SimpleIntegerProperty y = new SimpleIntegerProperty(firstAvailableSlot.getValue1());
         switch (result) {
-            case 0:
-                addExperience(rand.nextInt(10));
-                break;
-            case 1:
-                addGold(rand.nextInt(10));
-                break;
             case 1:
                 reward = new Armour(x, y);
                 break;

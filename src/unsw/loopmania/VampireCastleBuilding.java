@@ -13,7 +13,7 @@ public class VampireCastleBuilding extends Building {
 
 
     public boolean checkPathCycle() {
-        if (this.getPathCycle() % 10 == 0) {
+        if (this.getPathCycle() % 20 == 0) {
             return true;
         }
         return false;
