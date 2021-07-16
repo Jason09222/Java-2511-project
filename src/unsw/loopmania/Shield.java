@@ -18,5 +18,4 @@ public class Shield extends BasicItem {
     public int getPrice() {
         return this.price;
     }
-    
 }

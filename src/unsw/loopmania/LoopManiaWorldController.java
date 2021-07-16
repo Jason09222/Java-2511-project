@@ -33,15 +33,12 @@ import java.util.EnumMap;
 import java.io.File;
 import java.io.IOException;
 
-
 /**
- * the draggable types.
- * If you add more draggable types, add an enum value here.
+ * the draggable types. If you add more draggable types, add an enum value here.
  * This is so we can see what type is being dragged.
  */
-enum DRAGGABLE_TYPE{
-    CARD,
-    ITEM
+enum DRAGGABLE_TYPE {
+    CARD, ITEM
 }
 
 /**
@@ -71,7 +68,8 @@ enum DRAGGABLE_TYPE{
 public class LoopManiaWorldController {
 
     /**
-     * squares gridpane includes path images, enemies, character, empty grass, buildings
+     * squares gridpane includes path images, enemies, character, empty grass,
+     * buildings
      */
     @FXML
     private GridPane squares;
@@ -83,8 +81,9 @@ public class LoopManiaWorldController {
     private GridPane cards;
 
     /**
-     * anchorPaneRoot is the "background". It is useful since anchorPaneRoot stretches over the entire game world,
-     * so we can detect dragging of cards/items over this and accordingly update DragIcon coordinates
+     * anchorPaneRoot is the "background". It is useful since anchorPaneRoot
+     * stretches over the entire game world, so we can detect dragging of
+     * cards/items over this and accordingly update DragIcon coordinates
      */
     @FXML
     private AnchorPane anchorPaneRoot;
@@ -98,11 +97,13 @@ public class LoopManiaWorldController {
     @FXML
     private GridPane unequippedInventory;
 
-    // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
+    // all image views including tiles, character, enemies, cards... even though
+    // cards in separate gridpane...
     private List<ImageView> entityImages;
 
     /**
-     * when we drag a card/item, the picture for whatever we're dragging is set here and we actually drag this node
+     * when we drag a card/item, the picture for whatever we're dragging is set here
+     * and we actually drag this node
      */
     private DragIcon draggedEntity;
 
@@ -110,7 +111,8 @@ public class LoopManiaWorldController {
     private LoopManiaWorld world;
 
     /**
-     * runs the periodic game logic - second-by-second moving of character through maze, as well as enemies, and running of battles
+     * runs the periodic game logic - second-by-second moving of character through
+     * maze, as well as enemies, and running of battles
      */
     private Timeline timeline;
 
@@ -120,10 +122,12 @@ public class LoopManiaWorldController {
     private Image basicBuildingImage;
     private Image vampireImage;
     /**
-     * the image currently being dragged, if there is one, otherwise null.
-     * Holding the ImageView being dragged allows us to spawn it again in the drop location if appropriate.
+     * the image currently being dragged, if there is one, otherwise null. Holding
+     * the ImageView being dragged allows us to spawn it again in the drop location
+     * if appropriate.
      */
-    // TODO = it would be a good idea for you to instead replace this with the building/item which should be dropped
+    // TODO = it would be a good idea for you to instead replace this with the
+    // building/item which should be dropped
     private ImageView currentlyDraggedImage;
     
     /**
@@ -132,23 +136,30 @@ public class LoopManiaWorldController {
     private DRAGGABLE_TYPE currentlyDraggedType;
 
     /**
-     * mapping from draggable type enum CARD/TYPE to the event handler triggered when the draggable type is dropped over its appropriate gridpane
+     * mapping from draggable type enum CARD/TYPE to the event handler triggered
+     * when the draggable type is dropped over its appropriate gridpane
      */
     private EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>> gridPaneSetOnDragDropped;
     /**
-     * mapping from draggable type enum CARD/TYPE to the event handler triggered when the draggable type is dragged over the background
+     * mapping from draggable type enum CARD/TYPE to the event handler triggered
+     * when the draggable type is dragged over the background
      */
     private EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>> anchorPaneRootSetOnDragOver;
     /**
-     * mapping from draggable type enum CARD/TYPE to the event handler triggered when the draggable type is dropped in the background
+     * mapping from draggable type enum CARD/TYPE to the event handler triggered
+     * when the draggable type is dropped in the background
      */
     private EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>> anchorPaneRootSetOnDragDropped;
     /**
-     * mapping from draggable type enum CARD/TYPE to the event handler triggered when the draggable type is dragged into the boundaries of its appropriate gridpane
+     * mapping from draggable type enum CARD/TYPE to the event handler triggered
+     * when the draggable type is dragged into the boundaries of its appropriate
+     * gridpane
      */
     private EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>> gridPaneNodeSetOnDragEntered;
     /**
-     * mapping from draggable type enum CARD/TYPE to the event handler triggered when the draggable type is dragged outside of the boundaries of its appropriate gridpane
+     * mapping from draggable type enum CARD/TYPE to the event handler triggered
+     * when the draggable type is dragged outside of the boundaries of its
+     * appropriate gridpane
      */
     private EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>> gridPaneNodeSetOnDragExited;
 
@@ -158,8 +169,9 @@ public class LoopManiaWorldController {
     private MenuSwitcher mainMenuSwitcher;
 
     /**
-     * @param world world object loaded from file
-     * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
+     * @param world           world object loaded from file
+     * @param initialEntities the initial JavaFX nodes (ImageViews) which should be
+     *                        loaded into the GUI
      */
     public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities) {
         this.world = world;
@@ -189,7 +201,8 @@ public class LoopManiaWorldController {
         Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
         Rectangle2D imagePart = new Rectangle2D(0, 0, 32, 32);
 
-        // Add the ground first so it is below all other entities (inculding all the twists and turns)
+        // Add the ground first so it is below all other entities (inculding all the
+        // twists and turns)
         for (int x = 0; x < world.getWidth(); x++) {
             for (int y = 0; y < world.getHeight(); y++) {
                 ImageView groundView = new ImageView(pathTilesImage);
@@ -199,20 +212,20 @@ public class LoopManiaWorldController {
         }
 
         // load entities loaded from the file in the loader into the squares gridpane
-        for (ImageView entity : entityImages){
+        for (ImageView entity : entityImages) {
             squares.getChildren().add(entity);
         }
         
         // add the ground underneath the cards
-        for (int x=0; x<world.getWidth(); x++){
+        for (int x = 0; x < world.getWidth(); x++) {
             ImageView groundView = new ImageView(pathTilesImage);
             groundView.setViewport(imagePart);
             cards.add(groundView, x, 0);
         }
 
         // add the empty slot images for the unequipped inventory
-        for (int x=0; x<LoopManiaWorld.unequippedInventoryWidth; x++){
-            for (int y=0; y<LoopManiaWorld.unequippedInventoryHeight; y++){
+        for (int x = 0; x < LoopManiaWorld.unequippedInventoryWidth; x++) {
+            for (int y = 0; y < LoopManiaWorld.unequippedInventoryHeight; y++) {
                 ImageView emptySlotView = new ImageView(inventorySlotImage);
                 unequippedInventory.add(emptySlotView, x, y);
             }
@@ -228,19 +241,20 @@ public class LoopManiaWorldController {
     /**
      * create and run the timer
      */
-    public void startTimer(){
+    public void startTimer() {
         // TODO = handle more aspects of the behaviour required by the specification
         System.out.println("starting timer");
         isPaused = false;
-        // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
+        // trigger adding code to process main game logic to queue. JavaFX will target
+        // framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             world.runTickMoves();
             List<BasicEnemy> defeatedEnemies = world.runBattles();
-            for (BasicEnemy e: defeatedEnemies){
+            for (BasicEnemy e : defeatedEnemies) {
                 reactToEnemyDefeat(e);
             }
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
-            for (BasicEnemy newEnemy: newEnemies){
+            for (BasicEnemy newEnemy : newEnemies) {
                 onLoad(newEnemy);
             }
             printThreadingNotes("HANDLED TIMER");
@@ -250,24 +264,25 @@ public class LoopManiaWorldController {
     }
 
     /**
-     * pause the execution of the game loop
-     * the human player can still drag and drop items during the game pause
+     * pause the execution of the game loop the human player can still drag and drop
+     * items during the game pause
      */
-    public void pause(){
+    public void pause() {
         isPaused = true;
         System.out.println("pausing");
         timeline.stop();
     }
 
-    public void terminate(){
+    public void terminate() {
         pause();
     }
 
     /**
      * pair the entity an view so that the view copies the movements of the entity.
      * add view to list of entity images
+     *
      * @param entity backend entity to be paired with view
-     * @param view frontend imageview to be paired with backend entity
+     * @param view   frontend imageview to be paired with backend entity
      */
     private void addEntity(Entity entity, ImageView view) {
         trackPosition(entity, view);
@@ -286,7 +301,7 @@ public class LoopManiaWorldController {
     /**
      * load a sword from the world, and pair it with an image in the GUI
      */
-    private void loadSword(){
+    private void loadSword() {
         // TODO = load more types of weapon
         // start by getting first available coordinates
         Sword sword = world.addUnequippedSword();
@@ -294,27 +309,31 @@ public class LoopManiaWorldController {
     }
 
     /**
-     * run GUI events after an enemy is defeated, such as spawning items/experience/gold
+     * run GUI events after an enemy is defeated, such as spawning
+     * items/experience/gold
+     *
      * @param enemy defeated enemy for which we should react to the death of
      */
-    private void reactToEnemyDefeat(BasicEnemy enemy){
+    private void reactToEnemyDefeat(BasicEnemy enemy) {
         // react to character defeating an enemy
         // in starter code, spawning extra card/weapon...
-        // TODO = provide different benefits to defeating the enemy based on the type of enemy
+        // TODO = provide different benefits to defeating the enemy based on the type of
+        // enemy
         loadSword();
         loadVampireCard();
     }
 
     /**
-     * load a vampire castle card into the GUI.
-     * Particularly, we must connect to the drag detection event handler,
-     * and load the image into the cards GridPane.
+     * load a vampire castle card into the GUI. Particularly, we must connect to the
+     * drag detection event handler, and load the image into the cards GridPane.
+     *
      * @param vampireCastleCard
      */
     private void onLoad(VampireCastleCard vampireCastleCard) {
         ImageView view = new ImageView(vampireCastleCardImage);
 
-        // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
+        // FROM
+        // https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
         // note target setOnDragOver and setOnDragEntered defined in initialize method
         addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
 
@@ -323,9 +342,10 @@ public class LoopManiaWorldController {
     }
 
     /**
-     * load a sword into the GUI.
-     * Particularly, we must connect to the drag detection event handler,
-     * and load the image into the unequippedInventory GridPane.
+     * load a sword into the GUI. Particularly, we must connect to the drag
+     * detection event handler, and load the image into the unequippedInventory
+     * GridPane.
+     *
      * @param sword
      */
     private void onLoad(Sword sword) {
@@ -337,6 +357,7 @@ public class LoopManiaWorldController {
 
     /**
      * load an enemy into the GUI
+     *
      * @param enemy
      */
     private void onLoad(BasicEnemy enemy) {
@@ -353,9 +374,10 @@ public class LoopManiaWorldController {
 
     /**
      * load a building into the GUI
+     *
      * @param building
      */
-    private void onLoad(VampireCastleBuilding building){
+    private void onLoad(VampireCastleBuilding building) {
         ImageView view = new ImageView(basicBuildingImage);
         addEntity(building, view);
         squares.getChildren().add(view);
@@ -410,6 +432,7 @@ public class LoopManiaWorldController {
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
                                 removeItemByCoordinates(nodeX, nodeY);
+                                world.equipItem()
                                 targetGridPane.add(image, x, y, 1, 1);
                                 break;
                             default:
@@ -477,11 +500,17 @@ public class LoopManiaWorldController {
     }
 
     /**
-     * remove the card from the world, and spawn and return a building instead where the card was dropped
-     * @param cardNodeX the x coordinate of the card which was dragged, from 0 to width-1
-     * @param cardNodeY the y coordinate of the card which was dragged (in starter code this is 0 as only 1 row of cards)
-     * @param buildingNodeX the x coordinate of the drop location for the card, where the building will spawn, from 0 to width-1
-     * @param buildingNodeY the y coordinate of the drop location for the card, where the building will spawn, from 0 to height-1
+     * remove the card from the world, and spawn and return a building instead where
+     * the card was dropped
+     *
+     * @param cardNodeX     the x coordinate of the card which was dragged, from 0
+     *                      to width-1
+     * @param cardNodeY     the y coordinate of the card which was dragged (in
+     *                      starter code this is 0 as only 1 row of cards)
+     * @param buildingNodeX the x coordinate of the drop location for the card,
+     *                      where the building will spawn, from 0 to width-1
+     * @param buildingNodeY the y coordinate of the drop location for the card,
+     *                      where the building will spawn, from 0 to height-1
      * @return building entity returned from the world
      */
     private VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
@@ -489,7 +518,9 @@ public class LoopManiaWorldController {
     }
 
     /**
-     * remove an item from the unequipped inventory by its x and y coordinates in the unequipped inventory gridpane
+     * remove an item from the unequipped inventory by its x and y coordinates in
+     * the unequipped inventory gridpane
+     *
      * @param nodeX x coordinate from 0 to unequippedInventoryWidth-1
      * @param nodeY y coordinate from 0 to unequippedInventoryHeight-1
      */
@@ -499,18 +530,23 @@ public class LoopManiaWorldController {
 
     /**
      * add drag event handlers to an ImageView
-     * @param view the view to attach drag event handlers to
-     * @param draggableType the type of item being dragged - card or item
-     * @param sourceGridPane the relevant gridpane from which the entity would be dragged
-     * @param targetGridPane the relevant gridpane to which the entity would be dragged to
+     *
+     * @param view           the view to attach drag event handlers to
+     * @param draggableType  the type of item being dragged - card or item
+     * @param sourceGridPane the relevant gridpane from which the entity would be
+     *                       dragged
+     * @param targetGridPane the relevant gridpane to which the entity would be
+     *                       dragged to
      */
-    private void addDragEventHandlers(ImageView view, DRAGGABLE_TYPE draggableType, GridPane sourceGridPane, GridPane targetGridPane){
+    private void addDragEventHandlers(ImageView view, DRAGGABLE_TYPE draggableType, GridPane sourceGridPane,
+            GridPane targetGridPane) {
         view.setOnDragDetected(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                currentlyDraggedImage = view; // set image currently being dragged, so squares setOnDragEntered can detect it...
+                currentlyDraggedImage = view; // set image currently being dragged, so squares setOnDragEntered can
+                                              // detect it...
                 currentlyDraggedType = draggableType;
-                //Drag was detected, start drap-and-drop gesture
-                //Allow any transfer node
+                // Drag was detected, start drap-and-drop gesture
+                // Allow any transfer node
                 Dragboard db = view.startDragAndDrop(TransferMode.MOVE);
     
                 //Put ImageView on dragboard
@@ -522,7 +558,7 @@ public class LoopManiaWorldController {
                 buildNonEntityDragHandlers(draggableType, sourceGridPane, targetGridPane);
 
                 draggedEntity.relocateToPoint(new Point2D(event.getSceneX(), event.getSceneY()));
-                switch (draggableType){
+                switch (draggableType) {
                     case CARD:
                         draggedEntity.setImage(vampireCastleCardImage);
                         break;
@@ -542,19 +578,22 @@ public class LoopManiaWorldController {
                 // https://stackoverflow.com/a/67283792
                 targetGridPane.addEventHandler(DragEvent.DRAG_DROPPED, gridPaneSetOnDragDropped.get(draggableType));
                 anchorPaneRoot.addEventHandler(DragEvent.DRAG_OVER, anchorPaneRootSetOnDragOver.get(draggableType));
-                anchorPaneRoot.addEventHandler(DragEvent.DRAG_DROPPED, anchorPaneRootSetOnDragDropped.get(draggableType));
+                anchorPaneRoot.addEventHandler(DragEvent.DRAG_DROPPED,
+                        anchorPaneRootSetOnDragDropped.get(draggableType));
 
-                for (Node n: targetGridPane.getChildren()){
-                    // events for entering and exiting are attached to squares children because that impacts opacity change
+                for (Node n : targetGridPane.getChildren()) {
+                    // events for entering and exiting are attached to squares children because that
+                    // impacts opacity change
                     // these do not affect visibility of original image...
                     // https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
                     gridPaneNodeSetOnDragEntered.put(draggableType, new EventHandler<DragEvent>() {
-                        // TODO = be more selective about whether highlighting changes - if it cannot be dropped in the location, the location shouldn't be highlighted!
+                        // TODO = be more selective about whether highlighting changes - if it cannot be
+                        // dropped in the location, the location shouldn't be highlighted!
                         public void handle(DragEvent event) {
-                            if (currentlyDraggedType == draggableType){
-                            //The drag-and-drop gesture entered the target
-                            //show the user that it is an actual gesture target
-                                if(event.getGestureSource() != n && event.getDragboard().hasImage()){
+                            if (currentlyDraggedType == draggableType) {
+                                // The drag-and-drop gesture entered the target
+                                // show the user that it is an actual gesture target
+                                if (event.getGestureSource() != n && event.getDragboard().hasImage()) {
                                     n.setOpacity(0.7);
                                 }
                             }
@@ -562,9 +601,11 @@ public class LoopManiaWorldController {
                         }
                     });
                     gridPaneNodeSetOnDragExited.put(draggableType, new EventHandler<DragEvent>() {
-                        // TODO = since being more selective about whether highlighting changes, you could program the game so if the new highlight location is invalid the highlighting doesn't change, or leave this as-is
+                        // TODO = since being more selective about whether highlighting changes, you
+                        // could program the game so if the new highlight location is invalid the
+                        // highlighting doesn't change, or leave this as-is
                         public void handle(DragEvent event) {
-                            if (currentlyDraggedType == draggableType){
+                            if (currentlyDraggedType == draggableType) {
                                 n.setOpacity(1);
                             }
                 
@@ -581,53 +622,56 @@ public class LoopManiaWorldController {
     }
 
     /**
-     * remove drag event handlers so that we don't process redundant events
-     * this is particularly important for slower machines such as over VLAB.
-     * @param draggableType either cards, or items in unequipped inventory
+     * remove drag event handlers so that we don't process redundant events this is
+     * particularly important for slower machines such as over VLAB.
+     *
+     * @param draggableType  either cards, or items in unequipped inventory
      * @param targetGridPane the gridpane to remove the drag event handlers from
      */
-    private void removeDraggableDragEventHandlers(DRAGGABLE_TYPE draggableType, GridPane targetGridPane){
-        // remove event handlers from nodes in children squares, from anchorPaneRoot, and squares
+    private void removeDraggableDragEventHandlers(DRAGGABLE_TYPE draggableType, GridPane targetGridPane) {
+        // remove event handlers from nodes in children squares, from anchorPaneRoot,
+        // and squares
         targetGridPane.removeEventHandler(DragEvent.DRAG_DROPPED, gridPaneSetOnDragDropped.get(draggableType));
 
         anchorPaneRoot.removeEventHandler(DragEvent.DRAG_OVER, anchorPaneRootSetOnDragOver.get(draggableType));
         anchorPaneRoot.removeEventHandler(DragEvent.DRAG_DROPPED, anchorPaneRootSetOnDragDropped.get(draggableType));
 
-        for (Node n: targetGridPane.getChildren()){
+        for (Node n : targetGridPane.getChildren()) {
             n.removeEventHandler(DragEvent.DRAG_ENTERED, gridPaneNodeSetOnDragEntered.get(draggableType));
             n.removeEventHandler(DragEvent.DRAG_EXITED, gridPaneNodeSetOnDragExited.get(draggableType));
         }
     }
 
     /**
-     * handle the pressing of keyboard keys.
-     * Specifically, we should pause when pressing SPACE
+     * handle the pressing of keyboard keys. Specifically, we should pause when
+     * pressing SPACE
+     *
      * @param event some keyboard key press
      */
     @FXML
     public void handleKeyPress(KeyEvent event) {
         // TODO = handle additional key presses, e.g. for consuming a health potion
         switch (event.getCode()) {
-        case SPACE:
-            if (isPaused){
-                startTimer();
-            }
-            else{
-                pause();
-            }
-            break;
-        default:
-            break;
+            case SPACE:
+                if (isPaused) {
+                    startTimer();
+                } else {
+                    pause();
+                }
+                break;
+            default:
+                break;
         }
     }
 
-    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher){
+    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher) {
         // TODO = possibly set other menu switchers
         this.mainMenuSwitcher = mainMenuSwitcher;
     }
 
     /**
      * this method is triggered when click button to go to main menu in FXML
+     *
      * @throws IOException
      */
     @FXML
@@ -638,8 +682,8 @@ public class LoopManiaWorldController {
     }
 
     /**
-     * Set a node in a GridPane to have its position track the position of an
-     * entity in the world.
+     * Set a node in a GridPane to have its position track the position of an entity
+     * in the world.
      *
      * By connecting the model with the view in this way, the model requires no
      * knowledge of the view and changes to the position of entities in the
@@ -659,48 +703,44 @@ public class LoopManiaWorldController {
 
         ChangeListener<Number> xListener = new ChangeListener<Number>() {
             @Override
-            public void changed(ObservableValue<? extends Number> observable,
-                    Number oldValue, Number newValue) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 GridPane.setColumnIndex(node, newValue.intValue());
             }
         };
         ChangeListener<Number> yListener = new ChangeListener<Number>() {
             @Override
-            public void changed(ObservableValue<? extends Number> observable,
-                    Number oldValue, Number newValue) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 GridPane.setRowIndex(node, newValue.intValue());
             }
         };
 
-        // if need to remove items from the equipped inventory, add code to remove from equipped inventory gridpane in the .onDetach part
+        // if need to remove items from the equipped inventory, add code to remove from
+        // equipped inventory gridpane in the .onDetach part
         ListenerHandle handleX = ListenerHandles.createFor(entity.x(), node)
-                                               .onAttach((o, l) -> o.addListener(xListener))
-                                               .onDetach((o, l) -> {
-                                                    o.removeListener(xListener);
-                                                    entityImages.remove(node);
-                                                    squares.getChildren().remove(node);
-                                                    cards.getChildren().remove(node);
-                                                    equippedItems.getChildren().remove(node);
-                                                    unequippedInventory.getChildren().remove(node);
-                                                })
-                                               .buildAttached();
+                .onAttach((o, l) -> o.addListener(xListener)).onDetach((o, l) -> {
+                    o.removeListener(xListener);
+                    entityImages.remove(node);
+                    squares.getChildren().remove(node);
+                    cards.getChildren().remove(node);
+                    equippedItems.getChildren().remove(node);
+                    unequippedInventory.getChildren().remove(node);
+                }).buildAttached();
         ListenerHandle handleY = ListenerHandles.createFor(entity.y(), node)
-                                               .onAttach((o, l) -> o.addListener(yListener))
-                                               .onDetach((o, l) -> {
-                                                   o.removeListener(yListener);
-                                                   entityImages.remove(node);
-                                                   squares.getChildren().remove(node);
-                                                   cards.getChildren().remove(node);
-                                                   equippedItems.getChildren().remove(node);
-                                                   unequippedInventory.getChildren().remove(node);
-                                                })
-                                               .buildAttached();
+                .onAttach((o, l) -> o.addListener(yListener)).onDetach((o, l) -> {
+                    o.removeListener(yListener);
+                    entityImages.remove(node);
+                    squares.getChildren().remove(node);
+                    cards.getChildren().remove(node);
+                    equippedItems.getChildren().remove(node);
+                    unequippedInventory.getChildren().remove(node);
+                }).buildAttached();
         handleX.attach();
         handleY.attach();
 
-        // this means that if we change boolean property in an entity tracked from here, position will stop being tracked
+        // this means that if we change boolean property in an entity tracked from here,
+        // position will stop being tracked
         // this wont work on character/path entities loaded from loader classes
-        entity.shouldExist().addListener(new ChangeListener<Boolean>(){
+        entity.shouldExist().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> obervable, Boolean oldValue, Boolean newValue) {
                 handleX.detach();
@@ -710,16 +750,19 @@ public class LoopManiaWorldController {
     }
 
     /**
-     * we added this method to help with debugging so you could check your code is running on the application thread.
-     * By running everything on the application thread, you will not need to worry about implementing locks, which is outside the scope of the course.
-     * Always writing code running on the application thread will make the project easier, as long as you are not running time-consuming tasks.
-     * We recommend only running code on the application thread, by using Timelines when you want to run multiple processes at once.
+     * we added this method to help with debugging so you could check your code is
+     * running on the application thread. By running everything on the application
+     * thread, you will not need to worry about implementing locks, which is outside
+     * the scope of the course. Always writing code running on the application
+     * thread will make the project easier, as long as you are not running
+     * time-consuming tasks. We recommend only running code on the application
+     * thread, by using Timelines when you want to run multiple processes at once.
      * EventHandlers will run on the application thread.
      */
-    private void printThreadingNotes(String currentMethodLabel){
+    private void printThreadingNotes(String currentMethodLabel) {
         System.out.println("\n###########################################");
-        System.out.println("current method = "+currentMethodLabel);
-        System.out.println("In application thread? = "+Platform.isFxApplicationThread());
-        System.out.println("Current system time = "+java.time.LocalDateTime.now().toString().replace('T', ' '));
+        System.out.println("current method = " + currentMethodLabel);
+        System.out.println("In application thread? = " + Platform.isFxApplicationThread());
+        System.out.println("Current system time = " + java.time.LocalDateTime.now().toString().replace('T', ' '));
     }
 }
