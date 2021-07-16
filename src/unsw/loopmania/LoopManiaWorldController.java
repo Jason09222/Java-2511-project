@@ -120,8 +120,8 @@ public class LoopManiaWorldController {
     private Image basicBuildingImage;
     private Image goldImage;
     private Image healthPotionImage;
-
-
+    private Image vampireImage;
+    private Image zombieImage;
     /**
      * the image currently being dragged, if there is one, otherwise null.
      * Holding the ImageView being dragged allows us to spawn it again in the drop location if appropriate.
@@ -173,6 +173,9 @@ public class LoopManiaWorldController {
         basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
         goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
         healthPotionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
+
+        vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
+        zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
 
@@ -347,7 +350,15 @@ public class LoopManiaWorldController {
      * @param enemy
      */
     private void onLoad(BasicEnemy enemy) {
-        ImageView view = new ImageView(basicEnemyImage);
+        ImageView view;
+        if (enemy instanceof Slug) {
+            view = new ImageView(basicEnemyImage);
+        } else if (enemy instanceof Vampire) {
+            view = new ImageView(vampireImage);
+        } else {
+            view = new ImageView(zombieImage);
+        }
+        
         addEntity(enemy, view);
         squares.getChildren().add(view);
     }
