@@ -194,7 +194,67 @@ public class LoopManiaWorld {
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
+
+
+        // Spawn vampires from vampire castle
+        for (Building b : this.buildings) {
+            if (b instanceof VampireCastleBuilding) {
+                VampireCastleBuilding v = (VampireCastleBuilding)b;
+                if (v.checkPathCycle()) v.spawnVampire(this);
+            }
+
+            if (b instanceof ZombiePit) {
+                ZombiePit z = (ZombiePit) b;
+                if (z.checkPathCycle()) z.spawnZombie(this);
+            }
+        }
         return spawningEnemies;
+    }
+
+    public void charactersStepOnBuilding() {
+        for (Building b : this.buildings) {
+            int destX = b.getX();
+            int destY = b.getY();
+            int srcX = this.character.getPathPosition().getX().get();
+            int srcY = this.character.getPathPosition().getY().get();
+
+            if (this.character.getPathPosition().getX().get() == b.getX() && this.character.getPathPosition().getY().get() == b.getY()) {
+                if (b instanceof Village) {
+                    Village v = (Village) b;
+                    v.increaseHp(this.character);
+                }
+
+                if (b instanceof Barracks) {
+                    Barracks ba = (Barracks) b;
+                    ba.produceAlly(this);
+                }
+            }
+
+            if (b instanceof Campfire) {
+                Campfire c = (Campfire) b;
+                int distance = (int)Math.sqrt(Math.pow(destX - srcX,2) + Math.pow(destY - srcY , 2));
+                if (distance <= c.getcampRadius()) {
+                    this.character.setDamage(this.character.getDamage() * 2);
+                } else {
+                    this.character.setDamage(100);
+                }
+            }
+
+        }
+    }
+
+    public void enemyStepOnBuilding() {
+        for (Building b : this.buildings) {
+            if (b instanceof Tower) {
+                Tower t = (Tower) b;
+                t.attack(this);
+            }
+
+            if (b instanceof Trap) {
+                Trap tr = (Trap) b;
+                tr.exertDamage(this);
+            }
+        }
     }
 
     /**
@@ -476,7 +536,7 @@ public class LoopManiaWorld {
      * spawn a sword in the world and return the sword entity
      * @return a sword to be spawned in the controller as a JavaFX node
      */
-/*    public Sword addUnequippedSword(){
+    public Sword addUnequippedSword(){
         // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
@@ -490,7 +550,7 @@ public class LoopManiaWorld {
         Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
         unequippedInventoryItems.add(sword);
         return sword;
-    } */
+    } 
     /**
      * spawn an item in the world and return the item entity
      * @param type of item to be added
@@ -630,6 +690,15 @@ public class LoopManiaWorld {
     public void runTickMoves(){
         character.moveDownPath();
         moveBasicEnemies();
+        updatePathCycle();
+        charactersStepOnBuilding();
+        enemyStepOnBuilding();
+    }
+
+    public void updatePathCycle() {
+        for (Building b : this.buildings) {
+            b.setPathCycle(b.getPathCycle() + 1);
+        }
     }
 
     /**

@@ -35,13 +35,6 @@ public class Character extends MovingEntity {
         this.damage = damage;
     }
 
-    public List<BasicItem> getEquippedInventoryItems() {
-        return this.equippedInventoryItems;
-    }
-
-    public void setEquippedInventoryItems(List<BasicItem> equippedItems) {
-        this.equippedInventoryItems = equippedItems;
-    }
 
     public void setInBattle(Boolean flag) {
         this.inBattle = flag;

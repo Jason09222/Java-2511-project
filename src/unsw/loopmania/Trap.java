@@ -21,10 +21,12 @@ public class Trap extends Building {
         return this.damage;
     }
 
-    public void exertDamage() {
+    public void exertDamage(LoopManiaWorld l) {
         // TODO: Deduct corresponding hp from the enemy
+        super.addEnemiesWorld(l);
         for (BasicEnemy enemy : super.getEnemies()) {
             enemy.setHP(enemy.getHP() - this.damage);
         }
+        destroyTrap(l);
     }
 }
