@@ -3,7 +3,7 @@ package unsw.loopmania;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Campfire extends Building {
-    private final int campRadius = 2; // TODO; the value may change later;
+    private final int campRadius = 3; // TODO; the value may change later;
 
     public Campfire(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);

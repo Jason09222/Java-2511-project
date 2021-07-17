@@ -52,26 +52,26 @@ Item:
 
 Enemy:
     Slug
-        Hp :100
-        Damage :50
+        Hp :200
+        Damage :20
         Gold: 100
-        Support Range: 5
-        Battle Range: 5
-        Speed: 5
+        Support Range: 2
+        Battle Range: 2
+        Speed: 2
         Exp 100
     Zombie
-        Hp :300
-        Damage: 100
+        Hp :200
+        Damage: 40
         Gold:  300
-        Support Range: 5
-        Battle Range: 5
-        Speed: 5
+        Support Range: 4
+        Battle Range: 2
+        Speed: 1
         Exp 200
     Vampire
         Hp: 800
-        Damage: 200
+        Damage: 60
         Gold: 500
         Support Range: 5
-        Battle Range: 5
-        Speed: 5
+        Battle Range: 2
+        Speed: 3
         Exp 300

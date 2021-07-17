@@ -5,12 +5,12 @@ public class Vampire extends BasicEnemy{
     private final int FightR = 2;
     private final int SupportR = 5;
     private final int gold = 500;
-    private int speed = 2;
-    private final int damage = 200;
+    private int speed = 3;
+    private final int damage = 60;
     //private final boolean cirtical = true;
     private final boolean weak = false;
     private final int hp = 800;
-    private final int exp = 5;
+    private final int exp = 300;
 
     private int criticalPoss;
 
