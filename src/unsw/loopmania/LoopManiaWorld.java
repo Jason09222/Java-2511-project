@@ -3,10 +3,14 @@ package unsw.loopmania;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
+
 import java.lang.Math;
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.effect.BlurType;
 
 /**
  * A backend world.
@@ -183,7 +187,10 @@ public class LoopManiaWorld {
 
             if (b instanceof ZombiePit) {
                 ZombiePit z = (ZombiePit) b;
-                if (z.checkPathCycle(this)) z.spawnZombie(this);
+                if (z.checkPathCycle(this)) {
+                    Zombie newZom = z.spawnZombie(this);
+                    spawningEnemies.add(newZom);
+                }
             }
         }
         return spawningEnemies;
@@ -885,10 +892,10 @@ public class LoopManiaWorld {
                 break;
             case "Campfire":
                 if (!checkPathTile(x, y)) newBuilding = new Campfire(x, y);
-                this.campfires.add(newBuilding);
+                break;
         }
 
-        this.buildings.add(newBuilding);
+        if (newBuilding != null) this.buildings.add(newBuilding);
         return newBuilding;
     }
 
@@ -936,6 +943,7 @@ public class LoopManiaWorld {
                 tr.exertDamage(this);
             }
         }
+        
     }
 
     /**
@@ -1129,7 +1137,7 @@ public class LoopManiaWorld {
                 break;
             }
         }
-        if (card == null) return null;
+        //if (card == null) return null;
         String type = card.getType();
 
         // now spawn building

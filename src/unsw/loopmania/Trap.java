@@ -13,7 +13,10 @@ public class Trap extends Building {
     public void destroyTrap(LoopManiaWorld l) {
         //fetch from the global buildings and remove this object
         for (Building b : l.getBuildings()) {
-            if (b.equals(this)) l.getBuildings().remove(b);
+            if (b.equals(this)) {
+                l.getBuildings().remove(b);
+                b.destroy();
+            }
         }
     }
 
@@ -27,6 +30,12 @@ public class Trap extends Building {
         for (BasicEnemy enemy : super.getEnemies()) {
             enemy.setHP(enemy.getHP() - this.damage);
         }
-        destroyTrap(l);
+        if (super.getEnemies().size() > 0) {
+            l.getBuildings().remove(this);
+            this.destroy();
+        }
+        //destroyTrap(l);
+        //l.getBuildings().remove(this);
+        //this.destroy();
     }
 }
