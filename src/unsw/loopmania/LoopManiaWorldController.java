@@ -662,10 +662,20 @@ public class LoopManiaWorldController {
                             case CARD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn a building here of different types
-                                VampireCastleBuilding newBuilding = (VampireCastleBuilding)world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
-                                Campfire campfire = (Campfire)world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
-                                onLoad(newBuilding);
-                                onLoad(campfire);
+
+                                Building b = world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                if (b == null) break;
+                                if (b instanceof VampireCastleBuilding) onLoad((VampireCastleBuilding)b);
+                                if (b instanceof Campfire) onLoad((Campfire)b);
+                                if (b instanceof Tower) onLoad((Tower)b);
+                                if (b instanceof Trap) onLoad((Trap)b);
+                                if (b instanceof Village) onLoad((Village)b);
+                                if (b instanceof ZombiePit) onLoad((ZombiePit)b);
+                                if (b instanceof Barracks) onLoad((Barracks)b);
+                                //VampireCastleBuilding newBuilding = (VampireCastleBuilding)world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                //Campfire campfire = (Campfire)world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                //onLoad(newBuilding);
+                                //onLoad(campfire);
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);

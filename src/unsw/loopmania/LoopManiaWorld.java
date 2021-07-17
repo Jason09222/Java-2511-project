@@ -183,7 +183,10 @@ public class LoopManiaWorld {
 
             if (b instanceof ZombiePit) {
                 ZombiePit z = (ZombiePit) b;
-                if (z.checkPathCycle(this)) z.spawnZombie(this);
+                if (z.checkPathCycle(this)) {
+                    Zombie newZom = z.spawnZombie(this);
+                    spawningEnemies.add(newZom);
+                }
             }
         }
         return spawningEnemies;
@@ -885,10 +888,10 @@ public class LoopManiaWorld {
                 break;
             case "Campfire":
                 if (!checkPathTile(x, y)) newBuilding = new Campfire(x, y);
-                this.campfires.add(newBuilding);
+                break;
         }
 
-        this.buildings.add(newBuilding);
+        if (newBuilding != null) this.buildings.add(newBuilding);
         return newBuilding;
     }
 
@@ -1129,7 +1132,7 @@ public class LoopManiaWorld {
                 break;
             }
         }
-        if (card == null) return null;
+        //if (card == null) return null;
         String type = card.getType();
 
         // now spawn building
