@@ -93,4 +93,10 @@ abstract public class Building extends StaticEntity {
         }
         return position; // non-pathtile if return value is null
     }
+
+    public double getDistance(int destX, int destY) {
+        int startX = super.getX();
+        int startY = super.getY();
+        return Math.sqrt(Math.pow(startX - destX, 2) - Math.pow(startY - destY, 2));
+    }
 }

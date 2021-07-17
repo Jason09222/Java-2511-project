@@ -870,33 +870,43 @@ public class LoopManiaWorld {
 
     public Building createbuilding(String type, SimpleIntegerProperty x, SimpleIntegerProperty y) {
         Building newBuilding = null;
-
-        switch(type) {
-            case "Village":
-                if (checkPathTile(x, y)) newBuilding = new Village(x, y);
-                break;
-            case "Barracks":
-                if (checkPathTile(x, y)) newBuilding = new Barracks(x, y);
-                break;
-            case "Tower":
-                if (!checkPathTile(x, y) && checkAdjacentToPathTile(x, y)) newBuilding = new Tower(x, y);
-                break;
-            case "Trap":
-                if (checkPathTile(x, y)) newBuilding = new Trap(x, y);
-                break;
-            case "VampireCastleBuilding":
-                if (!checkPathTile(x, y) && checkAdjacentToPathTile(x, y)) newBuilding = new VampireCastleBuilding(x, y);
-                break;
-            case "ZombiePit":
-                if (!checkPathTile(x, y) && checkAdjacentToPathTile(x, y)) newBuilding = new ZombiePit(x, y);
-                break;
-            case "Campfire":
-                if (!checkPathTile(x, y)) newBuilding = new Campfire(x, y);
-                break;
+        if (!checkBuildingAlrdyExisted(x, y)) {
+            switch(type) {
+                case "Village":
+                    if (checkPathTile(x, y)) newBuilding = new Village(x, y);
+                    break;
+                case "Barracks":
+                    if (checkPathTile(x, y)) newBuilding = new Barracks(x, y);
+                    break;
+                case "Tower":
+                    if (!checkPathTile(x, y) && checkAdjacentToPathTile(x, y)) newBuilding = new Tower(x, y);
+                    break;
+                case "Trap":
+                    if (checkPathTile(x, y)) newBuilding = new Trap(x, y);
+                    break;
+                case "VampireCastleBuilding":
+                    if (!checkPathTile(x, y) && checkAdjacentToPathTile(x, y)) newBuilding = new VampireCastleBuilding(x, y);
+                    break;
+                case "ZombiePit":
+                    if (!checkPathTile(x, y) && checkAdjacentToPathTile(x, y)) newBuilding = new ZombiePit(x, y);
+                    break;
+                case "Campfire":
+                    if (!checkPathTile(x, y)) newBuilding = new Campfire(x, y);
+                    break;
+            }
         }
 
         if (newBuilding != null) this.buildings.add(newBuilding);
         return newBuilding;
+    }
+
+    public boolean checkBuildingAlrdyExisted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        for (Building b : this.buildings) {
+            if (x.get() == b.getX() && y.get() == b.getY()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void charactersStepOnBuilding() {
