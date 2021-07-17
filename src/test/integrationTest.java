@@ -59,9 +59,9 @@ public class integrationTest {
         SimpleIntegerProperty y = new SimpleIntegerProperty(2);
         Armour armour = new Armour(x, y);
         Barracks barrack = new Barracks(x, y);
-        BarracksCard barracksCard = new BarracksCard(x, y);
+        BarracksCard barracksCard = new BarracksCard("Barracks", x, y);
         Campfire campfire = new Campfire(x, y);
-        CampfireCard campfireCard = new CampfireCard(x, y);
+        CampfireCard campfireCard = new CampfireCard("Campfire", x, y);
         Gold gold = new Gold(x, y);
         HealthPotion healthPotion = new HealthPotion(x, y);
         Helmet helmet = new Helmet(x, y);
@@ -73,14 +73,14 @@ public class integrationTest {
         Sword sword = new Sword(x, y);
         TheOneRing theOneRing = new TheOneRing(x, y);
         Tower tower = new Tower(x, y);
-        TowerCard towerCard = new TowerCard(x, y);
+        TowerCard towerCard = new TowerCard("Tower", x, y);
         Trap trap = new Trap(x, y);
-        TrapCard trapCard = new TrapCard(x, y);
+        TrapCard trapCard = new TrapCard("Trap", x, y);
         VampireCastleBuilding vampireCastleBuilding = new VampireCastleBuilding(x, y);
-        VampireCastleCard vampireCastleCard = new VampireCastleCard(x, y);
+        VampireCastleCard vampireCastleCard = new VampireCastleCard("VampireCastleBuilding", x, y);
         Village village = new Village(x, y);
-        VillageCard villageCard = new VillageCard(x, y);
+        VillageCard villageCard = new VillageCard("Village", x, y);
         ZombiePit zombiePit = new ZombiePit(x, y);
-        ZombiePitCard zombiePitCard = new ZombiePitCard(x, y);
+        ZombiePitCard zombiePitCard = new ZombiePitCard("ZombiePit", x, y);
     }
 }
