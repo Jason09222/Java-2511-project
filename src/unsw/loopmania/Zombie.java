@@ -7,10 +7,10 @@ public class Zombie extends BasicEnemy{
     private final int SupportR = 4;
     private final int gold = 300;
     private final int speed = 2;
-    private final int damage = 100;
+    private final int damage = 40;
     //private final boolean cirtical = true;
     private final boolean weak = false;
-    private final int hp = 300;
+    private final int hp = 500;
     private final int exp = 5;
     public Zombie(PathPosition position) {
         super(position);
