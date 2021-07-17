@@ -15,10 +15,11 @@ public class ZombiePit extends Building {
         return false;
     }
 
-    public void spawnZombie(LoopManiaWorld l) {
+    public Zombie spawnZombie(LoopManiaWorld l) {
         // create a new class of zombie and put it in the global data
         PathPosition position = getNearestPath(l);
-        BasicEnemy newZom = new Zombie(position);
+        Zombie newZom = new Zombie(position);
         l.getEnemy().add(newZom);
+        return newZom;
     }
 }

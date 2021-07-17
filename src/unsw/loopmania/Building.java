@@ -61,13 +61,10 @@ abstract public class Building extends StaticEntity {
     }
 
     public void addEnemiesWorld(LoopManiaWorld l) {
+        this.getEnemies().clear();
         for (BasicEnemy enemy : l.getEnemy()) {
             if (enemy.getPathPosition().getX().get() == super.getX() && enemy.getPathPosition().getY().get() == super.getY()) {
                 addEnemy(enemy);
-            } else {
-                for (BasicEnemy e : this.getEnemies()) {
-                    if (e.equals(enemy)) removeEnemy(enemy);
-                }
             }
         }
     }
@@ -95,5 +92,11 @@ abstract public class Building extends StaticEntity {
             i++;
         }
         return position; // non-pathtile if return value is null
+    }
+
+    public double getDistance(int destX, int destY) {
+        int startX = super.getX();
+        int startY = super.getY();
+        return Math.sqrt(Math.pow(startX - destX, 2) - Math.pow(startY - destY, 2));
     }
 }

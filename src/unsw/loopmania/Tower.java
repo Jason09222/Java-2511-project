@@ -19,7 +19,7 @@ public class Tower extends Building {
         super.getEnemies().clear();
         for (BasicEnemy enemy : l.getEnemy()) {
             double distance = getDistance(enemy.getX(), enemy.getY());
-            if (distance <= this.shootRadius) {
+            if (distance <= this.shootRadius && enemy.getInBattle()) {
                 super.addEnemy(enemy);
             } else {
                 for (BasicEnemy e : l.getEnemy()) {
@@ -32,7 +32,7 @@ public class Tower extends Building {
 
     public void decreaseHp() {
         for (BasicEnemy enemy : super.getEnemies()) {
-            if (enemy.getInBattle()) enemy.setHP(enemy.getHP() - this.damage);
+            enemy.setHP(enemy.getHP() - this.damage);
         }
     }
 
@@ -46,9 +46,9 @@ public class Tower extends Building {
         return this.shootRadius;
     }
 
-    public double getDistance(int destX, int destY) {
+    /*public double getDistance(int destX, int destY) {
         int startX = super.getX();
         int startY = super.getY();
         return Math.sqrt(Math.pow(startX - destX, 2) - Math.pow(startY - destY, 2));
-    }
+    }*/
 }
