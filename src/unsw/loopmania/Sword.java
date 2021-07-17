@@ -9,7 +9,7 @@ public class Sword extends BasicItem {
     private final int damage = 200;
     private final int price = 1000;
     public Sword(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, "Sword");
+        super(x, y, ItemType.SWORD);
     }
 
     public int getDamage() {

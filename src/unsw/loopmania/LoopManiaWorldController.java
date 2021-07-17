@@ -666,17 +666,29 @@ public class LoopManiaWorldController {
                             case CARD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn a building here of different types
-                                VampireCastleBuilding newBuilding = (VampireCastleBuilding)world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
-                                Campfire campfire = (Campfire)world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
-                                onLoad(newBuilding);
-                                onLoad(campfire);
+
+                                Building b = world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                if (b instanceof VampireCastleBuilding) onLoad((VampireCastleBuilding)b);
+                                if (b instanceof Campfire) onLoad((Campfire)b);
+                                if (b instanceof Tower) onLoad((Tower)b);
+                                if (b instanceof Trap) onLoad((Trap)b);
+                                if (b instanceof Village) onLoad((Village)b);
+                                if (b instanceof ZombiePit) onLoad((ZombiePit)b);
+                                if (b instanceof Barracks) onLoad((Barracks)b);
+                                //VampireCastleBuilding newBuilding = (VampireCastleBuilding)world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                //Campfire campfire = (Campfire)world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                //onLoad(newBuilding);
+                                //onLoad(campfire);
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
                                 removeItemByCoordinates(nodeX, nodeY);
                                 //world.equipItem()
-                                targetGridPane.add(image, x, y, 1, 1);
+                                // TODO = fix for more item types/slots
+                                Sword sword = (Sword)world.equipItemByCoordinates(x, y);
+                                onLoad(sword);
+                                // targetGridPane.add(image, x, y, 1, 1);
                                 break;
                             default:
                                 break;

@@ -9,7 +9,7 @@ public class Armour extends BasicItem {
     private final int price = 1000;
     // TODO = add more weapon/item types
     public Armour(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, "Armour");
+        super(x, y, ItemType.ARMOUR);
     }
     public int getDefense(BasicEnemy enemy) {
         return enemy.getDamage()/2;

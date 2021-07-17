@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Gold;
 import unsw.loopmania.HealthPotion;
 import unsw.loopmania.Helmet;
+import unsw.loopmania.ItemType;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.RareItem;
 import unsw.loopmania.Shield;
@@ -27,7 +28,7 @@ public class BasicItemTest {
         Sword sword = new Sword(x, y);
         assertEquals(sword.getDamage(), 200);
         assertEquals(sword.getPrice(), 1000);
-        assertEquals(sword.getType(), "Sword");
+        assertEquals(sword.getType(), ItemType.SWORD);
         assertEquals(sword.getX(), 1);
         assertEquals(sword.getY(), 2);
     }
@@ -38,7 +39,7 @@ public class BasicItemTest {
         SimpleIntegerProperty y = new SimpleIntegerProperty(2);
         Gold gold = new Gold(x, y);
         assertEquals(gold.getValue(), 200);
-        assertEquals(gold.getType(), "Gold");
+        assertEquals(gold.getType(), ItemType.OTHER);
         assertEquals(gold.getX(), 1);
         assertEquals(gold.getY(), 2);
     }
@@ -52,7 +53,7 @@ public class BasicItemTest {
         character.setHp(0);
         character.useTheOneRing(theonering);
         assertEquals(character.getHp(),500);
-        assertEquals(theonering.getType(), "TheOneRing");
+        assertEquals(theonering.getType(), ItemType.OTHER);
         assertEquals(theonering.getX(), 1);
         assertEquals(theonering.getY(), 2);
     }
@@ -72,7 +73,7 @@ public class BasicItemTest {
         assertEquals(stake.getDamage(vampire), 300);
         assertEquals(stake.getDamage(slug), 150);
         assertEquals(stake.getPrice(), 1500);
-        assertEquals(stake.getType(), "Stake");
+        assertEquals(stake.getType(), ItemType.STAKE);
         assertEquals(stake.getX(), 1);
         assertEquals(stake.getY(), 2);
     }
@@ -92,7 +93,7 @@ public class BasicItemTest {
         assertEquals(slug.getHP(), -100);
         assertEquals(staff.getDamage(), 100);
         assertEquals(staff.getPrice(), 2000);
-        assertEquals(staff.getType(), "Staff");
+        assertEquals(staff.getType(), ItemType.STAFF);
         assertEquals(staff.getX(), 1);
         assertEquals(staff.getY(), 2);
     }
@@ -104,7 +105,7 @@ public class BasicItemTest {
         Shield shield = new Shield(x, y);
         assertEquals(shield.getDefense(), 200);
         assertEquals(shield.getPrice(), 2000);
-        assertEquals(shield.getType(), "Shield");
+        assertEquals(shield.getType(), ItemType.SHIELD);
         assertEquals(shield.getX(), 1);
         assertEquals(shield.getY(), 2);
     }
@@ -113,8 +114,9 @@ public class BasicItemTest {
     public void ItemRareItem() {
         SimpleIntegerProperty x = new SimpleIntegerProperty(1);
         SimpleIntegerProperty y = new SimpleIntegerProperty(2);
-        RareItem rareItem = new RareItem(x, y, "TheOneRing");
-        assertEquals(rareItem.getType(), "TheOneRing");
+        RareItem rareItem = new RareItem(x, y, ItemType.OTHER);
+        //Should establish the class the one ring, not rareitem
+        assertEquals(rareItem.getType(), ItemType.OTHER);
         assertEquals(rareItem.getX(), 1);
         assertEquals(rareItem.getY(), 2);
     }
@@ -130,7 +132,7 @@ public class BasicItemTest {
         assertEquals(character.getHp()-slug.getDamage()+helmet.getDefense(), 600);
         assertEquals(helmet.getDefense(), 150);
         assertEquals(helmet.getPrice(), 1500);
-        assertEquals(helmet.getType(), "Helmet");
+        assertEquals(helmet.getType(), ItemType.HELMET);
         assertEquals(helmet.getX(), 1);
         assertEquals(helmet.getY(), 2);
     }
@@ -146,7 +148,7 @@ public class BasicItemTest {
         assertEquals(character.getHp(), 400);
         assertEquals(healthPotion.getHealth(), 200);
         assertEquals(healthPotion.getPrice(), 2000);
-        assertEquals(healthPotion.getType(), "HealthPotion");
+        assertEquals(healthPotion.getType(), ItemType.HEALTHPOTION);
         assertEquals(healthPotion.getX(), 1);
         assertEquals(healthPotion.getY(), 2);
     }
@@ -159,7 +161,7 @@ public class BasicItemTest {
         Slug slug = new Slug(null);
         assertEquals(armour.getDefense(slug), 25);
         assertEquals(armour.getPrice(), 1000);
-        assertEquals(armour.getType(), "Armour");
+        assertEquals(armour.getType(), ItemType.ARMOUR);
         assertEquals(armour.getX(), 1);
         assertEquals(armour.getY(), 2);
     }

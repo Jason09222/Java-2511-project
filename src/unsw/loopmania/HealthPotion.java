@@ -9,7 +9,7 @@ public class HealthPotion extends BasicItem {
     private final int price = 2000;
     private final int health = 200;
     public HealthPotion(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, "HealthPotion");
+        super(x, y, ItemType.HEALTHPOTION);
     }
     public int getPrice() {
         return price;

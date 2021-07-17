@@ -10,7 +10,7 @@ public class Helmet extends BasicItem {
     private final int price = 1500;
     // TODO = add more weapon/item types
     public Helmet(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, "Helmet");
+        super(x, y, ItemType.HELMET);
     }
     public int getDefense() {
         return this.defense;

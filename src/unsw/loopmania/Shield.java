@@ -10,7 +10,7 @@ public class Shield extends BasicItem {
     private final int defense = 200;
     private final int price = 2000;
     public Shield(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, "Shield");
+        super(x, y, ItemType.SHIELD);
     }
     public int getDefense() {
         return this.defense;

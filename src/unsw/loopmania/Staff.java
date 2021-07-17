@@ -12,7 +12,7 @@ public class Staff extends BasicItem {
     private final int price = 2000;
 
     public Staff(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, "Staff");
+        super(x, y, ItemType.STAFF);
     }
 
     public int getDamage() {

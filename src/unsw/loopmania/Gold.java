@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class Gold extends BasicItem {
     private final int value = 200;
     public Gold(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, "Gold");
+        super(x, y, ItemType.OTHER);
     }
     public int getValue() {
         return value;
