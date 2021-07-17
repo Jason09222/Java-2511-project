@@ -579,7 +579,47 @@ public class LoopManiaWorld {
         moveBasicEnemies();
         charactersStepOnBuilding();
         enemyStepOnBuilding();
-
+        // turn ally back to enemy
+        boolean battleEnd = true;
+        for (BasicEnemy enemy : enemies) {
+            if (enemy.getInBattle()) {
+                battleEnd = false;
+            }
+        }
+        if (battleEnd) {
+            // kill all tranced allies
+            for (Ally ally : allies) {
+                if (!ally.getOriginalType().equals(null)) {
+                    killAlly(ally);
+                }
+            }
+        } else {
+            // Tranced ally turns back to enemy
+            for (Ally ally : allies) {
+                PathPosition position = ally.getPathPosition();
+                if (!ally.getOriginalType().equals(null)) {
+                    if (ally.getRound() - 1 == 0) {
+                        String type = ally.getOriginalType();
+                        BasicEnemy enemy;
+                        switch (type) {
+                            case "Vampire":
+                                enemy = new Vampire(position);
+                                break;
+                            case "Slug":
+                                enemy = new Slug(position);
+                                break;
+                            default:
+                                enemy = new Zombie(position);
+                                break;
+                        }
+                        enemies.add(enemy);
+                        killAlly(ally);
+                    } else {
+                        ally.setRound(ally.getRound() - 1);
+                    }
+                }
+            }
+        }
         //pick up gold or health potion
         double goldDistance = Math.sqrt(Math.pow(character.getX(), 2) + Math.pow(character.getY(), 2));
         double healthPotionDistance = Math.sqrt(Math.pow(character.getX() - 3, 2) + Math.pow(character.getY() - 3, 2));
