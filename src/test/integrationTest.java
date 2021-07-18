@@ -152,7 +152,7 @@ public class integrationTest {
         assertEquals(1, world.getPotions());
         character.setHp(100);
         world.spendPotions();
-        assertEquals(300, character.getHp());
+        assertEquals(500, character.getHp());
         assertEquals(0, world.getPotions());
         assertNotEquals(0, world.getGold());
         //DoubleProperty gold = world.getGold();

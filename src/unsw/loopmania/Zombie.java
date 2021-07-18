@@ -11,7 +11,7 @@ public class Zombie extends BasicEnemy{
     //private final boolean cirtical = true;
     private final boolean weak = false;
     private final int hp = 500;
-    private final int exp = 5;
+    private final int exp = 100;
     public Zombie(PathPosition position) {
         super(position);
         setType(this.type);

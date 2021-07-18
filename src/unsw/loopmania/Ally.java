@@ -2,8 +2,8 @@ package unsw.loopmania;
 
 public class Ally extends MovingEntity{
     private String type = "Ally";
-    private int hp = 300;
-    private int damage = 100;
+    private int hp = 100;
+    private int damage = 200;
     private int round = 0;
     private String originalType = "";
 
