@@ -109,6 +109,9 @@ public class LoopManiaWorldController {
     @FXML
     private ProgressBar goldProgress;
 
+    @FXML
+    private ProgressBar hpProgress;
+
     /*@FXML
     private ProgressBar goldProgress;
 
@@ -132,6 +135,7 @@ public class LoopManiaWorldController {
     private LoopManiaWorld world;
 
     private DoubleProperty goldInWorld;
+    private DoubleProperty hpInWorld;
 
     /**
      * runs the periodic game logic - second-by-second moving of character through
@@ -322,18 +326,20 @@ public class LoopManiaWorldController {
         //ProgressBar hpProgress = new ProgressBar(0.25);
         //hpProgress.setProgress(0.25f);
         
-        Label gold = new Label("Gold");
-        //TextField goldValue = new TextField("0");
-        //goldValue.textProperty().bind(world.getGold().asString());
+        /*Label gold = new Label("Gold");
         goldProgress = new ProgressBar();
-        //goldProgress.setProgress(0);
         goldInWorld = world.getGold();
         goldProgress.progressProperty().bind(goldInWorld);
-        //layout = new StackPane();
-        //layout.getChildren().add(hpProgress);
+
         layout.getChildren().add(goldProgress);
-        layout.getChildren().add(gold);
-        //layout.getChildren().add(goldValue);
+        layout.getChildren().add(gold);*/
+        
+        Label hp = new Label("Hp");
+        hpProgress = new ProgressBar();
+        hpInWorld = world.getHp();
+        hpProgress.progressProperty().bind(hpInWorld);
+        layout.getChildren().add(hpProgress);
+        layout.getChildren().add(hp);
     }
 
     /**
@@ -347,7 +353,11 @@ public class LoopManiaWorldController {
         // framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             world.runTickMoves();
-            goldInWorld = world.getGold();
+            /*goldInWorld = world.getGold();
+            goldProgress.progressProperty().bind(goldInWorld);*/
+
+            hpInWorld = world.getHp();
+            hpProgress.progressProperty().bind(hpInWorld);
 
             List<BasicItem> items = world.possiblySpawnItems();
             for (BasicItem item: items) {
