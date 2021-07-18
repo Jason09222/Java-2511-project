@@ -446,8 +446,8 @@ public class LoopManiaWorldController {
         // in starter code, spawning extra card/weapon...
         // TODO = provide different benefits to defeating the enemy based on the type of
         // enemy
-        loadSword();
-        loadHelmet();
+        
+        generateItem();
         //loadVampireCard();
         generateCard();
     }
@@ -482,6 +482,35 @@ public class LoopManiaWorldController {
             default: return;
         }
 
+    }
+
+    public void generateItem() {
+        int totalRewards = 6;
+        Random rand = new Random();
+        int result = rand.nextInt(1000) % totalRewards;
+        
+        switch(result) {
+            case 0:
+                loadSword();
+                break;
+            case 1:
+                loadArmour();
+                break;
+            case 2:
+                loadShield();
+                break;
+            case 3:
+                loadHelmet();
+                break;
+            case 4:
+                loadStaff();
+                break;
+            case 5:
+                loadStake();
+                break;
+            default:
+                return;
+        }
     }
 
     /**

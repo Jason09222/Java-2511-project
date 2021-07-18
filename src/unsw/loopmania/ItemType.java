@@ -5,9 +5,9 @@ public enum ItemType {
     SWORD(0),
     STAKE(0),
     STAFF(0),
-    ARMOUR(2),
+    ARMOUR(3),
     HELMET(1),
-    SHIELD(3),
+    SHIELD(2),
     OTHER(4),
     HEALTHPOTION(4),    
     ;
