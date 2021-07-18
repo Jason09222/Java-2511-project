@@ -34,6 +34,8 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
@@ -179,11 +181,17 @@ public class LoopManiaWorldController {
     private StackPane stackPane;
 
     @FXML
-    TextField allyNum;
+    private TextField allyNum;
+
+    @FXML
+    private Label goldNum;
+
+    private IntegerProperty goldInNum;
+
 
     SimpleIntegerProperty allyInWorld;
 
-    private DoubleProperty goldInWorld;
+    //private DoubleProperty goldInWorld;
     private DoubleProperty hpInWorld;
     /**
      * the image currently being dragged, if there is one, otherwise null. Holding
@@ -336,24 +344,30 @@ public class LoopManiaWorldController {
         Building heroCastle = new HeroCastle(new SimpleIntegerProperty(0),new SimpleIntegerProperty(0));
         onLoad((HeroCastle)heroCastle);
 
-        Label gold = new Label("Gold");
-        goldProgress = new ProgressBar();
-        goldInWorld = world.getGold();
-        goldProgress.progressProperty().bind(goldInWorld);
+        ImageView view = new ImageView(goldImage);
+    
+        //Label gold = new Label("Gold: $");
+        goldNum = new Label("0");
+        goldInNum = world.getGold();
+        goldNum.textProperty().bind(goldInNum.asString());
+        goldNum.setTextFill(Color.ORANGE);
+        goldNum.setFont(new Font("Cambria", 40));
 
-        layout.getChildren().add(goldProgress);
-        StackPane.setAlignment(goldProgress, Pos.CENTER);
-        layout.getChildren().add(gold);
-        StackPane.setAlignment(gold, Pos.CENTER);
+        layout.getChildren().add(view);
+        StackPane.setAlignment(view, Pos.CENTER_LEFT);
+        layout.getChildren().add(goldNum);
+        StackPane.setAlignment(goldNum, Pos.CENTER_RIGHT);
+
         
-        Label hp = new Label("Hp");
+        //Label hp = new Label("Hp");
+        ImageView heartView = new ImageView(heartImage);
         hpProgress = new ProgressBar();
         hpInWorld = world.getHp();
         hpProgress.progressProperty().bind(hpInWorld);
         layout.getChildren().add(hpProgress);
-        StackPane.setAlignment(hpProgress, Pos.BOTTOM_CENTER);
-        layout.getChildren().add(hp);
-        StackPane.setAlignment(hp, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(hpProgress, Pos.BOTTOM_RIGHT);
+        layout.getChildren().add(heartView);
+        StackPane.setAlignment(heartView, Pos.BOTTOM_LEFT);
     }
 
     /**
@@ -367,8 +381,8 @@ public class LoopManiaWorldController {
         // framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             world.runTickMoves();
-            goldInWorld = world.getGold();
-            goldProgress.progressProperty().bind(goldInWorld);
+            goldInNum = world.getGold();
+            goldNum.textProperty().bind(goldInNum.asString());
 
             hpInWorld = world.getHp();
             hpProgress.progressProperty().bind(hpInWorld);
