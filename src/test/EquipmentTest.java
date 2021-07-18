@@ -62,6 +62,18 @@ public class EquipmentTest {
         assertEquals(shield1.getX(), 3);
 
     }
-
+    @Test
+    public void testStake() {
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        Item stake = world.addUnequippedItem(ItemType.STAKE);
+        assertEquals(stake.getType(), ItemType.STAKE);
+        assertEquals(stake.getX(), 0);
+        assertEquals(stake.getY(), 0);
+    }
 
 }

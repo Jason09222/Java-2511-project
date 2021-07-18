@@ -509,8 +509,10 @@ public class LoopManiaWorld {
                 break;
             case STAKE:
                 item = new Stake(x, y);
+                break;
             case STAFF:
                 item = new Staff(x, y);
+                break;
             case HELMET:
                 item = new Helmet(x, y);
                 break;

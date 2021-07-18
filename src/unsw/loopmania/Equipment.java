@@ -54,8 +54,10 @@ public class Equipment {
                 break;
             case STAKE:
                 item = new Stake(equipX, equipY);
+                break;
             case STAFF:
                 item = new Staff(equipX, equipY);
+                break;
             case HELMET:
                 item = new Helmet(equipX, equipY);
                 break;

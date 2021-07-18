@@ -1,10 +1,9 @@
 package unsw.loopmania;
 
 public enum ItemType {
-    WEAPON(0),
-    SWORD(0),
     STAKE(0),
     STAFF(0),
+    SWORD(0),
     ARMOUR(3),
     HELMET(1),
     SHIELD(2),

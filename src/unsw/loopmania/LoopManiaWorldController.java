@@ -510,7 +510,7 @@ public class LoopManiaWorldController {
                 break;
             case 5:
                 loadStake();
-                break;
+                break; 
             default:
                 return;
         }
