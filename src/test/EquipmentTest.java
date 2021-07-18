@@ -76,6 +76,36 @@ public class EquipmentTest {
         assertEquals(stake.getY(), 0);
     }
     @Test
+    public void testStaff() {
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        Item staff = world.addUnequippedItem(ItemType.STAFF);
+        assertEquals(staff.getType(), ItemType.STAFF);
+        assertEquals(staff.getX(), 0);
+        assertEquals(staff.getY(), 0);
+        Item staff1 = world.equipItemByCoordinates(0, 0);
+        assertEquals(staff1.getX(), 0);
+    }
+    @Test
+    public void testSword() {
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        Item sword = world.addUnequippedItem(ItemType.SWORD);
+        assertEquals(sword.getType(), ItemType.SWORD);
+        assertEquals(sword.getX(), 0);
+        assertEquals(sword.getY(), 0);
+        Item sword1 = world.equipItemByCoordinates(0, 0);
+        assertEquals(sword1.getX(), 0);
+    }
+    @Test
     public void testArmour() {
         List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
         Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
@@ -91,4 +121,20 @@ public class EquipmentTest {
         assertEquals(armour1.getX(), 3);
     }
 
+    @Test
+    public void testShield() {
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        Item shield = world.addUnequippedItem(ItemType.SHIELD);
+        assertEquals(shield.getType(), ItemType.SHIELD);
+        assertEquals(shield.getX(), 0);
+        assertEquals(shield.getY(), 0);
+        Item shield1 = world.equipItemByCoordinates(0, 0);
+        assertEquals(shield1.getX(), 2);
+    }
+    
 }

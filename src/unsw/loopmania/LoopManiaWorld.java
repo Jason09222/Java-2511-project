@@ -71,6 +71,7 @@ public class LoopManiaWorld {
     private int goldOwned;
     private int potionsOwned;
     private int experience;
+    private int ringOwned;
     
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse
@@ -100,6 +101,7 @@ public class LoopManiaWorld {
         goldOwned = 0;
         potionsOwned = 0;
         experience = 0;
+        ringOwned = 0;
         buildings = new ArrayList<>();
         allies = new ArrayList<>();
         campfires = new ArrayList<>();
