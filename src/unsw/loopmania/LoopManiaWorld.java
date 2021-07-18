@@ -71,7 +71,7 @@ public class LoopManiaWorld {
     private int goldOwned;
 
     private int experience;
-
+    
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse
      * them
@@ -419,7 +419,10 @@ public class LoopManiaWorld {
         int totalRewards = 8;
         Random rand = new Random();
         int result = rand.nextInt(1000) % totalRewards;
-
+        if (this.unequippedInventoryItems.size() == 15) {
+            this.unequippedInventoryItems.remove(0);
+            this.goldOwned += 100;
+        }
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         SimpleIntegerProperty x = new SimpleIntegerProperty(firstAvailableSlot.getValue0());
         SimpleIntegerProperty y = new SimpleIntegerProperty(firstAvailableSlot.getValue1());
@@ -949,10 +952,7 @@ public class LoopManiaWorld {
     }
 
     public void addUnequippedInventory(BasicItem item) {
-        if (this.unequippedInventoryItems.size() == 15) {
-            this.unequippedInventoryItems.remove(0);
-            this.goldOwned += 100;
-        }
+        
         this.unequippedInventoryItems.add(item);
     }
 
