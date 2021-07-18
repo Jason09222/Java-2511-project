@@ -581,7 +581,7 @@ public class LoopManiaWorldController {
      *
      * @param sword
      */
-    private void onLoad(Sword sword) {
+/*    private void onLoad(Sword sword) {
         ImageView view = new ImageView(swordImage);
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
         addEntity(sword, view);
@@ -621,27 +621,34 @@ public class LoopManiaWorldController {
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
         addEntity(armour, view);
         unequippedInventory.getChildren().add(view);
-    }
+    } */
 
     private void onLoad(BasicItem item) {
         ImageView view;
         switch(item.getType()) {
             case SWORD:
                 view = new ImageView(swordImage);
+                break;
             case STAKE:
                 view = new ImageView(stakeImage);
+                break;
             case STAFF:
                 view = new ImageView(staffImage);
+                break;
             case HELMET:
                 view = new ImageView(helmetImage);
+                break;
             case ARMOUR:
                 view = new ImageView(armourImage);
+                break;
             case SHIELD:
                 view = new ImageView(shieldImage);
-            case OTHER:
-                view = new ImageView(goldImage);
-            default:
+                break;
+            case HEALTHPOTION:
                 view = new ImageView(brilliantBlueNewImage);
+                break;
+            default:
+                view = new ImageView(goldImage);
         }
         if (item.getType() == ItemType.OTHER || item.getType() == ItemType.HEALTHPOTION) {
             addEntity(item, view);
