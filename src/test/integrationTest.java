@@ -9,6 +9,8 @@ import unsw.loopmania.Ally;
 import unsw.loopmania.Armour;
 import unsw.loopmania.Barracks;
 import unsw.loopmania.BarracksCard;
+import unsw.loopmania.BasicEnemy;
+import unsw.loopmania.BasicItem;
 import unsw.loopmania.Campfire;
 import unsw.loopmania.CampfireCard;
 import unsw.loopmania.Character;
@@ -17,6 +19,7 @@ import unsw.loopmania.HealthPotion;
 import unsw.loopmania.Helmet;
 import unsw.loopmania.HeroCastle;
 import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.LoopManiaWorldController;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Shield;
 import unsw.loopmania.Slug;
@@ -82,5 +85,34 @@ public class integrationTest {
         VillageCard villageCard = new VillageCard("Village", x, y);
         ZombiePit zombiePit = new ZombiePit(x, y);
         ZombiePitCard zombiePitCard = new ZombiePitCard("ZombiePit", x, y);
+        LoopManiaWorldController
+        for (int i = 0; i < 20 * orderedPath.size(); i++) {
+            // TODO = handle more aspects of the behaviour required by the specification
+            System.out.println("starting timer");
+
+            // trigger adding code to process main game logic to queue. JavaFX will target
+            // framerate of 0.3 seconds
+
+            world.runTickMoves();
+            List<BasicItem> items = world.possiblySpawnItems();
+            for (BasicItem item: items) {
+                onLoad(item);
+            }
+            List<BasicEnemy> defeatedEnemies = world.runBattles();
+            for (BasicEnemy e : defeatedEnemies) {
+                reactToEnemyDefeat(e);
+            }
+            List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
+            for (BasicEnemy newEnemy : newEnemies) {
+                onLoad(newEnemy);
+            }
+
+
+
+
+
+
+        }
+
     }
 }
