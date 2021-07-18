@@ -669,7 +669,7 @@ public class LoopManiaWorld {
         for (BasicItem item: toRemove) {
             unPickedItem.remove(item);
             item.destroy();
-            character.setHp(300);
+            addPotion(1);
         }
         /*//pick up gold or health potion
         double goldDistance = Math.sqrt(Math.pow(character.getX(), 2) + Math.pow(character.getY(), 2));
