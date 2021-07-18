@@ -12,7 +12,6 @@ public class GameOverController {
     private MenuSwitcher mainMenuSwitcher;
 
     public GameOverController() {
-        
     }
 
     public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher){
