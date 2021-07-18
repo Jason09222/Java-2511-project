@@ -73,6 +73,8 @@ public class LoopManiaWorld {
 
     private int goldOwned;
 
+    private SimpleIntegerProperty potionsOwned;  
+    //private int potionsOwned;
     private int experience;
 
     /**
@@ -101,6 +103,10 @@ public class LoopManiaWorld {
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
         goldOwned = 0;
+        potionsOwned = new SimpleIntegerProperty(this, "0");
+
+        
+
         experience = 0;
         buildings = new ArrayList<>();
         allies = new ArrayList<>();
@@ -533,7 +539,9 @@ public class LoopManiaWorld {
                 item = new Shield(x, y);
                 break;
             case HEALTHPOTION:
-                item = new HealthPotion(x, y);
+                addPotion(1);
+                //potionsOwned += 1;
+                item = null;
                 break;
             default:
                 item = null;
@@ -601,7 +609,7 @@ public class LoopManiaWorld {
         if (battleEnd) {
             // kill all tranced allies
             for (Ally ally : allies) {
-                if (!ally.getOriginalType().equals(null)) {
+                if (!ally.getOriginalType().isEmpty()) {
                     killAlly(ally);
                 }
             }
@@ -866,10 +874,28 @@ public class LoopManiaWorld {
     }
     */
 
-    public DoubleProperty getHp() {
-        return new SimpleDoubleProperty((double)this.character.getHp()/500.00);
+
+
+    public int getPotions() {
+        return this.potionsOwned.get();
     }
 
+    public void addPotion(int numGained) {
+        this.potionsOwned.set(getPotions() + numGained);;
+    }
+
+    public void spendPotions() {
+        int tempHP = character.getHp();
+        if (this.getPotions() >= 0) {
+            if ((tempHP + 200) >= 500) {
+                character.setHp(500);
+            }
+            else {
+                character.setHp(tempHP + 200);
+            }
+            addPotion(-1);;
+        }
+    }
 
     public DoubleProperty getGold() {
         return new SimpleDoubleProperty((double)this.goldOwned/1000.00);

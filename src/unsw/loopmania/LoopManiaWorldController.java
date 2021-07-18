@@ -42,6 +42,8 @@ import java.util.EnumMap;
 import java.io.File;
 import java.io.IOException;
 
+
+import javafx.scene.control.TextField;
 /**
  * the draggable types. If you add more draggable types, add an enum value here.
  * This is so we can see what type is being dragged.
@@ -172,6 +174,13 @@ public class LoopManiaWorldController {
 
     private Image allyImage;
 
+    @FXML 
+    private StackPane stackPane;
+
+    @FXML
+    TextField allyNum;
+
+    SimpleIntegerProperty allyInWorld;
     /**
      * the image currently being dragged, if there is one, otherwise null. Holding
      * the ImageView being dragged allows us to spawn it again in the drop location
@@ -318,6 +327,11 @@ public class LoopManiaWorldController {
         draggedEntity.setOpacity(0.7);
         anchorPaneRoot.getChildren().add(draggedEntity);
 
+
+        /*allyNum = new TextField("0");
+        allyInWorld = new SimpleIntegerProperty(world.getAllies().size());
+        allyNum.textProperty().bind(allyInWorld.asString());
+        stackPane.getChildren().add(allyNum);
         //ProgressBar hpProgress = new ProgressBar(0.25);
         //hpProgress.setProgress(0.25f);
         
@@ -735,10 +749,7 @@ public class LoopManiaWorldController {
                                 if (b instanceof Village) onLoad((Village)b);
                                 if (b instanceof ZombiePit) onLoad((ZombiePit)b);
                                 if (b instanceof Barracks) onLoad((Barracks)b);
-                                //VampireCastleBuilding newBuilding = (VampireCastleBuilding)world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
-                                //Campfire campfire = (Campfire)world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
-                                //onLoad(newBuilding);
-                                //onLoad(campfire);
+
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
