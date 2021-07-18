@@ -224,7 +224,7 @@ public class LoopManiaWorld {
             boolean goldExist = false;
             boolean healthPotionExist = false;
             for (BasicItem item : unPickedItem) {
-                if (item.getType() == ItemType.OTHER) {
+                if (item instanceof Gold) {
                     goldExist = true;
                 }
                 if (item.getType() == ItemType.HEALTHPOTION) {
@@ -232,7 +232,14 @@ public class LoopManiaWorld {
                 }
             }
             if (goldExist == false) {
-                BasicItem gold = new Gold(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
+
+
+                Random rand = new Random();
+
+
+
+
+                BasicItem gold = new Gold(new SimpleIntegerProperty(rand.nextInt(8)), new SimpleIntegerProperty(rand.nextInt(8)));
                 unPickedItem.add(gold);
                 spawningItems.add(gold);
             }
@@ -624,27 +631,71 @@ public class LoopManiaWorld {
         //pick up gold or health potion
         double goldDistance = Math.sqrt(Math.pow(character.getX(), 2) + Math.pow(character.getY(), 2));
         double healthPotionDistance = Math.sqrt(Math.pow(character.getX() - 3, 2) + Math.pow(character.getY() - 3, 2));
+        List<BasicItem> toRemove = new ArrayList<>();
+
         if (goldDistance < 5) {
             for (BasicItem item : unPickedItem) {
                 if (item.getType() == ItemType.OTHER) {
-                    item.destroy();
-                    unPickedItem.remove(item);
-                    goldOwned += 200;
-                    break;
+                    toRemove.add(item);
+                    
                 }
 
             }
         }
+
+        for (BasicItem item : toRemove) {
+            item.destroy();
+            unPickedItem.remove(item);
+            goldOwned += 200;
+        }
+
+        toRemove.clear();
         if (healthPotionDistance < 5) {
             for (BasicItem item : unPickedItem) {
                 if (item.getType() == ItemType.HEALTHPOTION) {
-                    item.destroy();
                     unPickedItem.remove(item);
+                    item.destroy();
                     break;
                 }
 
             }
         }
+        //characterPickUpGold();
+        //characterPickUpHp();
+    }
+
+    public void characterPickUpGold() {
+        List<BasicItem> toRemove = new ArrayList<>();
+        for (BasicItem item: unPickedItem) {
+            if (this.character.getX() == item.getX() && this.character.getY() == item.getY() && item instanceof Gold) {
+                toRemove.add(item);
+            }
+        }
+
+        for (BasicItem gold: toRemove) {
+            this.unPickedItem.remove(gold);
+            gold.destroy();
+            goldOwned += 200;
+        }
+        toRemove.clear();
+
+    }
+
+    public void characterPickUpHp() {
+        List<BasicItem> toRemove = new ArrayList<>();
+        for (BasicItem item: unPickedItem) {
+            if (this.character.getX() == item.getX() && this.character.getY() == item.getY() && item instanceof HealthPotion) {
+                toRemove.add(item);
+            }
+        }
+
+        for (BasicItem hp: toRemove) {
+            this.unPickedItem.remove(hp);
+            hp.destroy();
+            this.character.setHp(300);
+        }
+        toRemove.clear();
+
     }
 
     public void updatePathCycle() {
