@@ -73,8 +73,6 @@ public class LoopManiaWorld {
     private List<Ally> allies;
 
     private int goldOwned;
-    
-
 
     private SimpleIntegerProperty potionsOwned;
     
@@ -1393,7 +1391,9 @@ public class LoopManiaWorld {
         if (character.getHp() <= 0) {
             return true;
         }
-        else return false;
+        else {
+            return false;
+        }
     }
 
 

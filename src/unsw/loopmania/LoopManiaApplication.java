@@ -42,6 +42,12 @@ public class LoopManiaApplication extends Application {
         menuLoader.setController(mainMenuController);
         Parent mainMenuRoot = menuLoader.load();
 
+        // load the game over menu
+        GameOverController gameOverController= new GameOverController();
+        FXMLLoader gameOverLoader = new FXMLLoader(getClass().getResource("GameOverView.fxml"));
+        gameOverLoader.setController(gameOverController);
+        Parent gameOverRoot = gameOverLoader.load();
+
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
         
@@ -53,6 +59,10 @@ public class LoopManiaApplication extends Application {
             mainController.startTimer();
         });
         
+        gameOverController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
+        mainController.setGameOverSwitcher(() -> {
+            switchToRoot(scene, gameOverRoot, primaryStage);
+        });
         // deploy the main onto the stage
         gameRoot.requestFocus();
         primaryStage.setScene(scene);
