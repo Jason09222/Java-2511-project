@@ -127,6 +127,9 @@ public class LoopManiaWorldController {
     private Label cycleNum;
 
     @FXML
+    private Label ringNum;
+
+    @FXML
     private Label expNum;
 
     @FXML 
@@ -206,6 +209,7 @@ public class LoopManiaWorldController {
     private IntegerProperty goldInNum;
     private IntegerProperty allyInNum;
     private IntegerProperty healthPotionInNum;
+    private IntegerProperty ringInNum;
     private IntegerProperty cycleInNum;
     private SimpleIntegerProperty allyInWorld;
 
@@ -409,6 +413,19 @@ public class LoopManiaWorldController {
         layout2.getChildren().add(healthPotionNum);
         StackPane.setAlignment(healthPotionNum, Pos.TOP_RIGHT);
 
+        ImageView ringView = new ImageView(theOneRingImage);
+        ringNum = new Label("0");
+        ringInNum = world.getRingNum();
+        ringNum.textProperty().bind(ringInNum.asString());
+        ringNum.setTextFill(Color.GREEN);
+        ringNum.setFont(new Font("Cambria", 40));
+        layout2.getChildren().add(ringView);
+        StackPane.setAlignment(ringNum, Pos.BOTTOM_LEFT);
+        layout2.getChildren().add(ringNum);
+        StackPane.setAlignment(ringNum, Pos.BOTTOM_RIGHT);
+
+
+
 
         cycleImage = new Label("Cycle");
         cycleNum = new Label("0");
@@ -498,6 +515,9 @@ public class LoopManiaWorldController {
 
             healthPotionInNum = world.getHealthPotionNum();
             healthPotionNum.textProperty().bind(healthPotionInNum.asString());
+
+            ringInNum = world.getRingNum();
+            ringNum.textProperty().bind(ringInNum.asString());
 
             cycleInNum = world.getCylceNum();
             cycleNum.textProperty().bind(cycleInNum.asString());

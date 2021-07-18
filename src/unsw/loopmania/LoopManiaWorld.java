@@ -560,7 +560,14 @@ public class LoopManiaWorld {
                 item = null;
                 break;
             default:
+                Random rand = new Random();
+                int result = rand.nextInt(5);
+                if (result == 1) {
+                    ringOwned += 1;
+                } 
                 item = null;
+                
+                
         }
         unequippedInventoryItems.add(item);
         return item;
@@ -917,6 +924,10 @@ public class LoopManiaWorld {
 
     public IntegerProperty getCylceNum() {
         return new SimpleIntegerProperty(this.pathCycle / orderedPath.size()); 
+    }
+
+    public IntegerProperty getRingNum() {
+        return new SimpleIntegerProperty(this.ringOwned);
     }
 
     public IntegerProperty getGold() {
