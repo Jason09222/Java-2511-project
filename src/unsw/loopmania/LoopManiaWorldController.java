@@ -770,7 +770,7 @@ public class LoopManiaWorldController {
                                 BasicItem item = (BasicItem)world.equipItemByCoordinates(nodeX, nodeY);
                                 // Helmet helmet = (Helmet)world.equipItemByCoordinates(x, y);
                                 targetGridPane.add(image, item.getSlot(), y, 1, 1);
-                                onLoad(item);
+                                // onLoad(item);
                                 // onLoad(helmet);
                                 // removeItemByCoordinates(nodeX, nodeY);
                                 // Helmet helmet = (Helmet)world.equipItemByCoordinates(x, y);
