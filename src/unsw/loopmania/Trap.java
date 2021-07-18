@@ -36,8 +36,5 @@ public class Trap extends Building {
         if (super.getEnemies().size() > 0) {
             toRemove.add(this);
         }
-        //destroyTrap(l);
-        //l.getBuildings().remove(this);
-        //this.destroy();
     }
 }
