@@ -103,15 +103,7 @@
 
             <!-- clicking this button returns the human player to the main menu -->
             <Button onAction="#switchToMainMenu" text="Exit to Main Menu" />
-            <StackPane fx:id="layout" prefHeight="150.0" prefWidth="200.0">
-               <children>
-                  <ImageView id="allyCell" fitHeight="40.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
-                     <image>
-                        <Image url="@../../images/deep_elf_master_archer.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </StackPane>
+            <StackPane fx:id="layout" prefHeight="150.0" prefWidth="179.0" />
          </children>
       </VBox>
    </HBox>

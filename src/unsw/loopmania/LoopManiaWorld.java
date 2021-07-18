@@ -72,8 +72,14 @@ public class LoopManiaWorld {
     private List<Ally> allies;
 
     private int goldOwned;
+    
+
 
     private SimpleIntegerProperty potionsOwned;
+    
+    private SimpleIntegerProperty alliesOwned;
+
+
     //private int potionsOwned;
     private int experience;
     private int ringOwned;
@@ -341,12 +347,12 @@ public class LoopManiaWorld {
                     hasAttacked = true;
                     if (ally.getHp() <= 0) {
                         if (e.getType().equals("Zombie")) {
-                            Random rand = new Random();
-                            int int_random = rand.nextInt(5);
-                            if (int_random == 0) {
+                            //Random rand = new Random();
+                            //int int_random = rand.nextInt(5);
+                            //if (int_random == 0) {
                                 BasicEnemy newZombie = new Zombie(ally.getPathPosition());
                                 transferZombies.add(newZombie);
-                            }
+                            //}
                         }
                         defeatedAllies.add(ally);
                     }
@@ -366,6 +372,7 @@ public class LoopManiaWorld {
 
             for (BasicEnemy enemy : transferZombies) {
                 enemies.add(enemy);
+                
             }
         }
 
@@ -896,6 +903,10 @@ public class LoopManiaWorld {
 
     public IntegerProperty getGold() {
         return new SimpleIntegerProperty(this.goldOwned);
+    }
+
+    public IntegerProperty getAllyNum() {
+        return new SimpleIntegerProperty(allies.size());
     }
 
     public void addGold(int numGained) {
