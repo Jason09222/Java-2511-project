@@ -9,6 +9,9 @@ import javax.swing.text.html.HTMLDocument.Iterator;
 import java.lang.Math;
 import org.javatuples.Pair;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.effect.BlurType;
 
@@ -69,8 +72,11 @@ public class LoopManiaWorld {
     private List<Ally> allies;
 
     private int goldOwned;
-    private int potionsOwned;
+
+    private SimpleIntegerProperty potionsOwned;
+    //private int potionsOwned;
     private int experience;
+    private int ringOwned;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse
@@ -98,8 +104,12 @@ public class LoopManiaWorld {
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
         goldOwned = 0;
-        potionsOwned = 0;
+        potionsOwned = new SimpleIntegerProperty(this, "0");
+
+
+
         experience = 0;
+        ringOwned = 0;
         buildings = new ArrayList<>();
         allies = new ArrayList<>();
         campfires = new ArrayList<>();
@@ -235,7 +245,7 @@ public class LoopManiaWorld {
                 }
             }
             Random rand = new Random();
-            if (goldExist == false && this.pathCycle % (3 * orderedPath.size()) == 0) {
+            if (goldExist == false && this.pathCycle % (1 * orderedPath.size()) == 0) {
                 int indexInOrderedPath = rand.nextInt(orderedPath.size() - 1);
                 Pair<Integer, Integer> newPos = orderedPath.get(indexInOrderedPath);
 
@@ -522,7 +532,8 @@ public class LoopManiaWorld {
                 item = new Shield(x, y);
                 break;
             case HEALTHPOTION:
-                potionsOwned += 1;
+                addPotion(1);
+                //potionsOwned += 1;
                 item = null;
                 break;
             default:
@@ -597,7 +608,7 @@ public class LoopManiaWorld {
         if (battleEnd) {
             // kill all tranced allies
             for (Ally ally : allies) {
-                if (!ally.getOriginalType().equals(null)) {
+                if (!ally.getOriginalType().isEmpty()) {
                     killAlly(ally);
                 }
             }
@@ -657,6 +668,7 @@ public class LoopManiaWorld {
             unPickedItem.remove(item);
             item.destroy();
             addPotion(1);
+            //character.setHp(500);
         }
         /*//pick up gold or health potion
         double goldDistance = Math.sqrt(Math.pow(character.getX(), 2) + Math.pow(character.getY(), 2));
@@ -786,6 +798,7 @@ public class LoopManiaWorld {
                 } else {
                     e.move();
                 }
+                enemyStepOnBuilding();
                 // supportMove(e);
             }
         }
@@ -856,31 +869,33 @@ public class LoopManiaWorld {
     }
     */
 
-
+    public DoubleProperty getHp() {
+        return new SimpleDoubleProperty((double) this.character.getHp()/500.00);
+    }
 
     public int getPotions() {
-        return this.potionsOwned;
+        return this.potionsOwned.get();
     }
 
     public void addPotion(int numGained) {
-        this.potionsOwned += numGained;
+        this.potionsOwned.set(getPotions() + numGained);;
     }
 
     public void spendPotions() {
         int tempHP = character.getHp();
-        if (this.getPotions() != 0) {
+        if (this.getPotions() >= 0) {
             if ((tempHP + 200) >= 500) {
                 character.setHp(500);
             }
             else {
                 character.setHp(tempHP + 200);
             }
-            this.potionsOwned--;
+            addPotion(-1);;
         }
     }
 
-    public int getGold() {
-        return this.goldOwned;
+    public DoubleProperty getGold() {
+        return new SimpleDoubleProperty((double) this.goldOwned/1000.00);
     }
 
     public void addGold(int numGained) {
@@ -1084,10 +1099,11 @@ public class LoopManiaWorld {
             int srcX = this.character.getPathPosition().getX().get();
             int srcY = this.character.getPathPosition().getY().get();
 
-            if (this.character.getPathPosition().getX().get() == b.getX() && this.character.getPathPosition().getY().get() == b.getY()) {
+            if (srcX == destX && srcY == destY) {
                 if (b instanceof Village) {
                     Village v = (Village) b;
-                    v.increaseHp(this.character);
+                    //v.increaseHp(this.character);
+                    character.setHp(500);
                 }
 
                 if (b instanceof Barracks) {
@@ -1127,7 +1143,7 @@ public class LoopManiaWorld {
             this.buildings.remove(b);
             b.destroy();
         }
-
+        toRemove.clear();
     }
 
     /**

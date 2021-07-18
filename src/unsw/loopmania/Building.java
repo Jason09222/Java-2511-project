@@ -8,7 +8,6 @@ import org.javatuples.Pair;
 
 abstract public class Building extends StaticEntity {
     private int pathCycle = 0;
-    private Boolean characterStepOn = false;
     private ArrayList<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
 
     public Building (SimpleIntegerProperty x, SimpleIntegerProperty y) {
@@ -21,10 +20,6 @@ abstract public class Building extends StaticEntity {
 
     public ArrayList<BasicEnemy> getEnemies() {
         return this.enemies;
-    }
-
-    public Boolean getCharacterStepOn() {
-        return this.characterStepOn;
     }
 
     @Override
@@ -52,13 +47,6 @@ abstract public class Building extends StaticEntity {
         this.enemies.remove(stepOn);
     }
 
-    public void characterSteppingOn() {
-        this.characterStepOn = true;
-    }
-
-    public void characterLeave() {
-        this.characterStepOn = false;
-    }
 
     public void addEnemiesWorld(LoopManiaWorld l) {
         this.getEnemies().clear();
