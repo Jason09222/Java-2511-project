@@ -415,46 +415,29 @@ public class LoopManiaWorld {
 
 
 
-    public void generateItem() {
-        BasicItem reward = null;
+    public ItemType generateItem() {
         int totalRewards = 8;
         Random rand = new Random();
         int result = rand.nextInt(1000) % totalRewards;
-        if (this.unequippedInventoryItems.size() == 15) {
-            this.unequippedInventoryItems.remove(0);
-            this.goldOwned += 100;
-        }
-        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-        SimpleIntegerProperty x = new SimpleIntegerProperty(firstAvailableSlot.getValue0());
-        SimpleIntegerProperty y = new SimpleIntegerProperty(firstAvailableSlot.getValue1());
         switch (result) {
             case 1:
-                reward = new Armour(x, y);
-                break;
+                return ItemType.ARMOUR;
             case 2:
-                reward = new HealthPotion(x, y);
-                break;
+                return ItemType.HEALTHPOTION;
+    
             case 3:
-                reward = new Helmet(x, y);
-                break;
+                return ItemType.HELMET;
             case 4:
-                reward = new Shield(x, y);
-                break;
+                return ItemType.SHIELD;
             case 5:
-                reward = new Staff(x, y);
-                break;
+                return ItemType.STAFF;
             case 6:
-                reward = new Stake(x, y);
-                break;
+                return ItemType.STAKE;
             case 7:
-                reward = new Sword(x, y);
-                break;
+                return ItemType.SWORD;
             default:
-                return;
+                return null;
         }
-        addUnequippedInventory(reward);
-
-        return;
     }
 
 
@@ -539,7 +522,8 @@ public class LoopManiaWorld {
                 item = new Shield(x, y);
                 break;
             case HEALTHPOTION:
-                item = new HealthPotion(x, y);
+                potionsOwned += 1;
+                item = null;
                 break;
             default:
                 item = null;
@@ -984,12 +968,15 @@ public class LoopManiaWorld {
         int int_random = rand.nextInt(3);
         SimpleIntegerProperty x = e.x();
         SimpleIntegerProperty y = e.y();
+
+       
+        
         switch (int_random) {
             case 0:
                 this.goldOwned += e.getGold();
                 break;
             case 1:
-                generateItem();
+                addUnequippedItem(generateItem());
                 break;
             case 2:
                 BasicItem healthP = new HealthPotion(x, y);
