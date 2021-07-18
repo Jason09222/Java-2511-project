@@ -5,7 +5,7 @@ public class Ally extends MovingEntity{
     private int hp = 300;
     private int damage = 100;
     private int round = 0;
-    private String originalType = null;
+    private String originalType = "";
 
     public Ally(PathPosition position) {
         super(position);
