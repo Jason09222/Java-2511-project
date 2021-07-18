@@ -228,15 +228,17 @@ public class LoopManiaWorldController {
         vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
         zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());
 
+        
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
+        stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
+        shieldImage = new Image((new File("src/images/shield.png")).toURI().toString());
         armourImage = new Image((new File("src/images/armour.png")).toURI().toString());
+        staffImage = new Image((new File("src/images/staff.png")).toURI().toString());
+        helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
+        
         brilliantBlueNewImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
         goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
         heartImage = new Image((new File("src/images/heart.png")).toURI().toString());
-        helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
-        shieldImage = new Image((new File("src/images/shield.png")).toURI().toString());
-        staffImage = new Image((new File("src/images/staff.png")).toURI().toString());
-        stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
         theOneRingImage = new Image((new File("src/images/the_one_ring.png")).toURI().toString());
 
         allyImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
@@ -1054,9 +1056,6 @@ public class LoopManiaWorldController {
                 } else {
                     pause();
                 }
-                break;
-            case E:
-                world.spendPotions();
                 break;
             default:
                 break;
