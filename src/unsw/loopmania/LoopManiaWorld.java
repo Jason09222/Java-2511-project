@@ -73,11 +73,11 @@ public class LoopManiaWorld {
 
     private int goldOwned;
 
-    private SimpleIntegerProperty potionsOwned;  
+    private SimpleIntegerProperty potionsOwned;
     //private int potionsOwned;
     private int experience;
     private int ringOwned;
-    
+
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse
      * them
@@ -106,7 +106,7 @@ public class LoopManiaWorld {
         goldOwned = 0;
         potionsOwned = new SimpleIntegerProperty(this, "0");
 
-        
+
 
         experience = 0;
         ringOwned = 0;
@@ -207,7 +207,7 @@ public class LoopManiaWorld {
                     spawningEnemies.add(newZom);
                 }
             }
-        }   
+        }
         return spawningEnemies;
     }
 
@@ -434,7 +434,7 @@ public class LoopManiaWorld {
                 return ItemType.ARMOUR;
             case 2:
                 return ItemType.HEALTHPOTION;
-    
+
             case 3:
                 return ItemType.HELMET;
             case 4:
@@ -477,9 +477,9 @@ public class LoopManiaWorld {
         return sword;
     }
 
-    
 
-    
+
+
     /**
      * spawn an item in the world and return the item entity
      *
@@ -632,7 +632,7 @@ public class LoopManiaWorld {
                                 break;
                         }
                         enemies.add(enemy);
-                        
+
                         killAlly(ally);
                     } else {
                         ally.setRound(ally.getRound() - 1);
@@ -698,7 +698,7 @@ public class LoopManiaWorld {
 
     }
 
-    
+
 
     public void updatePathCycle() {
         this.pathCycle += 1;
@@ -973,7 +973,7 @@ public class LoopManiaWorld {
     }
 
     public void addUnequippedInventory(BasicItem item) {
-        
+
         this.unequippedInventoryItems.add(item);
     }
 
@@ -984,8 +984,8 @@ public class LoopManiaWorld {
         SimpleIntegerProperty x = e.x();
         SimpleIntegerProperty y = e.y();
 
-       
-        
+
+
         switch (int_random) {
             case 0:
                 this.goldOwned += e.getGold();
@@ -1003,48 +1003,48 @@ public class LoopManiaWorld {
             default:
                 return;
             }
-        }
+    }
 
-        public void supportMove(BasicEnemy e) {
+    public void supportMove(BasicEnemy e) {
 
-            int enemyX = e.getX();
-            int enemyY = e.getY();
-            int characterX = character.getX();
-            int characterY = character.getY();
+        int enemyX = e.getX();
+        int enemyY = e.getY();
+        int characterX = character.getX();
+        int characterY = character.getY();
 
-            int len = orderedPath.size() / 2;
-            int start = 0;
-            boolean isStart = false;
-            boolean isEnd = false;
-            int end = 0;
-            for (Pair<Integer, Integer> pair : orderedPath) {
-                int tmpX = pair.getValue0();
-                int tmpY = pair.getValue1();
-                if (!isStart) {
-                    start += 1;
-                }
-                if (!isEnd) {
-                    end += 1;
-                }
-                if (tmpX == enemyX && tmpY == enemyY) {
-                    start += 1;
-                    isStart = true;
-                }
-                if (tmpX == characterX && tmpY == characterY) {
-                    end += 1;
-                    isEnd = true;
-                }
-                if (isStart && isEnd) {
-                    break;
-                }
+        int len = orderedPath.size() / 2;
+        int start = 0;
+        boolean isStart = false;
+        boolean isEnd = false;
+        int end = 0;
+        for (Pair<Integer, Integer> pair : orderedPath) {
+            int tmpX = pair.getValue0();
+            int tmpY = pair.getValue1();
+            if (!isStart) {
+                start += 1;
             }
-
-            if (start - end < len && start - end > 0) {
-                e.moveUpPath();
-            } else {
-                e.moveDownPath();
+            if (!isEnd) {
+                end += 1;
+            }
+            if (tmpX == enemyX && tmpY == enemyY) {
+                start += 1;
+                isStart = true;
+            }
+            if (tmpX == characterX && tmpY == characterY) {
+                end += 1;
+                isEnd = true;
+            }
+            if (isStart && isEnd) {
+                break;
             }
         }
+
+        if (start - end < len && start - end > 0) {
+            e.moveUpPath();
+        } else {
+            e.moveDownPath();
+        }
+    }
 
 
     public List<Building> getBuildings() {
@@ -1098,7 +1098,7 @@ public class LoopManiaWorld {
             int destY = b.getY();
             int srcX = this.character.getPathPosition().getX().get();
             int srcY = this.character.getPathPosition().getY().get();
-            
+
             if (srcX == destX && srcY == destY) {
                 if (b instanceof Village) {
                     Village v = (Village) b;
@@ -1111,7 +1111,7 @@ public class LoopManiaWorld {
                     ba.produceAlly(this);
                 }
             }
-            
+
             if (b instanceof Campfire) {
                 Campfire c = (Campfire) b;
                 int distance = (int)Math.sqrt(Math.pow(destX - srcX,2) + Math.pow(destY - srcY , 2));
