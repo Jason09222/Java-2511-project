@@ -76,7 +76,7 @@ public class LoopManiaWorld {
     
 
 
-    private SimpleIntegerProperty potionsOwned;
+    private int potionsOwned;
     
     private SimpleIntegerProperty alliesOwned;
 
@@ -111,7 +111,7 @@ public class LoopManiaWorld {
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
         goldOwned = 0;
-        potionsOwned = new SimpleIntegerProperty(this, "0");
+        potionsOwned = 0;
         transferZombies = new ArrayList<BasicEnemy>();
 
 
@@ -225,6 +225,10 @@ public class LoopManiaWorld {
         return spawningEnemies;
     }
 
+
+    public int getPotions() {
+        return this.potionsOwned;
+    }
 
     /**
      * spawns items if the conditions warrant it, adds to world
@@ -424,6 +428,7 @@ public class LoopManiaWorld {
             // if we killEnemy in prior loop, we get
             // java.util.ConcurrentModificationException
             // due to mutating list we're iterating over
+            experience += e.getExp();
             killEnemy(e);
         }
 
@@ -551,8 +556,8 @@ public class LoopManiaWorld {
                 item = new Shield(x, y);
                 break;
             case HEALTHPOTION:
-                addPotion(1);
-                //potionsOwned += 1;
+                //addPotion(1);
+                potionsOwned += 1;
                 item = null;
                 break;
             default:
@@ -889,36 +894,43 @@ public class LoopManiaWorld {
     */
 
 
-    public int getPotions() {
-        return this.potionsOwned.get();
-    }
+    
 
     public void addPotion(int numGained) {
-        this.potionsOwned.set(getPotions() + numGained);;
+        potionsOwned += numGained;
     }
 
     public void spendPotions() {
-        int tempHP = character.getHp();
-        if (this.getPotions() >= 0) {
-            if ((tempHP + 200) >= 500) {
-                character.setHp(500);
-            }
-            else {
-                character.setHp(tempHP + 200);
-            }
+        
+        if (potionsOwned >= 0) {
+            character.setHp(500);
             addPotion(-1);;
         }
+    }
+
+    public DoubleProperty getExp() {
+        return new SimpleDoubleProperty((double) experience/123456.00);
+    }
+
+    public IntegerProperty getExpInt() {
+        return new SimpleIntegerProperty(experience);
+    }
+
+    public IntegerProperty getCylceNum() {
+        return new SimpleIntegerProperty(this.pathCycle / orderedPath.size()); 
     }
 
     public IntegerProperty getGold() {
         return new SimpleIntegerProperty(this.goldOwned);
     }
 
-
     public IntegerProperty getAllyNum() {
         return new SimpleIntegerProperty(allies.size());
     }
 
+    public IntegerProperty getHealthPotionNum() {
+        return new SimpleIntegerProperty(potionsOwned);
+    }
 
     public DoubleProperty getHp() {
         return new SimpleDoubleProperty((double)this.character.getHp()/500.00);

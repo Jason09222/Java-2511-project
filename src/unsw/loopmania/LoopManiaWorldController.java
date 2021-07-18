@@ -117,11 +117,26 @@ public class LoopManiaWorldController {
     */
 
     @FXML
+    private ProgressBar expProgress;
+
+    @FXML
     private Label hpNum;
 
 
     @FXML
+    private Label cycleNum;
+
+    @FXML
+    private Label expNum;
+
+    @FXML 
+    private Label cycleImage;
+
+    @FXML
     private StackPane layout;
+
+    @FXML
+    private StackPane layout2;
 
     // all image views including tiles, character, enemies, cards... even though
     // cards in separate gridpane...
@@ -147,6 +162,7 @@ public class LoopManiaWorldController {
     private Image swordImage;
     private Image brilliantBlueNewImage;
     private Image goldImage;
+    private Image expImage;
     private Image heartImage;
     private Image helmetImage;
     private Image shieldImage;
@@ -184,17 +200,22 @@ public class LoopManiaWorldController {
     private Label goldNum;
     @FXML
     private Label allyNum;
-    
+    @FXML
+    private Label healthPotionNum;
+
     private IntegerProperty goldInNum;
     private IntegerProperty allyInNum;
-
+    private IntegerProperty healthPotionInNum;
+    private IntegerProperty cycleInNum;
     private SimpleIntegerProperty allyInWorld;
 
     private IntegerProperty hpInNum;
 
-
+    private IntegerProperty expInNum;
     //private DoubleProperty goldInWorld;
     private DoubleProperty hpInWorld;
+
+    private DoubleProperty expInWorld;
     /**
      * the image currently being dragged, if there is one, otherwise null. Holding
      * the ImageView being dragged allows us to spawn it again in the drop location
@@ -284,7 +305,8 @@ public class LoopManiaWorldController {
         goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
         heartImage = new Image((new File("src/images/heart.png")).toURI().toString());
         theOneRingImage = new Image((new File("src/images/the_one_ring.png")).toURI().toString());
-
+        expImage = new Image((new File("src/images/exp.png")).toURI().toString());
+        
         allyImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
 
 
@@ -372,6 +394,32 @@ public class LoopManiaWorldController {
         layout.getChildren().add(allyNum);
         StackPane.setAlignment(allyNum, Pos.TOP_RIGHT);
 
+        ImageView healthPotionView = new ImageView(brilliantBlueNewImage);
+        healthPotionNum = new Label("0");
+        healthPotionInNum = world.getHealthPotionNum();
+        healthPotionNum.textProperty().bind(healthPotionInNum.asString());
+        healthPotionNum.setTextFill(Color.BLUE);
+        healthPotionNum.setFont(new Font("Cambria", 40));
+        layout2.getChildren().add(healthPotionView);
+        StackPane.setAlignment(healthPotionView, Pos.TOP_LEFT);
+        layout2.getChildren().add(healthPotionNum);
+        StackPane.setAlignment(healthPotionNum, Pos.TOP_RIGHT);
+
+
+        cycleImage = new Label("Cycle");
+        cycleNum = new Label("0");
+        cycleInNum = world.getCylceNum();
+        cycleNum.textProperty().bind(cycleInNum.asString());
+        cycleNum.setTextFill(Color.PURPLE);
+        cycleNum.setFont(new Font("Cambria", 40));
+
+        cycleImage.setFont(new Font("Cambria", 30));
+        cycleImage.setTextFill(Color.BLACK);
+        layout2.getChildren().add(cycleImage);
+        StackPane.setAlignment(cycleImage, Pos.BOTTOM_LEFT);
+        layout2.getChildren().add(cycleNum);
+        StackPane.setAlignment(cycleNum, Pos.BOTTOM_RIGHT);
+        
         //Label hp = new Label("Hp");
         ImageView heartView = new ImageView(heartImage);
         hpProgress = new ProgressBar();
@@ -389,6 +437,29 @@ public class LoopManiaWorldController {
         StackPane.setAlignment(heartView, Pos.BOTTOM_LEFT);
         layout.getChildren().add(hpNum);
         StackPane.setAlignment(hpNum, Pos.BOTTOM_RIGHT);
+
+        ImageView expView = new ImageView(expImage);
+        expProgress = new ProgressBar();
+        expInWorld = world.getExp();
+        expProgress.progressProperty().bind(expInWorld);
+
+        expNum = new Label("0");
+        expInNum = world.getExpInt();
+        expNum.textProperty().bind(expInNum.asString());
+        expNum.setTextFill(Color.GOLD);
+
+        
+        layout2.getChildren().add(expProgress);
+        StackPane.setAlignment(expProgress, Pos.CENTER_RIGHT);
+        layout2.getChildren().add(expView);
+        StackPane.setAlignment(expView, Pos.CENTER_LEFT);
+
+        layout2.getChildren().add(expNum);
+        StackPane.setAlignment(expNum, Pos.CENTER_RIGHT);
+
+
+
+
     }
 
     /**
@@ -411,8 +482,22 @@ public class LoopManiaWorldController {
             hpInWorld = world.getHp();
             hpProgress.progressProperty().bind(hpInWorld);
 
+
+            expInNum = world.getExpInt();
+            expNum.textProperty().bind(expInNum.asString());
+
+            expInWorld = world.getExp();
+            expProgress.progressProperty().bind(expInWorld);
+
             allyInNum = world.getAllyNum();
             allyNum.textProperty().bind(allyInNum.asString());
+
+            healthPotionInNum = world.getHealthPotionNum();
+            healthPotionNum.textProperty().bind(healthPotionInNum.asString());
+
+            cycleInNum = world.getCylceNum();
+            cycleNum.textProperty().bind(cycleInNum.asString());
+
             //allyInWorld.set(world.getAllies().size());
             //allyNum.textProperty().bind(allyInWorld.asString());
             //goldInWorld = world.getGold();
