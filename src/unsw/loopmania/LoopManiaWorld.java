@@ -871,9 +871,10 @@ public class LoopManiaWorld {
     }
 
 
-    public DoubleProperty getGold() {
-        return new SimpleDoubleProperty((double)this.goldOwned/1000.00);
+    public IntegerProperty getGold() {
+        return new SimpleIntegerProperty(this.goldOwned);
     }
+
 
     public void addGold(int numGained) {
         this.goldOwned += numGained;

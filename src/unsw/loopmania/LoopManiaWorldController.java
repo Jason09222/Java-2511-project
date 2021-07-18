@@ -20,6 +20,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -33,6 +34,8 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
@@ -107,10 +110,10 @@ public class LoopManiaWorldController {
     private GridPane unequippedInventory;
 
     @FXML
-    private ProgressBar goldProgress;
+    private ProgressBar hpProgress;
 
     @FXML
-    private ProgressBar hpProgress;
+    private Label goldNum;
 
 
     @FXML
@@ -129,8 +132,8 @@ public class LoopManiaWorldController {
     private boolean isPaused;
     private LoopManiaWorld world;
 
-    private DoubleProperty goldInWorld;
     private DoubleProperty hpInWorld;
+    private IntegerProperty goldInNum;
 
     /**
      * runs the periodic game logic - second-by-second moving of character through
@@ -321,20 +324,30 @@ public class LoopManiaWorldController {
         //ProgressBar hpProgress = new ProgressBar(0.25);
         //hpProgress.setProgress(0.25f);
         
-        Label gold = new Label("Gold");
-        goldProgress = new ProgressBar();
-        goldInWorld = world.getGold();
-        goldProgress.progressProperty().bind(goldInWorld);
+        ImageView view = new ImageView(goldImage);
+    
+        //Label gold = new Label("Gold: $");
+        goldNum = new Label("0");
+        goldInNum = world.getGold();
+        goldNum.textProperty().bind(goldInNum.asString());
+        goldNum.setTextFill(Color.ORANGE);
+        goldNum.setFont(new Font("Cambria", 40));
 
-        layout.getChildren().add(goldProgress);
-        layout.getChildren().add(gold);
+        layout.getChildren().add(view);
+        StackPane.setAlignment(view, Pos.CENTER_LEFT);
+        layout.getChildren().add(goldNum);
+        StackPane.setAlignment(goldNum, Pos.CENTER_RIGHT);
+
         
-        Label hp = new Label("Hp");
+        //Label hp = new Label("Hp");
+        ImageView heartView = new ImageView(heartImage);
         hpProgress = new ProgressBar();
         hpInWorld = world.getHp();
         hpProgress.progressProperty().bind(hpInWorld);
         layout.getChildren().add(hpProgress);
-        layout.getChildren().add(hp);
+        StackPane.setAlignment(hpProgress, Pos.BOTTOM_RIGHT);
+        layout.getChildren().add(heartView);
+        StackPane.setAlignment(heartView, Pos.BOTTOM_LEFT);
     }
 
     /**
@@ -348,8 +361,9 @@ public class LoopManiaWorldController {
         // framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             world.runTickMoves();
-            /*goldInWorld = world.getGold();
-            goldProgress.progressProperty().bind(goldInWorld);*/
+
+            goldInNum = world.getGold();
+            goldNum.textProperty().bind(goldInNum.asString());
 
             hpInWorld = world.getHp();
             hpProgress.progressProperty().bind(hpInWorld);

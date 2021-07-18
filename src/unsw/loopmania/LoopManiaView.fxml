@@ -103,7 +103,7 @@
 
             <!-- clicking this button returns the human player to the main menu -->
             <Button onAction="#switchToMainMenu" text="Exit to Main Menu" />
-            <StackPane fx:id="layout" prefHeight="87.0" prefWidth="159.0" />
+            <StackPane fx:id="layout" prefHeight="204.0" prefWidth="122.0" />
          </children>
       </VBox>
    </HBox>
