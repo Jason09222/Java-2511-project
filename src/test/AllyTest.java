@@ -25,10 +25,10 @@ public class AllyTest {
         PathPosition position = new PathPosition(index, orderedPath);
         Ally ally = new Ally(position);
         assertEquals("Ally", ally.getType());
-        assertEquals(300, ally.getHp());
+        assertEquals(100, ally.getHp());
         ally.setHp(200);
         assertEquals(200, ally.getHp());
-        assertEquals(100, ally.getDamage());
+        assertEquals(200, ally.getDamage());
         assertEquals(0, ally.getRound());
         ally.setRound(5);
         assertEquals(5, ally.getRound());
@@ -36,6 +36,6 @@ public class AllyTest {
         assertEquals("Vampire", ally.getOriginalType());
         BasicEnemy e = new Zombie(position);
         ally.attack(e);
-        assertEquals(400, e.getHP());
+        assertEquals(300, e.getHP());
     }
 }

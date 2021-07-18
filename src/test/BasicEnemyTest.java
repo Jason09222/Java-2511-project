@@ -50,7 +50,7 @@ public class BasicEnemyTest {
         assertEquals("Down", slug.getLastDirec());
         Ally ally = new Ally(position);
         slug.attack_ally(ally);
-        assertEquals(280, ally.getHp());
+        assertEquals(80, ally.getHp());
         assertEquals(2, slug.getDistance(3, 4));
         Character character = new Character(position);
         slug.attack_character(character);
