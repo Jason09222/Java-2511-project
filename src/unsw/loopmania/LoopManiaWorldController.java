@@ -141,6 +141,9 @@ public class LoopManiaWorldController {
     @FXML
     private StackPane layout2;
 
+    @FXML
+    private StackPane layout3;
+
     // all image views including tiles, character, enemies, cards... even though
     // cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -413,16 +416,17 @@ public class LoopManiaWorldController {
         layout2.getChildren().add(healthPotionNum);
         StackPane.setAlignment(healthPotionNum, Pos.TOP_RIGHT);
 
+        
         ImageView ringView = new ImageView(theOneRingImage);
         ringNum = new Label("0");
         ringInNum = world.getRingNum();
         ringNum.textProperty().bind(ringInNum.asString());
         ringNum.setTextFill(Color.GREEN);
         ringNum.setFont(new Font("Cambria", 40));
-        layout2.getChildren().add(ringView);
-        StackPane.setAlignment(ringNum, Pos.BOTTOM_LEFT);
-        layout2.getChildren().add(ringNum);
-        StackPane.setAlignment(ringNum, Pos.BOTTOM_RIGHT);
+        layout3.getChildren().add(ringView);
+        StackPane.setAlignment(ringView, Pos.TOP_LEFT);
+        layout3.getChildren().add(ringNum);
+        StackPane.setAlignment(ringNum, Pos.TOP_RIGHT);
 
 
 

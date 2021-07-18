@@ -511,6 +511,13 @@ public class LoopManiaWorld {
      */
 
     public BasicItem addUnequippedItem(ItemType type) {
+        Random rand = new Random();
+        int result = rand.nextInt(30);
+        if (result == 0) {
+            ringOwned += 1;
+        } 
+
+
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null) {
             // eject the oldest unequipped item and replace it... oldest item is that at
@@ -518,8 +525,8 @@ public class LoopManiaWorld {
             removeItemByPositionInUnequippedInventoryItems(0);
             firstAvailableSlot = getFirstAvailableSlotForItem();
             // gives random amount of cash/experience reward for discarding oldest item
-            Random rand = new Random();
-            int result = rand.nextInt(10) % 2;
+            rand = new Random();
+            result = rand.nextInt(10) % 2;
             switch (result) {
                 case 0:
                     addExperience(rand.nextInt(10));
@@ -535,10 +542,12 @@ public class LoopManiaWorld {
         SimpleIntegerProperty y = new SimpleIntegerProperty(firstAvailableSlot.getValue1());
         // insert new item as it is now we know we have a slot available
         BasicItem item;
+        //ringOwned+=1;
         switch (type) {
             case SWORD:
                 item = new Sword(x, y);
                 break;
+            
             case STAKE:
                 item = new Stake(x, y);
                 break;
@@ -559,12 +568,9 @@ public class LoopManiaWorld {
                 potionsOwned += 1;
                 item = null;
                 break;
+            
             default:
-                Random rand = new Random();
-                int result = rand.nextInt(5);
-                if (result == 1) {
-                    ringOwned += 1;
-                } 
+                
                 item = null;
                 
                 
@@ -1413,6 +1419,11 @@ public class LoopManiaWorld {
 
     public boolean isGameOver() {
         if (character.getHp() <= 0) {
+            if (ringOwned > 0) {
+                ringOwned--;
+                character.setHp(500);
+                return false;
+            }
             return true;
         }
         else {
