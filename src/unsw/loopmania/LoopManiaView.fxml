@@ -114,6 +114,15 @@
                   <ProgressBar prefHeight="18.0" prefWidth="122.0" progress="0.0" />
                </graphic>
             </Label>
+            <Label prefHeight="38.0" prefWidth="152.0" text="                   0">
+               <graphic>
+                  <ImageView id="allyCell" fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/deep_elf_master_archer.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
          </children>
       </VBox>
    </HBox>
