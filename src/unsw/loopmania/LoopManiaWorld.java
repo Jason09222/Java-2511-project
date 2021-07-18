@@ -194,7 +194,7 @@ public class LoopManiaWorld {
                     spawningEnemies.add(newZom);
                 }
             }
-        }
+        }   
         return spawningEnemies;
     }
 
@@ -613,6 +613,7 @@ public class LoopManiaWorld {
                                 break;
                         }
                         enemies.add(enemy);
+                        
                         killAlly(ally);
                     } else {
                         ally.setRound(ally.getRound() - 1);
