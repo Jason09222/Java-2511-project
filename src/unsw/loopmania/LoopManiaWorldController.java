@@ -20,6 +20,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -179,7 +180,7 @@ public class LoopManiaWorldController {
     private StackPane stackPane;
 
     @FXML
-    TextField allyNum;
+    Label allyNum;
 
     SimpleIntegerProperty allyInWorld;
     /**
@@ -331,13 +332,14 @@ public class LoopManiaWorldController {
         anchorPaneRoot.getChildren().add(draggedEntity);
 
 
-        /*allyNum = new TextField("0");
+        allyNum = new Label("0");
+        allyNum.setAlignment(Pos.TOP_LEFT);
         allyInWorld = new SimpleIntegerProperty(world.getAllies().size());
         allyNum.textProperty().bind(allyInWorld.asString());
         stackPane.getChildren().add(allyNum);
         //ProgressBar hpProgress = new ProgressBar(0.25);
         //hpProgress.setProgress(0.25f);
-        
+        /*
         Label gold = new Label("Gold");
         //TextField goldValue = new TextField("0");
         //goldValue.textProperty().bind(world.getGold().asString());

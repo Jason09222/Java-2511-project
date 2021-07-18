@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <!-- TODO = modify and expand the GUI? -->
@@ -109,16 +110,20 @@
                   <ProgressBar prefHeight="18.0" prefWidth="122.0" progress="0.0" />
                </graphic>
             </Label>
+            <StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView id="allyCell" fitHeight="40.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                     <image>
+                        <Image url="@../../images/deep_elf_master_archer.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </StackPane>
             <Label text="Gold">
                <graphic>
                   <ProgressBar prefHeight="18.0" prefWidth="122.0" progress="0.0" />
                </graphic>
             </Label>
-            <ImageView id="allyCell" fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../images/deep_elf_master_archer.png" />
-               </image>
-            </ImageView>
          </children>
       </VBox>
    </HBox>
