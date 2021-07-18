@@ -29,13 +29,13 @@ public class EquipmentTest {
     //    assertEquals(sword.getType(), ItemType.SWORD);
         assertEquals(sword.getX(), 0);
         assertEquals(sword.getY(), 0);
-        System.out.println(sword.getType());
+        //System.out.println(sword.getType());
         Item helmet = world.addUnequippedItem(ItemType.HELMET);
         assertEquals(helmet.getX(), 1);
         assertEquals(helmet.getY(), 0);
         assertEquals(helmet.getType(), ItemType.HELMET);
         Item sword1 = world.equipItemByCoordinates(0, 0);
-        System.out.println(sword1.getType());
+        //System.out.println(sword1.getType());
         assertEquals(sword1.getX(), 0);
     }
     @Test
@@ -136,5 +136,5 @@ public class EquipmentTest {
         Item shield1 = world.equipItemByCoordinates(0, 0);
         assertEquals(shield1.getX(), 2);
     }
-    
+
 }
