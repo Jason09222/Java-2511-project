@@ -53,12 +53,12 @@ public class Character extends MovingEntity {
         e.setHP(e.getHP() - this.getDamage());
     }
 
-    public void useHealthPotion(HealthPotion healthPotion) {
+/*    public void useHealthPotion(HealthPotion healthPotion) {
         hp += healthPotion.getHealth();
         if (hp >= 500) {
             hp = 500;
         }
-    }
+    } */ 
 
     public void useSword(Sword sword, BasicEnemy enemy) {
         enemy.setHP(enemy.getHP() - damage - sword.getDamage());

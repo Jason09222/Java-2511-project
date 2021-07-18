@@ -59,7 +59,7 @@ public class EquipmentTest {
         Item shield = world.addUnequippedItem(ItemType.SHIELD);
         assertEquals(shield.getX(), 0);
         Item shield1 = world.equipItemByCoordinates(0, 0);
-        assertEquals(shield1.getX(), 3);
+        assertEquals(shield1.getX(), 2);
 
     }
     @Test
@@ -74,6 +74,21 @@ public class EquipmentTest {
         assertEquals(stake.getType(), ItemType.STAKE);
         assertEquals(stake.getX(), 0);
         assertEquals(stake.getY(), 0);
+    }
+    @Test
+    public void testArmour() {
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        Item armour = world.addUnequippedItem(ItemType.ARMOUR);
+        assertEquals(armour.getType(), ItemType.ARMOUR);
+        assertEquals(armour.getX(), 0);
+        assertEquals(armour.getY(), 0);
+        Item armour1 = world.equipItemByCoordinates(0, 0);
+        assertEquals(armour1.getX(), 3);
     }
 
 }
