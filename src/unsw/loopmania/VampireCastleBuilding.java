@@ -1,11 +1,13 @@
 package unsw.loopmania;
 
+import java.util.List;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * a basic form of building in the world
  */
-public class VampireCastleBuilding extends Building {
+public class VampireCastleBuilding extends BuildingProperty {
 
     public VampireCastleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
@@ -25,5 +27,23 @@ public class VampireCastleBuilding extends Building {
         Vampire newVam = new Vampire(position);
         l.getEnemy().add(newVam);
         return newVam;
+    }
+
+    @Override
+    public void spawnEnemy(LoopManiaWorld l, List<EnemyProperty> spawningEnemies) {
+        if (checkPathCycle(l)) {
+            Vampire newVam = spawnVampire(l);
+            spawningEnemies.add(newVam);
+        }
+    }
+
+    @Override
+    public void characterStepOn(LoopManiaWorld l) {
+        return;
+    }
+
+    @Override
+    public void enemyStepOn(LoopManiaWorld l, List<BuildingProperty> toRemove) {
+        return;
     }
 }

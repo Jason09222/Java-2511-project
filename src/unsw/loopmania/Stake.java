@@ -1,11 +1,13 @@
 package unsw.loopmania;
 
+import java.util.List;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * represents an equipped or unequipped Stake in the backend world
  */
-public class Stake extends BasicItem {
+public class Stake extends ItemProperty {
     private final int damage = 150;
     private final int price = 1500;
     public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y) {
@@ -21,5 +23,20 @@ public class Stake extends BasicItem {
     }
     public int getPrice() {
         return price;
+    }
+    @Override
+    public void useDuringBattle(EnemyProperty e, Character c) {
+        // TODO Auto-generated method stub
+        if (e.getType().equals("Vampire")) {
+            c.setDamage(c.getDamage() + 2 * damage);
+        } else {
+            c.setDamage(c.getDamage() + damage);
+        }
+        
+    }
+    @Override
+    public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemove) {
+        // TODO Auto-generated method stub
+        
     }
 }

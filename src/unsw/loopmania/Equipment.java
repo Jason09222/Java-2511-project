@@ -5,10 +5,10 @@ import java.util.List;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Equipment {
-    private Item[] items;
-    private List<Item> inv;
-    public Equipment(List<Item> unequippedInventoryItems) {
-        items = new BasicItem[4];
+    private ItemProperty[] items;
+    private List<ItemProperty> inv;
+    public Equipment(List<ItemProperty> unequippedInventoryItems) {
+        items = new ItemProperty[4];
         this.inv = unequippedInventoryItems;
     }
     /**
@@ -16,7 +16,7 @@ public class Equipment {
      * @param item to be equipped
      * @return equipped item to be spawned by the GUI
      */
-    public boolean equip(Item item) {
+    public boolean equip(ItemProperty item) {
         int index = item.getSlot();
         // if item is not equippable, return false
         if (item.getType() == ItemType.OTHER) {
@@ -44,8 +44,8 @@ public class Equipment {
      * @param type of item to be spawned
      * @return equipped item to be spawned in GUI
      */
-    public Item spawnEquippedItem(int index, ItemType type) {
-        Item item;
+    public ItemProperty spawnEquippedItem(int index, ItemType type) {
+        ItemProperty item;
         SimpleIntegerProperty equipX = new SimpleIntegerProperty(index);
         SimpleIntegerProperty equipY = new SimpleIntegerProperty(0);
         switch (type) {
@@ -73,5 +73,8 @@ public class Equipment {
         return item;
     }
 
+    public ItemProperty[] getEquipment() {
+        return this.items;
+    }
 
 }

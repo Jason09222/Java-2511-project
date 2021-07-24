@@ -1,9 +1,11 @@
 package unsw.loopmania;
 
 
+import java.util.List;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class Barracks extends Building{
+public class Barracks extends BuildingProperty{
     public Barracks(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
     }
@@ -16,4 +18,18 @@ public class Barracks extends Building{
         l.getAllies().add(newAlly);
     }
 
+    @Override
+    public void spawnEnemy(LoopManiaWorld l, List<EnemyProperty> spawningEnemies) {
+        return;
+    }
+
+    @Override
+    public void characterStepOn(LoopManiaWorld l) {
+        produceAlly(l);
+    }
+
+    @Override
+    public void enemyStepOn(LoopManiaWorld l, List<BuildingProperty> toRemove) {
+        return;
+    }
 }

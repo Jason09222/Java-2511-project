@@ -1,11 +1,13 @@
 package unsw.loopmania;
 
+import java.util.List;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * represents an equipped or unequipped Armour in the backend world
  */
-public class Armour extends BasicItem {
+public class Armour extends ItemProperty {
     private final int price = 1000;
     // TODO = add more weapon/item types
     public Armour(SimpleIntegerProperty x, SimpleIntegerProperty y) {
@@ -16,6 +18,17 @@ public class Armour extends BasicItem {
     }
     public int getPrice() {
         return this.price;
+    }
+    @Override
+    public void useDuringBattle(EnemyProperty e, Character c) {
+        e.setDamage(e.getDamage()/ 2);
+        
+    }
+    
+    @Override
+    public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemove) {
+        // TODO Auto-generated method stub
+        return;
     }
 
 }

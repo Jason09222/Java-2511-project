@@ -1,8 +1,10 @@
 package unsw.loopmania;
 
+import java.util.List;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class ZombiePit extends Building {
+public class ZombiePit extends BuildingProperty {
     public ZombiePit(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
     }
@@ -22,4 +24,24 @@ public class ZombiePit extends Building {
         l.getEnemy().add(newZom);
         return newZom;
     }
+
+    @Override
+    public void spawnEnemy(LoopManiaWorld l, List<EnemyProperty> spawningEnemies) {
+        if (checkPathCycle(l)) {
+            Zombie newZom = spawnZombie(l);
+            spawningEnemies.add(newZom);
+        }
+    }
+
+    @Override
+    public void characterStepOn(LoopManiaWorld l) {
+        return;
+    }
+
+    @Override
+    public void enemyStepOn(LoopManiaWorld l, List<BuildingProperty> toRemove) {
+        return;
+    }
+
+    
 }

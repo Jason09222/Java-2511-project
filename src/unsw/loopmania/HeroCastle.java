@@ -1,8 +1,10 @@
 package unsw.loopmania;
 
+import java.util.List;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class HeroCastle extends Building {
+public class HeroCastle extends BuildingProperty {
     private boolean offerWindow = false;
 
     public HeroCastle(SimpleIntegerProperty x, SimpleIntegerProperty y) {
@@ -31,5 +33,21 @@ public class HeroCastle extends Building {
 
     public void closeOfferWindow() {
         this.offerWindow = false;
+    }
+
+    @Override
+    public void spawnEnemy(LoopManiaWorld l, List<EnemyProperty> spawningEnemies) {
+        return;
+    }
+
+    @Override
+    public void characterStepOn(LoopManiaWorld l) {
+        //TODO add open shop here
+        return;
+    }
+
+    @Override
+    public void enemyStepOn(LoopManiaWorld l, List<BuildingProperty> toRemove) {
+        return;
     }
 }

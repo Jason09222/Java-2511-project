@@ -374,7 +374,7 @@ public class LoopManiaWorldController {
         draggedEntity.setOpacity(0.7);
         anchorPaneRoot.getChildren().add(draggedEntity);
         
-        Building heroCastle = new HeroCastle(new SimpleIntegerProperty(0),new SimpleIntegerProperty(0));
+        BuildingProperty heroCastle = new HeroCastle(new SimpleIntegerProperty(0),new SimpleIntegerProperty(0));
         onLoad((HeroCastle)heroCastle);
 
         ImageView view = new ImageView(goldImage);
@@ -516,8 +516,8 @@ public class LoopManiaWorldController {
             ringInNum.set(world.getRing());
             cycleInNum.set(world.getCycle());
 
-            List<BasicItem> items = world.possiblySpawnItems();
-            for (BasicItem item: items) {
+            List<ItemProperty> items = world.possiblySpawnItems();
+            for (ItemProperty item: items) {
                 onLoad(item);
             }
             List<EnemyProperty> defeatedEnemies = world.runBattles();
@@ -895,7 +895,7 @@ public class LoopManiaWorldController {
      * Otherwise item will be loaded onto the map due to our implementation.
      * @param item
      */
-    private void onLoad(BasicItem item) {
+    private void onLoad(ItemProperty item) {
         ImageView view;
         switch(item.getType()) {
             case SWORD:
@@ -1055,7 +1055,7 @@ public class LoopManiaWorldController {
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn a building here of different types
 
-                                Building b = world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                BuildingProperty b = world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
                                 if (b instanceof VampireCastleBuilding) onLoad((VampireCastleBuilding)b);
                                 if (b instanceof Campfire) onLoad((Campfire)b);
                                 if (b instanceof Tower) onLoad((Tower)b);
@@ -1073,7 +1073,7 @@ public class LoopManiaWorldController {
                                 // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
                                 //world.equipItem()
                                 // TODO = fix for more item types/slots
-                                BasicItem item = (BasicItem)world.equipItemByCoordinates(nodeX, nodeY);
+                                ItemProperty item = (ItemProperty)world.equipItemByCoordinates(nodeX, nodeY);
                                 // Helmet helmet = (Helmet)world.equipItemByCoordinates(x, y);
                                 targetGridPane.add(image, item.getSlot(), y, 1, 1);
                                 // onLoad(item);

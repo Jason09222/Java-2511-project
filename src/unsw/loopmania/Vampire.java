@@ -1,4 +1,5 @@
 package unsw.loopmania;
+import java.util.List;
 import java.util.Random;
 public class Vampire extends EnemyProperty{
     private final String type = "Vampire";
@@ -12,7 +13,7 @@ public class Vampire extends EnemyProperty{
     private final int hp = 800;
     private final int exp = 300;
 
-    private int criticalPoss;
+    private int criticalPoss = 10;
 
     public Vampire(PathPosition position) {
         super(position);
@@ -26,7 +27,7 @@ public class Vampire extends EnemyProperty{
         setIsWeak(this.weak);
         setGold(this.gold); //TODO can be changed
         setSpeed(this.speed);
-        this.setCriticalPoss(10);
+        this.setCriticalPoss(criticalPoss);
     }
 
     @Override
@@ -60,21 +61,51 @@ public class Vampire extends EnemyProperty{
         return;
     }
 
-    public void setCriticalPoss(int value) {
-        this.criticalPoss = value;
-    }
-
-    public int getCriticalPoss() {
-        return this.criticalPoss;
-    }
-
-    public void setCriticalBack() {
-        this.criticalPoss = 10;
-    }
 
     @Override
     public boolean isSlug() {
         return false;
+    }
+
+    @Override 
+    public void setAllPropertyBack() {
+        setDamage(60);
+        setCriticalPoss(10);
+    }
+
+    @Override
+    public void attack(LoopManiaWorld l, List<Ally> defeatedAllies, List<EnemyProperty> transferZombies,
+            boolean inBattle, ItemProperty[] equipments) {
+        if (Math.pow((l.getCharacter().getX() - getX()), 2) + Math.pow((l.getCharacter().getY() - getY()), 2) > Math
+        .pow(getFightRadius(), 2)) {
+            return;
+        }
+
+        boolean hasAttacked = false;
+        for (Ally ally : l.getAllies()) {
+            if (ally.getHp() <= 0) {
+                continue;
+            }
+            
+            l.getCharacter().setInBattle(true);
+            inBattle = true;
+            //e.attack_ally(ally);
+            hasAttacked = true;
+            //if (ally.getHp() <= 0) {
+            
+            attack_ally(ally);
+            if (ally.getHp() <= 0) {
+                defeatedAllies.add(ally);
+            }
+            break;
+        }
+        if (!hasAttacked) {
+            l.getCharacter().setInBattle(true);
+            inBattle = true;
+            //for (ItemProperty item : l)
+            attack_character(l.getCharacter());
+        }
+        
     }
 
 }

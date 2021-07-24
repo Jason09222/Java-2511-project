@@ -24,12 +24,20 @@ public class BasicEnemy extends MovingEntity {
     private int speed;
     private boolean inBattle;
     private String lastMoveDirection;
+    private int criticalPoss;
     public BasicEnemy(PathPosition position) {
         super(position);
         this.inBattle = false;
         this.lastMoveDirection = "Up";
     }
 
+    public int getCriticalPoss() {
+        return this.criticalPoss;
+    }
+
+    public void setCriticalPoss(int poss) {
+        this.criticalPoss = poss;
+    }
 
     public String getType() {
         return this.type;
@@ -164,5 +172,9 @@ public class BasicEnemy extends MovingEntity {
         int srcX = this.getX();
         int srcY = this.getY();
         return (int)Math.sqrt(Math.pow(destX - srcX,2) + Math.pow(destY - srcY , 2));
+    }
+
+    public void setAllPropertyBack() {
+        return;
     }
 }

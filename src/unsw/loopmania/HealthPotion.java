@@ -1,11 +1,13 @@
 package unsw.loopmania;
 
+import java.util.List;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * represents an equipped or unequipped HealthPotion in the backend world
  */
-public class HealthPotion extends BasicItem {
+public class HealthPotion extends ItemProperty {
     private final int price = 2000;
     private final int health = 200;
     public HealthPotion(SimpleIntegerProperty x, SimpleIntegerProperty y) {
@@ -16,5 +18,17 @@ public class HealthPotion extends BasicItem {
     }
     public int getHealth() {
         return health;
+    }
+    @Override
+    public void useDuringBattle(EnemyProperty e, Character c) {
+        return;
+        
+    }
+    @Override
+    public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemove) {
+        if (l.getCharacter().getX() == getX() && l.getCharacter().getY() == getY()) {
+            toRemove.add(this);
+        }
+        
     }
 }

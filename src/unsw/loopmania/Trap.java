@@ -5,7 +5,7 @@ import java.util.List;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class Trap extends Building {
+public class Trap extends BuildingProperty {
     private final int damage = 4; // TODO: this value can be changed later
 
     public Trap (SimpleIntegerProperty x, SimpleIntegerProperty y) {
@@ -15,7 +15,7 @@ public class Trap extends Building {
 
     public void destroyTrap(LoopManiaWorld l) {
         //fetch from the global buildings and remove this object
-        for (Building b : l.getBuildings()) {
+        for (BuildingProperty b : l.getBuildings()) {
             if (b.equals(this)) {
                 l.getBuildings().remove(b);
                 b.destroy();
@@ -27,7 +27,7 @@ public class Trap extends Building {
         return this.damage;
     }
 
-    public void exertDamage(LoopManiaWorld l, List<Building> toRemove) {
+    public void exertDamage(LoopManiaWorld l, List<BuildingProperty> toRemove) {
         // TODO: Deduct corresponding hp from the enemy
         super.addEnemiesWorld(l);
         for (EnemyProperty enemy : super.getEnemies()) {
@@ -36,5 +36,22 @@ public class Trap extends Building {
         if (super.getEnemies().size() > 0) {
             toRemove.add(this);
         }
+    }
+
+
+    @Override
+    public void spawnEnemy(LoopManiaWorld l, List<EnemyProperty> spawningEnemies) {
+        return;
+    }
+
+    @Override
+    public void characterStepOn(LoopManiaWorld l) {
+        return;
+    }
+
+    @Override
+    public void enemyStepOn(LoopManiaWorld l, List<BuildingProperty> toRemove) {
+        exertDamage(l, toRemove);
+        
     }
 }

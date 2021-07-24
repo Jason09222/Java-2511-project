@@ -78,6 +78,10 @@ public class Character extends MovingEntity {
     public void useTheOneRing(TheOneRing theOneRing) {
         hp = 500;
     }
+
+    public void setDamageBack() {
+        setDamage(100);
+    }
 }
 
 
