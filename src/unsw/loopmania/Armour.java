@@ -24,11 +24,13 @@ public class Armour extends ItemProperty {
         e.setDamage(e.getDamage()/ 2);
         
     }
-    
     @Override
-    public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemove) {
+    public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemoveGold,
+            List<ItemProperty> toRemoveHealthPotion) {
         // TODO Auto-generated method stub
         return;
     }
+    
+    
 
 }

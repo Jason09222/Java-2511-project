@@ -21,10 +21,10 @@ public class Gold extends ItemProperty {
         
     }
     @Override
-    public void characterStepOn(LoopManiaWorld l,List<ItemProperty> toRemove) {
+    public void characterStepOn(LoopManiaWorld l,List<ItemProperty> toRemoveGold, List<ItemProperty> toRemoveHealthPotion) {
         // TODO Auto-generated method stub
         if (l.getCharacter().getX() == getX() && l.getCharacter().getY() == getY()) {
-            toRemove.add(this);
+            toRemoveGold.add(this);
         }
         
     }

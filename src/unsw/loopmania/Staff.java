@@ -44,8 +44,11 @@ public class Staff extends ItemProperty {
         
     }
 
+ 
+
     @Override
-    public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemove) {
+    public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemoveGold,
+            List<ItemProperty> toRemoveHealthPotion) {
         // TODO Auto-generated method stub
         
     }

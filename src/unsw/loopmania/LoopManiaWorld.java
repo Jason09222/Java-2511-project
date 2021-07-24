@@ -632,32 +632,22 @@ public class LoopManiaWorld {
 
 
         // Pick up gold or health potion
-        List<ItemProperty> toRemove = new ArrayList<>();
+        List<ItemProperty> toRemoveGold = new ArrayList<>();
+        List<ItemProperty> toRemoveHealthPotion = new ArrayList<>();
         for (ItemProperty item: unPickedItem) {
-            /*
-            if (item instanceof Gold && character.getX() == item.getX() && character.getY() == item.getY()) {
-                toRemove.add(item);
-            }
-            */
-            item.characterStepOn(this, toRemove);
+            
+            item.characterStepOn(this, toRemoveGold, toRemoveHealthPotion);
         }
 
-        for (ItemProperty item: toRemove) {
+        for (ItemProperty item: toRemoveGold) {
             unPickedItem.remove(item);
             item.destroy();
             goldOwned += 200;
         }
-        toRemove.clear();
+        toRemoveGold.clear();
 
-        for (ItemProperty item: unPickedItem) {
-            /*
-            if (item instanceof HealthPotion && character.getX() == item.getX() && character.getY() == item.getY()) {
-                toRemove.add(item);
-            }*/
-            item.characterStepOn(this, toRemove);
-        }
 
-        for (ItemProperty item: toRemove) {
+        for (ItemProperty item: toRemoveHealthPotion) {
             unPickedItem.remove(item);
             item.destroy();
             addPotion(1);

@@ -25,9 +25,9 @@ public class HealthPotion extends ItemProperty {
         
     }
     @Override
-    public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemove) {
+    public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemoveGold, List<ItemProperty> toRemoveHealthPotion) {
         if (l.getCharacter().getX() == getX() && l.getCharacter().getY() == getY()) {
-            toRemove.add(this);
+            toRemoveHealthPotion.add(this);
         }
         
     }
