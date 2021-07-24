@@ -8,7 +8,7 @@ import org.javatuples.Pair;
 
 abstract public class Building extends StaticEntity {
     private int pathCycle = 0;
-    private ArrayList<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
+    private ArrayList<EnemyProperty> enemies = new ArrayList<EnemyProperty>();
 
     public Building (SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
@@ -18,7 +18,7 @@ abstract public class Building extends StaticEntity {
         return this.pathCycle;
     }
 
-    public ArrayList<BasicEnemy> getEnemies() {
+    public ArrayList<EnemyProperty> getEnemies() {
         return this.enemies;
     }
 
@@ -39,18 +39,18 @@ abstract public class Building extends StaticEntity {
 
     //public abstract boolean checkPathCycle();
 
-    public void addEnemy(BasicEnemy stepOn) {
+    public void addEnemy(EnemyProperty stepOn) {
         this.enemies.add(stepOn);
     }
 
-    public void removeEnemy(BasicEnemy stepOn) {
+    public void removeEnemy(EnemyProperty stepOn) {
         this.enemies.remove(stepOn);
     }
 
 
     public void addEnemiesWorld(LoopManiaWorld l) {
         this.getEnemies().clear();
-        for (BasicEnemy enemy : l.getEnemy()) {
+        for (EnemyProperty enemy : l.getEnemy()) {
             if (enemy.getPathPosition().getX().get() == super.getX() && enemy.getPathPosition().getY().get() == super.getY()) {
                 addEnemy(enemy);
             }

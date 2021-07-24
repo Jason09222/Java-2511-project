@@ -112,10 +112,6 @@ public class LoopManiaWorldController {
     @FXML
     private ProgressBar hpProgress;
 
-    /*@FXML
-    private ProgressBar goldProgress;
-    */
-
     @FXML
     private ProgressBar expProgress;
 
@@ -209,16 +205,18 @@ public class LoopManiaWorldController {
     @FXML
     private Label healthPotionNum;
 
-    private IntegerProperty goldInNum;
     private IntegerProperty allyInNum;
     private IntegerProperty healthPotionInNum;
     private IntegerProperty ringInNum;
     private IntegerProperty cycleInNum;
     private SimpleIntegerProperty allyInWorld;
 
+    //private Experience gold;
+
     private IntegerProperty hpInNum;
 
     private IntegerProperty expInNum;
+    private IntegerProperty goldInt;
     //private DoubleProperty goldInWorld;
     private DoubleProperty hpInWorld;
 
@@ -382,9 +380,15 @@ public class LoopManiaWorldController {
         ImageView view = new ImageView(goldImage);
     
         //Label gold = new Label("Gold: $");
+
+
+
         goldNum = new Label("0");
-        goldInNum = world.getGold();
-        goldNum.textProperty().bind(goldInNum.asString());
+        
+        
+        goldInt = world.getGold();
+        
+        goldNum.textProperty().bind(goldInt.asString());
         goldNum.setTextFill(Color.ORANGE);
         goldNum.setFont(new Font("Cambria", 40));
 
@@ -393,9 +397,10 @@ public class LoopManiaWorldController {
         layout.getChildren().add(goldNum);
         StackPane.setAlignment(goldNum, Pos.CENTER_RIGHT);
 
+
         ImageView allyView = new ImageView(allyImage);
-        allyNum = new Label("0");
         allyInNum = world.getAllyNum();
+        allyNum = new Label("0");
         allyNum.textProperty().bind(allyInNum.asString());
         allyNum.setTextFill(Color.GRAY);
         allyNum.setFont(new Font("Cambria", 40));
@@ -410,6 +415,9 @@ public class LoopManiaWorldController {
         healthPotionInNum = world.getHealthPotionNum();
         healthPotionNum.textProperty().bind(healthPotionInNum.asString());
         healthPotionNum.setTextFill(Color.BLUE);
+        
+
+
         healthPotionNum.setFont(new Font("Cambria", 40));
         layout2.getChildren().add(healthPotionView);
         StackPane.setAlignment(healthPotionView, Pos.TOP_LEFT);
@@ -445,7 +453,6 @@ public class LoopManiaWorldController {
         layout2.getChildren().add(cycleNum);
         StackPane.setAlignment(cycleNum, Pos.BOTTOM_RIGHT);
         
-        //Label hp = new Label("Hp");
         ImageView heartView = new ImageView(heartImage);
         hpProgress = new ProgressBar();
         hpInWorld = world.getHp();
@@ -498,48 +505,27 @@ public class LoopManiaWorldController {
         // framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             world.runTickMoves();
-            goldInNum = world.getGold();
-            goldNum.textProperty().bind(goldInNum.asString());
 
-            hpInNum = world.getHpInt();
-            hpNum.textProperty().bind(hpInNum.asString());
-
-            hpInWorld = world.getHp();
-            hpProgress.progressProperty().bind(hpInWorld);
-
-
-            expInNum = world.getExpInt();
-            expNum.textProperty().bind(expInNum.asString());
-
-            expInWorld = world.getExp();
-            expProgress.progressProperty().bind(expInWorld);
-
-            allyInNum = world.getAllyNum();
-            allyNum.textProperty().bind(allyInNum.asString());
-
-            healthPotionInNum = world.getHealthPotionNum();
-            healthPotionNum.textProperty().bind(healthPotionInNum.asString());
-
-            ringInNum = world.getRingNum();
-            ringNum.textProperty().bind(ringInNum.asString());
-
-            cycleInNum = world.getCylceNum();
-            cycleNum.textProperty().bind(cycleInNum.asString());
-
-            //allyInWorld.set(world.getAllies().size());
-            //allyNum.textProperty().bind(allyInWorld.asString());
-            //goldInWorld = world.getGold();
+            goldInt.set(world.getGolds());
+            hpInNum.set(world.getHpValue());
+            hpInWorld.set((double)world.getHpValue() / 500.00);
+            expInNum.set(world.getExperience());
+            expInWorld.set((double)world.getExperience()/123456.00);
+            allyInNum.set(world.getAllies().size());
+            healthPotionInNum.set(world.getHealthPotion());
+            ringInNum.set(world.getRing());
+            cycleInNum.set(world.getCycle());
 
             List<BasicItem> items = world.possiblySpawnItems();
             for (BasicItem item: items) {
                 onLoad(item);
             }
-            List<BasicEnemy> defeatedEnemies = world.runBattles();
-            for (BasicEnemy e : defeatedEnemies) {
+            List<EnemyProperty> defeatedEnemies = world.runBattles();
+            for (EnemyProperty e : defeatedEnemies) {
                 reactToEnemyDefeat(e);
             }
-            List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
-            for (BasicEnemy newEnemy : newEnemies) {
+            List<EnemyProperty> newEnemies = world.possiblySpawnEnemies();
+            for (EnemyProperty newEnemy : newEnemies) {
                 onLoad(newEnemy);
             }
             printThreadingNotes("HANDLED TIMER");
@@ -677,14 +663,26 @@ public class LoopManiaWorldController {
      *
      * @param enemy defeated enemy for which we should react to the death of
      */
-    private void reactToEnemyDefeat(BasicEnemy enemy) {
+    private void reactToEnemyDefeat(EnemyProperty enemy) {
         // react to character defeating an enemy
         // in starter code, spawning extra card/weapon...
         // TODO = provide different benefits to defeating the enemy based on the type of
         // enemy
         
-        generateItem();
-        generateCard();
+        Random rand = new Random();
+        int result = rand.nextInt(2);
+        world.addGold(enemy.getGold());
+        switch(result) {
+            case 0:
+                generateCard();
+                break;
+            case 1:
+                generateItem();
+                break;
+            default:    
+                break;
+        }
+        
     }
     /**
      * generates a random card from the available cards
@@ -941,7 +939,7 @@ public class LoopManiaWorldController {
      *
      * @param enemy
      */
-    private void onLoad(BasicEnemy enemy) {
+    private void onLoad(EnemyProperty enemy) {
         ImageView view;
         if (enemy instanceof Slug) {
             view = new ImageView(basicEnemyImage);

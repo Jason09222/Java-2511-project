@@ -17,7 +17,7 @@ public class Campfire extends Building {
     public void doubleDamage(Character c) {
         // get the character's damage and double it
         // deduct corresponding points from the enemy
-        for (BasicEnemy enemies : super.getEnemies()) {
+        for (EnemyProperty enemies : super.getEnemies()) {
             enemies.setHP(enemies.getHP() - 2 * c.getDamage());
         }
     }

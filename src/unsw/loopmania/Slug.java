@@ -1,6 +1,6 @@
 package unsw.loopmania;
 //import java.util.Random;
-public class Slug extends BasicEnemy{
+public class Slug extends EnemyProperty{
     //TODO can be changed
     private final String type = "Slug";
     private final int FightR = 1;
@@ -25,6 +25,11 @@ public class Slug extends BasicEnemy{
         setGold(this.gold); //TODO can be changed
         setSpeed(this.speed);
 
+    }
+
+    @Override 
+    public boolean isSlug() {
+        return true;
     }
 
 

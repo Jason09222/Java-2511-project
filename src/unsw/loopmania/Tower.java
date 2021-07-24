@@ -17,12 +17,12 @@ public class Tower extends Building {
         // if it is in radius
         // add to the list
         super.getEnemies().clear();
-        for (BasicEnemy enemy : l.getEnemy()) {
+        for (EnemyProperty enemy : l.getEnemy()) {
             double distance = getDistance(enemy.getX(), enemy.getY());
             if (distance <= this.shootRadius && enemy.getInBattle()) {
                 super.addEnemy(enemy);
             } else {
-                for (BasicEnemy e : l.getEnemy()) {
+                for (EnemyProperty e : l.getEnemy()) {
                     if (e.equals(enemy)) super.removeEnemy(e);
                 }
             }
@@ -31,7 +31,7 @@ public class Tower extends Building {
     }
 
     public void decreaseHp() {
-        for (BasicEnemy enemy : super.getEnemies()) {
+        for (EnemyProperty enemy : super.getEnemies()) {
             enemy.setHP(enemy.getHP() - this.damage);
         }
     }

@@ -30,7 +30,7 @@ public class Trap extends Building {
     public void exertDamage(LoopManiaWorld l, List<Building> toRemove) {
         // TODO: Deduct corresponding hp from the enemy
         super.addEnemiesWorld(l);
-        for (BasicEnemy enemy : super.getEnemies()) {
+        for (EnemyProperty enemy : super.getEnemies()) {
             enemy.setHP(enemy.getHP() - this.damage);
         }
         if (super.getEnemies().size() > 0) {

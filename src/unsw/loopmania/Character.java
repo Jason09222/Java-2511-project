@@ -50,7 +50,7 @@ public class Character extends MovingEntity {
 
 
     //TODO : check equipped item and use weapon
-    public void attack(BasicEnemy e) {
+    public void attack(EnemyProperty e) {
         //TODO
         e.setHP(e.getHP() - this.getDamage());
     }
@@ -62,15 +62,15 @@ public class Character extends MovingEntity {
         }
     }  
 
-    public void useSword(Sword sword, BasicEnemy enemy) {
+    public void useSword(Sword sword, EnemyProperty enemy) {
         enemy.setHP(enemy.getHP() - damage - sword.getDamage());
     }
 
-    public void useStake(Stake stake, BasicEnemy enemy) {
+    public void useStake(Stake stake, EnemyProperty enemy) {
         enemy.setHP(enemy.getHP() - damage - stake.getDamage(enemy));
     }
 
-    public void useStaff(Staff staff, BasicEnemy enemy, LoopManiaWorld world) {
+    public void useStaff(Staff staff, EnemyProperty enemy, LoopManiaWorld world) {
         enemy.setHP(enemy.getHP() - damage - staff.getDamage());
         staff.trance(enemy, world);
     }
