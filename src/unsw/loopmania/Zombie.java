@@ -1,6 +1,6 @@
 package unsw.loopmania;
 import java.util.Random;
-public class Zombie extends BasicEnemy{
+public class Zombie extends EnemyProperty{
     //TODO can be changed
     private final String type = "Zombie";
     private final int FightR = 2;
@@ -43,7 +43,10 @@ public class Zombie extends BasicEnemy{
     }
 
 
-
+    @Override
+    public boolean isSlug() {
+        return false;
+    }
   
 
 

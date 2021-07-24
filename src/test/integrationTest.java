@@ -20,6 +20,7 @@ import unsw.loopmania.BasicItem;
 import unsw.loopmania.Campfire;
 import unsw.loopmania.CampfireCard;
 import unsw.loopmania.Character;
+import unsw.loopmania.EnemyProperty;
 import unsw.loopmania.Goals;
 import unsw.loopmania.Gold;
 import unsw.loopmania.HealthPotion;
@@ -164,7 +165,7 @@ public class integrationTest {
         world.addExperience(100);
         BasicItem sword = new Sword(x, y);
         world.addUnequippedInventory(sword);
-        BasicEnemy slugb = new Slug(position);
+        EnemyProperty slugb = new Slug(position);
         //world.generateTrophy(slugb);
         assertEquals(0, world.getBuildings().size());
         world.createbuilding("VampireCastle", x, y);

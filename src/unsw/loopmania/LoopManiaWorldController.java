@@ -520,12 +520,12 @@ public class LoopManiaWorldController {
             for (BasicItem item: items) {
                 onLoad(item);
             }
-            List<BasicEnemy> defeatedEnemies = world.runBattles();
-            for (BasicEnemy e : defeatedEnemies) {
+            List<EnemyProperty> defeatedEnemies = world.runBattles();
+            for (EnemyProperty e : defeatedEnemies) {
                 reactToEnemyDefeat(e);
             }
-            List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
-            for (BasicEnemy newEnemy : newEnemies) {
+            List<EnemyProperty> newEnemies = world.possiblySpawnEnemies();
+            for (EnemyProperty newEnemy : newEnemies) {
                 onLoad(newEnemy);
             }
             printThreadingNotes("HANDLED TIMER");
@@ -663,7 +663,7 @@ public class LoopManiaWorldController {
      *
      * @param enemy defeated enemy for which we should react to the death of
      */
-    private void reactToEnemyDefeat(BasicEnemy enemy) {
+    private void reactToEnemyDefeat(EnemyProperty enemy) {
         // react to character defeating an enemy
         // in starter code, spawning extra card/weapon...
         // TODO = provide different benefits to defeating the enemy based on the type of
@@ -939,7 +939,7 @@ public class LoopManiaWorldController {
      *
      * @param enemy
      */
-    private void onLoad(BasicEnemy enemy) {
+    private void onLoad(EnemyProperty enemy) {
         ImageView view;
         if (enemy instanceof Slug) {
             view = new ImageView(basicEnemyImage);

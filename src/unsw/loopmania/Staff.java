@@ -23,7 +23,7 @@ public class Staff extends BasicItem {
         return price;
     }
 
-    public void trance(BasicEnemy enemy, LoopManiaWorld world) {
+    public void trance(EnemyProperty enemy, LoopManiaWorld world) {
         Random rand = new Random();
         int random = rand.nextInt(5);
         if (random == 0) {

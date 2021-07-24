@@ -11,7 +11,7 @@ public class Armour extends BasicItem {
     public Armour(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.ARMOUR);
     }
-    public int getDefense(BasicEnemy enemy) {
+    public int getDefense(EnemyProperty enemy) {
         return enemy.getDamage()/2;
     }
     public int getPrice() {

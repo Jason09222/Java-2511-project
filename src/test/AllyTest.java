@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import unsw.loopmania.Ally;
 import unsw.loopmania.BasicEnemy;
+import unsw.loopmania.EnemyProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Zombie;
@@ -34,7 +35,7 @@ public class AllyTest {
         assertEquals(5, ally.getRound());
         ally.setOriginalType("Vampire");
         assertEquals("Vampire", ally.getOriginalType());
-        BasicEnemy e = new Zombie(position);
+        EnemyProperty e = new Zombie(position);
         ally.attack(e);
         assertEquals(300, e.getHP());
     }

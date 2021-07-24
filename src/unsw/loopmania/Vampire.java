@@ -1,6 +1,6 @@
 package unsw.loopmania;
 import java.util.Random;
-public class Vampire extends BasicEnemy{
+public class Vampire extends EnemyProperty{
     private final String type = "Vampire";
     private final int FightR = 2;
     private final int SupportR = 5;
@@ -72,6 +72,10 @@ public class Vampire extends BasicEnemy{
         this.criticalPoss = 10;
     }
 
+    @Override
+    public boolean isSlug() {
+        return false;
+    }
 
 }
 

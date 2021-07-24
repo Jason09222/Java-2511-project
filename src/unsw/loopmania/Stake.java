@@ -11,7 +11,7 @@ public class Stake extends BasicItem {
     public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.STAKE);
     }
-    public int getDamage(BasicEnemy enemy) {
+    public int getDamage(EnemyProperty enemy) {
         if (enemy.getType().equals("Vampire")) {
             return 2 * damage;
         } else {
