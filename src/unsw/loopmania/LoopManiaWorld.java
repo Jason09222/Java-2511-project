@@ -1031,28 +1031,9 @@ public class LoopManiaWorld {
             int srcY = this.character.getPathPosition().getY().get();
 
             if (srcX == destX && srcY == destY) {
-                if (b instanceof Village) {
-                    Village v = (Village) b;
-                    v.increaseHp(this.character);
-                    //character.setHp(500);
-                }
-
-                if (b instanceof Barracks) {
-                    Barracks ba = (Barracks) b;
-                    ba.produceAlly(this);
-                }
+                b.characterStepOn(this);  
             }
-
-            if (b instanceof Campfire) {
-                Campfire c = (Campfire) b;
-                int distance = (int)Math.sqrt(Math.pow(destX - srcX,2) + Math.pow(destY - srcY , 2));
-                if (distance <= c.getcampRadius()) {
-                    this.character.setDamage(this.character.getDamage() * 2);
-                } else {
-                    this.character.setDamage(100);
-                }
-            }
-
+            
         }
     }
 
