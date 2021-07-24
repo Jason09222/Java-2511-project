@@ -178,6 +178,25 @@ public class LoopManiaWorld {
         nonSpecifiedEntities.add(entity);
     }
 
+
+    public int getGolds() {
+        return this.goldOwned;
+    }
+    public int getHpValue() {
+        return character.getHp();
+    }
+
+    public int getHealthPotion() {
+        return potionsOwned;
+    }
+
+    public int getRing() {
+        return ringOwned;
+    }
+
+    public int getCycle() {
+        return this.pathCycle / orderedPath.size();
+    }
     /**
      * spawns enemies if the conditions warrant it, adds to world
      *
@@ -428,6 +447,7 @@ public class LoopManiaWorld {
             // java.util.ConcurrentModificationException
             // due to mutating list we're iterating over
             experience += e.getExp();
+            //goldOwned += e.getGold();
             killEnemy(e);
         }
 
@@ -447,7 +467,7 @@ public class LoopManiaWorld {
     }
 
 
-
+    
     public ItemType generateItem() {
         int totalRewards = 7;
         Random rand = new Random();
@@ -538,6 +558,7 @@ public class LoopManiaWorld {
                     break;
             }
         }
+        if (firstAvailableSlot == null)  return null;
         SimpleIntegerProperty x = new SimpleIntegerProperty(firstAvailableSlot.getValue0());
         SimpleIntegerProperty y = new SimpleIntegerProperty(firstAvailableSlot.getValue1());
         // insert new item as it is now we know we have a slot available
@@ -1033,34 +1054,6 @@ public class LoopManiaWorld {
     public void addUnequippedInventory(BasicItem item) {
 
         this.unequippedInventoryItems.add(item);
-    }
-
-    public void generateTrophy(BasicEnemy e) {
-
-        Random rand = new Random();
-        int int_random = rand.nextInt(3);
-        SimpleIntegerProperty x = e.x();
-        SimpleIntegerProperty y = e.y();
-
-
-
-        switch (int_random) {
-            case 0:
-                this.goldOwned += e.getGold();
-                break;
-            case 1:
-                addUnequippedItem(generateItem());
-                break;
-            case 2:
-                BasicItem healthP = new HealthPotion(x, y);
-                addUnequippedInventory(healthP);
-                break;
-            case 3:
-                generateCard();
-                break;
-            default:
-                return;
-            }
     }
 
     public void supportMove(BasicEnemy e) {
