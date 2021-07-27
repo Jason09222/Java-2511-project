@@ -1,9 +1,12 @@
 package unsw.loopmania;
 
+import java.io.File;
 import java.util.List;
 import java.util.Random;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * represents an equipped or unequipped Staff in the backend world
@@ -11,9 +14,10 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class Staff extends ItemProperty {
     private final int damage = 100;
     private final int price = 2000;
-
+    private Image staffImage;
     public Staff(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.STAFF);
+        staffImage = new Image((new File("src/images/staff.png")).toURI().toString());
     }
 
     public int getDamage() {
@@ -51,5 +55,10 @@ public class Staff extends ItemProperty {
             List<ItemProperty> toRemoveHealthPotion) {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public ImageView onLoadItems() {
+        return new ImageView(staffImage);
     }
 }

@@ -91,6 +91,18 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
         addEntity(pathTile, view);
     }
 
+    @Override
+    public void onLoad(BuildingProperty building) {
+        ImageView view = building.onLoadBuilding();
+        addEntity(building, view);
+    }
+
+    @Override
+    public void onLoad(ItemProperty item) {
+        ImageView view = item.onLoadItems();
+        addEntity(item, view);
+    }
+
 
     /**
      * pair the  backendentity and view, so the view tracks the coordinates of the entity

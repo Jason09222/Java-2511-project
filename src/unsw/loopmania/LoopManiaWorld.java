@@ -89,6 +89,7 @@ public class LoopManiaWorld {
     private boolean hasSpawnMuske;
 
 
+    private GoalLogic totaGoal;
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse
      * them
@@ -130,6 +131,15 @@ public class LoopManiaWorld {
         shouldSpawnMuske = false;
         hasSpawnMuske = false;
         doggieCoinOwned = 0;
+    }
+
+
+    public GoalLogic getGoal() {
+        return totaGoal;
+    }
+
+    public void setGoal(GoalLogic goal) {
+        this.totaGoal = goal; 
     }
 
     public List<Ally> getAllies() {
@@ -1289,11 +1299,12 @@ public class LoopManiaWorld {
     }
 
     public boolean isGameWin() {
-        if (goal.goalComplete(getGold().get(), getExpInt().get(), getCylceNum().get())) {
+        /*if (goal.goalComplete(getGold().get(), getExpInt().get(), getCylceNum().get())) {
             return true;
         } else {
             return false;
-        }
+        }*/
+        return totaGoal.goalReached();
     }
 
     public Character getCharacter() {

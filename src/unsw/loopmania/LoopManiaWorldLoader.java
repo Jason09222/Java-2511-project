@@ -25,9 +25,12 @@ import java.util.List;
  */
 public abstract class LoopManiaWorldLoader {
     private JSONObject json;
+    //List<GoalCompsite> goals = new ArrayList<>();
+    private GoalLogic totalGoal;
 
     public LoopManiaWorldLoader(String filename) throws FileNotFoundException {
         json = new JSONObject(new JSONTokener(new FileReader("worlds/" + filename)));
+        totalGoal = new GoalAndLogic();
     }
 
     /**
@@ -49,6 +52,9 @@ public abstract class LoopManiaWorldLoader {
             loadEntity(world, jsonEntities.getJSONObject(i), orderedPath);
         }
 
+        // Extract goals from Json file
+        JSONObject goal = json.getJSONObject("goal-condition");
+        loadGoal(world, goal);
         return world;
     }
 
@@ -63,22 +69,60 @@ public abstract class LoopManiaWorldLoader {
         int x = currentJson.getInt("x");
         int y = currentJson.getInt("y");
         int indexInPath = orderedPath.indexOf(new Pair<Integer, Integer>(x, y));
-        assert indexInPath != -1;
-
         Entity entity = null;
-        // TODO = load more entity types from the file
-        switch (type) {
-        case "hero_castle":
-            Character character = new Character(new PathPosition(indexInPath, orderedPath));
-            world.setCharacter(character);
-            onLoad(character);
-            entity = character;
-            break;
-        case "path_tile":
-            throw new RuntimeException("path_tile's aren't valid entities, define the path externally.");
-        // TODO Handle other possible entities
+        //assert indexInPath != -1;
+        if (indexInPath != -1) {
+
+            // TODO = load more entity types from the file
+            switch (type) {
+            case "hero_castle":
+                Character character = new Character(new PathPosition(indexInPath, orderedPath));
+                world.setCharacter(character);
+                onLoad(character);
+                entity = character;
+                break;
+            case "path_tile":
+                throw new RuntimeException("path_tile's aren't valid entities, define the path externally.");
+            // TODO Handle other possible entities
+            case "barracks":
+                Barracks barracks = new Barracks(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+                world.getBuildings().add(barracks);
+                onLoad(barracks);
+                entity = barracks;
+                break;
+            /*case "gold":
+                Gold gold = new Gold(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+                world.getUnpickedItems().add(gold);
+                onLoad(gold);
+                entity = gold;
+                break;*/
+                //TODO: gold unable to be picked
+            }
+        } else {
+            switch(type) {
+            case "vampire_castle":
+                VampireCastleBuilding vampireCastle = new VampireCastleBuilding(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+                world.getBuildings().add(vampireCastle);
+                onLoad(vampireCastle);
+                entity = vampireCastle;
+                break;
+            case "campfire":
+                Campfire campfire  = new Campfire(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+                world.getBuildings().add(campfire);
+                onLoad(campfire);
+                entity = campfire;
+                break;
+            case "tower":
+                Tower tower  = new Tower(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+                world.getBuildings().add(tower);
+                onLoad(tower);
+                entity = tower;
+                break;
+            }
+            
+
         }
-        world.addEntity(entity);
+        if (entity != null) world.addEntity(entity);
     }
 
     /**
@@ -144,8 +188,50 @@ public abstract class LoopManiaWorldLoader {
         return orderedPath;
     }
 
+    public void loadGoal(LoopManiaWorld world, JSONObject goal) {
+        storeGoals(this.totalGoal, world, goal);
+        world.setGoal(totalGoal);
+    }
+
+    public void storeGoals(GoalLogic totalGoal, LoopManiaWorld world, JSONObject goal) {
+        int value = 0;
+        GoalCompsite subgoal = null;
+        if (goal.getString("goal").equals("experience")) {
+            value = goal.getInt("quantity");
+            subgoal = new SubGoalExp(world, value);
+            totalGoal.addGoal(subgoal);
+        } else if (goal.getString("goal").equals("cycles")) {
+            value = goal.getInt("quantity");
+            subgoal = new SubGoalGold(world, value);
+            totalGoal.addGoal(subgoal);
+        } else if (goal.getString("goal").equals("gold")) {
+            value = goal.getInt("quantity");
+            subgoal = new SubGoalGold(world, value);
+            totalGoal.addGoal(subgoal);
+        } else if (goal.getString("goal").equals("bosses")) {
+            subgoal = new SubGoalBoss(world);
+            totalGoal.addGoal(subgoal);
+        } else if (goal.getString("goal").equals("AND")) {
+            JSONArray subgoals = goal.getJSONArray("subgoals");
+            GoalLogic logic = new GoalAndLogic();
+            for (int i = 0; i < subgoals.length(); i++) {
+                storeGoals(logic, world, subgoals.getJSONObject(i));
+            }
+            totalGoal.addGoal(logic);
+        } else if (goal.getString("goal").equals("OR")) {
+            JSONArray subgoals = goal.getJSONArray("subgoals");
+            GoalLogic logic = new GoalOrLogic();
+            for (int i = 0; i < subgoals.length(); i++) {
+                storeGoals(logic, world, subgoals.getJSONObject(i));
+            }
+            totalGoal.addGoal(logic);
+        }
+    }
+
     public abstract void onLoad(Character character);
     public abstract void onLoad(PathTile pathTile, PathTile.Direction into, PathTile.Direction out);
+    public abstract void onLoad(BuildingProperty building);
+    public abstract void onLoad(ItemProperty item);
 
     // TODO Create additional abstract methods for the other entities
 

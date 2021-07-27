@@ -1,8 +1,11 @@
 package unsw.loopmania;
 
+import java.io.File;
 import java.util.List;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * represents an equipped or unequipped Stake in the backend world
@@ -10,9 +13,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class Stake extends ItemProperty {
     private final int damage = 150;
     private final int price = 1500;
+    private Image stakeImage;
     public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.STAKE);
+        stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
     }
+
     public int getDamage(EnemyProperty enemy) {
         if (enemy.getType().equals("Vampire")) {
             return 2 * damage;
@@ -41,5 +47,10 @@ public class Stake extends ItemProperty {
             List<ItemProperty> toRemoveHealthPotion) {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public ImageView onLoadItems() {
+        return new ImageView(stakeImage);
     }
 }
