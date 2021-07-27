@@ -79,7 +79,7 @@ public class LoopManiaWorld {
     private SimpleIntegerProperty alliesOwned;
     private int doggieCoinOwned;
 
-    //private int potionsOwned;
+    // private int potionsOwned;
     private int experience;
     private int ringOwned;
     private Goals goal;
@@ -117,7 +117,6 @@ public class LoopManiaWorld {
         goldOwned = 0;
         potionsOwned = 0;
         transferZombies = new ArrayList<EnemyProperty>();
-
 
         experience = 0;
         ringOwned = 0;
@@ -188,7 +187,6 @@ public class LoopManiaWorld {
         nonSpecifiedEntities.add(entity);
     }
 
-
     public int getGolds() {
         return this.goldOwned;
     }
@@ -211,6 +209,7 @@ public class LoopManiaWorld {
     public int getCycle() {
         return this.pathCycle / orderedPath.size();
     }
+
     /**
      * spawns enemies if the conditions warrant it, adds to world
      *
@@ -249,12 +248,11 @@ public class LoopManiaWorld {
         pos = possiblyGetBasicEnemySpawnPosition();
         if (pos != null) {
             int indexInPath = orderedPath.indexOf(pos);
-            
+
             EnemyProperty enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
-
 
         // Spawn vampires from vampire castle
         for (BuildingProperty b : this.buildings) {
@@ -269,7 +267,6 @@ public class LoopManiaWorld {
         transferZombies.clear();
         return spawningEnemies;
     }
-
 
     public int getPotions() {
         return this.potionsOwned;
@@ -298,7 +295,8 @@ public class LoopManiaWorld {
                 int indexInOrderedPath = rand.nextInt(orderedPath.size() - 1);
                 Pair<Integer, Integer> newPos = orderedPath.get(indexInOrderedPath);
 
-                ItemProperty gold = new Gold(new SimpleIntegerProperty(newPos.getValue0()), new SimpleIntegerProperty(newPos.getValue1()));
+                ItemProperty gold = new Gold(new SimpleIntegerProperty(newPos.getValue0()),
+                        new SimpleIntegerProperty(newPos.getValue1()));
                 unPickedItem.add(gold);
                 spawningItems.add(gold);
             }
@@ -306,7 +304,8 @@ public class LoopManiaWorld {
             if (healthPotionExist == false && this.pathCycle % (4 * orderedPath.size()) == 0) {
                 int indexInOrderedPath = rand.nextInt(orderedPath.size() - 1);
                 Pair<Integer, Integer> newPos = orderedPath.get(indexInOrderedPath);
-                ItemProperty healthPotion = new HealthPotion(new SimpleIntegerProperty(newPos.getValue0()), new SimpleIntegerProperty(newPos.getValue1()));
+                ItemProperty healthPotion = new HealthPotion(new SimpleIntegerProperty(newPos.getValue0()),
+                        new SimpleIntegerProperty(newPos.getValue1()));
                 unPickedItem.add(healthPotion);
                 spawningItems.add(healthPotion);
             }
@@ -314,36 +313,39 @@ public class LoopManiaWorld {
         return spawningItems;
     }
 
-    //  /**
-    //  * get a randomly generated position which could be used to spawn an item
-    //  *
-    //  * @return null if random choice is that wont be spawning an enemy or it isn't
-    //  *         possible, or random coordinate pair if should go ahead
-    //  */
+    // /**
+    // * get a randomly generated position which could be used to spawn an item
+    // *
+    // * @return null if random choice is that wont be spawning an enemy or it isn't
+    // * possible, or random coordinate pair if should go ahead
+    // */
     // private Pair<Integer, Integer> possiblyGetBasicItemSpawnPosition() {
 
-    //     // has a chance spawning a basic item on a tile the character isn't on or
-    //     // immediately before or after (currently space required = 2)...
-    //     Random rand = new Random();
-    //     int choice = rand.nextInt(2);
-    //     if ((choice == 0) && (enemies.size() < 2)) {
-    //         List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
-    //         int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
-    //         // inclusive start and exclusive end of range of positions not allowed
-    //         int startNotAllowed = (indexPosition - 2 + orderedPath.size()) % orderedPath.size();
-    //         int endNotAllowed = (indexPosition + 3) % orderedPath.size();
-    //         // note terminating condition has to be != rather than < since wrap around...
-    //         for (int i = endNotAllowed; i != startNotAllowed; i = (i + 1) % orderedPath.size()) {
-    //             orderedPathSpawnCandidates.add(orderedPath.get(i));
-    //         }
+    // // has a chance spawning a basic item on a tile the character isn't on or
+    // // immediately before or after (currently space required = 2)...
+    // Random rand = new Random();
+    // int choice = rand.nextInt(2);
+    // if ((choice == 0) && (enemies.size() < 2)) {
+    // List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+    // int indexPosition = orderedPath.indexOf(new Pair<Integer,
+    // Integer>(character.getX(), character.getY()));
+    // // inclusive start and exclusive end of range of positions not allowed
+    // int startNotAllowed = (indexPosition - 2 + orderedPath.size()) %
+    // orderedPath.size();
+    // int endNotAllowed = (indexPosition + 3) % orderedPath.size();
+    // // note terminating condition has to be != rather than < since wrap around...
+    // for (int i = endNotAllowed; i != startNotAllowed; i = (i + 1) %
+    // orderedPath.size()) {
+    // orderedPathSpawnCandidates.add(orderedPath.get(i));
+    // }
 
-    //         // choose random choice
-    //         Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates
-    //                 .get(rand.nextInt(orderedPathSpawnCandidates.size()));
+    // // choose random choice
+    // Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates
+    // .get(rand.nextInt(orderedPathSpawnCandidates.size()));
 
-    //         return spawnPosition;
-    //     }
-    //     return null;
+    // return spawnPosition;
+    // }
+    // return null;
     // }
 
     /**
@@ -371,21 +373,21 @@ public class LoopManiaWorld {
         // without any damage!
         List<EnemyProperty> defeatedEnemies = new ArrayList<EnemyProperty>();
         List<Ally> defeatedAllies = new ArrayList<Ally>();
-        
+
         boolean inBattle = false;
         character.setDamageBack();
         for (EnemyProperty e : enemies) {
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             // TODO = you should implement different RHS on this inequality, based on
             // influence radii and battle radii
-            //boolean hasAttacked = false;
+            // boolean hasAttacked = false;
             e.setAllPropertyBack();
             e.attack(this, defeatedAllies, transferZombies, inBattle, getEquipItems());
 
         }
         for (EnemyProperty enemy : transferZombies) {
             enemies.add(enemy);
-            
+
         }
 
         for (Ally ally : allies) {
@@ -425,7 +427,7 @@ public class LoopManiaWorld {
             // java.util.ConcurrentModificationException
             // due to mutating list we're iterating over
             experience += e.getExp();
-            //goldOwned += e.getGold();
+            // goldOwned += e.getGold();
             killEnemy(e);
         }
 
@@ -440,8 +442,6 @@ public class LoopManiaWorld {
         return defeatedEnemies;
     }
 
-
-    
     public ItemType generateItem() {
         int totalRewards = 7;
         Random rand = new Random();
@@ -466,7 +466,6 @@ public class LoopManiaWorld {
                 return null;
         }
     }
-
 
     /**
      * spawn a sword in the world and return the sword entity
@@ -511,8 +510,7 @@ public class LoopManiaWorld {
         int result = rand.nextInt(30);
         if (result == 0) {
             ringOwned += 1;
-        } 
-
+        }
 
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null) {
@@ -534,17 +532,18 @@ public class LoopManiaWorld {
                     break;
             }
         }
-        if (firstAvailableSlot == null)  return null;
+        if (firstAvailableSlot == null)
+            return null;
         SimpleIntegerProperty x = new SimpleIntegerProperty(firstAvailableSlot.getValue0());
         SimpleIntegerProperty y = new SimpleIntegerProperty(firstAvailableSlot.getValue1());
         // insert new item as it is now we know we have a slot available
         ItemProperty item;
-        //ringOwned+=1;
+        // ringOwned+=1;
         switch (type) {
             case SWORD:
                 item = new Sword(x, y);
                 break;
-            
+
             case STAKE:
                 item = new Stake(x, y);
                 break;
@@ -561,25 +560,24 @@ public class LoopManiaWorld {
                 item = new Shield(x, y);
                 break;
             case HEALTHPOTION:
-                //addPotion(1);
+                // addPotion(1);
                 potionsOwned += 1;
                 item = null;
                 break;
-            
+
             default:
-                
+
                 item = null;
-                
-                
+
         }
         unequippedInventoryItems.add(item);
         return item;
     }
 
-
     /**
      * removes the item from equippedItems list and adds it back to
      * unequippedInventory
+     *
      * @param slot of item to be removed
      * @return
      */
@@ -588,9 +586,11 @@ public class LoopManiaWorld {
         equippedItems.unEquip(slot);
         return equippedItems.unEquip(slot);
     }
+
     /**
-     * moves an item from unequippedInventory to equippedItems.
-     * Deletes the item and creates a new copy of it inside equippedItems
+     * moves an item from unequippedInventory to equippedItems. Deletes the item and
+     * creates a new copy of it inside equippedItems
+     *
      * @param nodeX of the item in unequippedInventory
      * @param nodeY of the item in unequippedInventory
      * @return item to be spawned inside the equippedItems gridpane
@@ -602,10 +602,6 @@ public class LoopManiaWorld {
         item.destroy();
         return equippedItem;
     }
-
-
-
-
 
     /**
      * remove an item by x,y coordinates
@@ -681,33 +677,29 @@ public class LoopManiaWorld {
             }
         }
 
-
         // Pick up gold or health potion
         List<ItemProperty> toRemoveGold = new ArrayList<>();
         List<ItemProperty> toRemoveHealthPotion = new ArrayList<>();
-        for (ItemProperty item: unPickedItem) {
-            
+        for (ItemProperty item : unPickedItem) {
+
             item.characterStepOn(this, toRemoveGold, toRemoveHealthPotion);
         }
 
-        for (ItemProperty item: toRemoveGold) {
+        for (ItemProperty item : toRemoveGold) {
             unPickedItem.remove(item);
             item.destroy();
             goldOwned += ((Gold)item).getPrice();
         }
         toRemoveGold.clear();
 
-
-        for (ItemProperty item: toRemoveHealthPotion) {
+        for (ItemProperty item : toRemoveHealthPotion) {
             unPickedItem.remove(item);
             item.destroy();
             addPotion(1);
-            //character.setHp(500);
+            // character.setHp(500);
         }
         toRemoveHealthPotion.clear();
     }
-
-
 
     public void updatePathCycle() {
         this.pathCycle += 1;
@@ -852,22 +844,22 @@ public class LoopManiaWorld {
         }
         return null;
     }
-  
 
     public void addPotion(int numGained) {
         potionsOwned += numGained;
     }
 
     public void spendPotions() {
-        
+
         if (potionsOwned > 0) {
             character.setHp(500);
-            addPotion(-1);;
+            addPotion(-1);
+            ;
         }
     }
 
     public DoubleProperty getExp() {
-        return new SimpleDoubleProperty((double) experience/123456.00);
+        return new SimpleDoubleProperty((double) experience / 123456.00);
     }
 
     public IntegerProperty getExpInt() {
@@ -875,7 +867,7 @@ public class LoopManiaWorld {
     }
 
     public IntegerProperty getCylceNum() {
-        return new SimpleIntegerProperty(this.pathCycle / orderedPath.size()); 
+        return new SimpleIntegerProperty(this.pathCycle / orderedPath.size());
     }
 
     public IntegerProperty getRingNum() {
@@ -895,7 +887,7 @@ public class LoopManiaWorld {
     }
 
     public DoubleProperty getHp() {
-        return new SimpleDoubleProperty((double)this.character.getHp()/500.00);
+        return new SimpleDoubleProperty((double) this.character.getHp() / 500.00);
     }
 
     public IntegerProperty getHpInt() {
@@ -943,7 +935,7 @@ public class LoopManiaWorld {
         int placeToGo = 0;
         int i = 0;
         boolean flag = false;
-        for (Pair<Integer,Integer> pos : orderedPath) {
+        for (Pair<Integer, Integer> pos : orderedPath) {
             boolean isAvailable = true;
             for (BuildingProperty building : campfires) {
                 Campfire campfire = (Campfire) building;
@@ -1026,37 +1018,43 @@ public class LoopManiaWorld {
         }
     }
 
-
-
     public BuildingProperty createbuilding(String type, SimpleIntegerProperty x, SimpleIntegerProperty y) {
         BuildingProperty newBuilding = null;
         if (!checkBuildingAlrdyExisted(x, y)) {
-            switch(type) {
+            switch (type) {
                 case "Village":
-                    if (checkPathTile(x, y)) newBuilding = new Village(x, y);
+                    if (checkPathTile(x, y))
+                        newBuilding = new Village(x, y);
                     break;
                 case "Barracks":
-                    if (checkPathTile(x, y)) newBuilding = new Barracks(x, y);
+                    if (checkPathTile(x, y))
+                        newBuilding = new Barracks(x, y);
                     break;
                 case "Tower":
-                    if (!checkPathTile(x, y) && checkAdjacentToPathTile(x, y)) newBuilding = new Tower(x, y);
+                    if (!checkPathTile(x, y) && checkAdjacentToPathTile(x, y))
+                        newBuilding = new Tower(x, y);
                     break;
                 case "Trap":
-                    if (checkPathTile(x, y)) newBuilding = new Trap(x, y);
+                    if (checkPathTile(x, y))
+                        newBuilding = new Trap(x, y);
                     break;
                 case "VampireCastleBuilding":
-                    if (!checkPathTile(x, y) && checkAdjacentToPathTile(x, y)) newBuilding = new VampireCastleBuilding(x, y);
+                    if (!checkPathTile(x, y) && checkAdjacentToPathTile(x, y))
+                        newBuilding = new VampireCastleBuilding(x, y);
                     break;
                 case "ZombiePit":
-                    if (!checkPathTile(x, y) && checkAdjacentToPathTile(x, y)) newBuilding = new ZombiePit(x, y);
+                    if (!checkPathTile(x, y) && checkAdjacentToPathTile(x, y))
+                        newBuilding = new ZombiePit(x, y);
                     break;
                 case "Campfire":
-                    if (!checkPathTile(x, y)) newBuilding = new Campfire(x, y);
+                    if (!checkPathTile(x, y))
+                        newBuilding = new Campfire(x, y);
                     break;
             }
         }
 
-        if (newBuilding != null) this.buildings.add(newBuilding);
+        if (newBuilding != null)
+            this.buildings.add(newBuilding);
         return newBuilding;
     }
 
@@ -1077,9 +1075,9 @@ public class LoopManiaWorld {
             int srcY = this.character.getPathPosition().getY().get();
 
             if (srcX == destX && srcY == destY) {
-                b.characterStepOn(this);  
+                b.characterStepOn(this);
             }
-            
+
         }
     }
 
@@ -1088,51 +1086,41 @@ public class LoopManiaWorld {
         for (BuildingProperty b : this.buildings) {
             b.enemyStepOn(this, toRemove);
         }
-        
+
         for (Building b : toRemove) {
             this.buildings.remove(b);
             b.destroy();
         }
         toRemove.clear();
-        
+
     }
 
     /**
      * spawn a card in the world and return the card entity
+     *
      * @return a card to be spawned in the controller as a JavaFX node
      */
-    /*public Card loadCard(String type) {
-        Card newCard = null;
-        checkCardEntity();
-        switch (type) {
-            case "ZombiePit":
-                newCard = new ZombiePitCard("ZombiePit", new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-                break;
-            case "Village":
-                newCard = new VillageCard("Village", new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-                break;
-            case "Trap":
-                newCard = new TrapCard("Trap", new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-                break;
-            case "Tower":
-                newCard = new TowerCard("Tower", new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-                break;
-            case "Barracks":
-                newCard = new BarracksCard("Barracks", new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-                break;
-            case "Campfire":
-                newCard = new CampfireCard("Campfire", new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-                break;
-            case "VampireCastle":
-                newCard = new VampireCastleCard("VampireCastleBuilding", new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-            default: return null;
-        }
-        cardEntities.add(newCard);
-        return newCard;
-    }*/
+    /*
+     * public Card loadCard(String type) { Card newCard = null; checkCardEntity();
+     * switch (type) { case "ZombiePit": newCard = new ZombiePitCard("ZombiePit",
+     * new SimpleIntegerProperty(cardEntities.size()), new
+     * SimpleIntegerProperty(0)); break; case "Village": newCard = new
+     * VillageCard("Village", new SimpleIntegerProperty(cardEntities.size()), new
+     * SimpleIntegerProperty(0)); break; case "Trap": newCard = new TrapCard("Trap",
+     * new SimpleIntegerProperty(cardEntities.size()), new
+     * SimpleIntegerProperty(0)); break; case "Tower": newCard = new
+     * TowerCard("Tower", new SimpleIntegerProperty(cardEntities.size()), new
+     * SimpleIntegerProperty(0)); break; case "Barracks": newCard = new
+     * BarracksCard("Barracks", new SimpleIntegerProperty(cardEntities.size()), new
+     * SimpleIntegerProperty(0)); break; case "Campfire": newCard = new
+     * CampfireCard("Campfire", new SimpleIntegerProperty(cardEntities.size()), new
+     * SimpleIntegerProperty(0)); break; case "VampireCastle": newCard = new
+     * VampireCastleCard("VampireCastleBuilding", new
+     * SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+     * default: return null; } cardEntities.add(newCard); return newCard; }
+     */
 
-
-    public VampireCastleCard loadVampireCard(){
+    public VampireCastleCard loadVampireCard() {
         // if adding more cards than have, remove the first card...
         checkCardEntity();
         VampireCastleCard vampireCastleCard = new VampireCastleCard("VampireCastleBuilding", new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
@@ -1142,44 +1130,48 @@ public class LoopManiaWorld {
 
     public CampfireCard loadCampfireCard() {
         checkCardEntity();
-        CampfireCard campfireCard = new CampfireCard("Campfire", new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        CampfireCard campfireCard = new CampfireCard("Campfire", new SimpleIntegerProperty(cardEntities.size()),
+                new SimpleIntegerProperty(0));
         cardEntities.add(campfireCard);
         return campfireCard;
     }
 
-
     public TowerCard loadTowerCard() {
         checkCardEntity();
-        TowerCard towerCard = new TowerCard("Tower", new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        TowerCard towerCard = new TowerCard("Tower", new SimpleIntegerProperty(cardEntities.size()),
+                new SimpleIntegerProperty(0));
         cardEntities.add(towerCard);
         return towerCard;
     }
 
     public TrapCard loadTrapCard() {
         checkCardEntity();
-        TrapCard trapCard = new TrapCard("Trap", new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        TrapCard trapCard = new TrapCard("Trap", new SimpleIntegerProperty(cardEntities.size()),
+                new SimpleIntegerProperty(0));
         cardEntities.add(trapCard);
         return trapCard;
     }
 
     public BarracksCard loadBarracksCard() {
         checkCardEntity();
-        BarracksCard barracksCard = new BarracksCard("Barracks", new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        BarracksCard barracksCard = new BarracksCard("Barracks", new SimpleIntegerProperty(cardEntities.size()),
+                new SimpleIntegerProperty(0));
         cardEntities.add(barracksCard);
         return barracksCard;
     }
 
-
     public VillageCard loadVillageCard() {
         checkCardEntity();
-        VillageCard villageCard = new VillageCard("Village", new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        VillageCard villageCard = new VillageCard("Village", new SimpleIntegerProperty(cardEntities.size()),
+                new SimpleIntegerProperty(0));
         cardEntities.add(villageCard);
         return villageCard;
     }
 
     public ZombiePitCard loadZombiePitCard() {
         checkCardEntity();
-        ZombiePitCard zombiePitCard = new ZombiePitCard("ZombiePit", new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+        ZombiePitCard zombiePitCard = new ZombiePitCard("ZombiePit", new SimpleIntegerProperty(cardEntities.size()),
+                new SimpleIntegerProperty(0));
         cardEntities.add(zombiePitCard);
         return zombiePitCard;
     }
@@ -1193,24 +1185,26 @@ public class LoopManiaWorld {
             Random rand = new Random();
             int result = rand.nextInt(10) % 3;
             switch (result) {
-                case 0: addGold(rand.nextInt(5));
-                case 1: addExperience(rand.nextInt(5));
-                case 2: generateItem();
+                case 0:
+                    addGold(rand.nextInt(5));
+                case 1:
+                    addExperience(rand.nextInt(5));
+                case 2:
+                    generateItem();
             }
 
             removeCard(0);
         }
     }
 
-
     public boolean checkPathTile(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         Pair<Integer, Integer> position = new Pair<>(x.get(), y.get());
         for (Pair<Integer, Integer> pos : orderedPath) {
-            if (pos.equals(position)) return true;
+            if (pos.equals(position))
+                return true;
         }
         return false;
     }
-
 
     public boolean checkAdjacentToPathTile(SimpleIntegerProperty x, SimpleIntegerProperty y) {
 
@@ -1220,19 +1214,20 @@ public class LoopManiaWorld {
         Pair<Integer, Integer> right = new Pair<>(x.get(), y.get() + 1);
 
         for (Pair<Integer, Integer> pos : orderedPath) {
-            if (pos.equals(up) || pos.equals(down) || pos.equals(left) || pos.equals(right)) return true;
+            if (pos.equals(up) || pos.equals(down) || pos.equals(left) || pos.equals(right))
+                return true;
         }
 
         return false;
     }
 
-
-
     /**
-     * remove card at a particular index of cards (position in gridpane of unplayed cards)
+     * remove card at a particular index of cards (position in gridpane of unplayed
+     * cards)
+     *
      * @param index the index of the card, from 0 to length-1
      */
-    private void removeCard(int index){
+    private void removeCard(int index) {
         Card c = cardEntities.get(index);
         int x = c.getX();
         c.destroy();
@@ -1242,25 +1237,28 @@ public class LoopManiaWorld {
 
     /**
      * remove a card by its x, y coordinates
-     * @param cardNodeX x index from 0 to width-1 of card to be removed
-     * @param cardNodeY y index from 0 to height-1 of card to be removed
+     *
+     * @param cardNodeX     x index from 0 to width-1 of card to be removed
+     * @param cardNodeY     y index from 0 to height-1 of card to be removed
      * @param buildingNodeX x index from 0 to width-1 of building to be added
      * @param buildingNodeY y index from 0 to height-1 of building to be added
      */
-    public BuildingProperty convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
+    public BuildingProperty convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX,
+            int buildingNodeY) {
         // start by getting card
         Card card = null;
-        for (Card c: cardEntities){
-            if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)){
+        for (Card c : cardEntities) {
+            if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)) {
                 card = c;
                 break;
             }
         }
-        //if (card == null) return null;
+        // if (card == null) return null;
         String type = card.getType();
 
         // now spawn building
-        BuildingProperty newBuilding = createbuilding(type, new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+        BuildingProperty newBuilding = createbuilding(type, new SimpleIntegerProperty(buildingNodeX),
+                new SimpleIntegerProperty(buildingNodeY));
 
         // destroy the card
         card.destroy();
@@ -1273,7 +1271,7 @@ public class LoopManiaWorld {
     public boolean isShopTime() {
         if (character.getX() == startCastle.getX() && character.getY() == startCastle.getY()) {
             return true;
-        }    
+        }
         return false;
     }
 
@@ -1285,8 +1283,7 @@ public class LoopManiaWorld {
                 return false;
             }
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -1294,8 +1291,7 @@ public class LoopManiaWorld {
     public boolean isGameWin() {
         if (goal.goalComplete(getGold().get(), getExpInt().get(), getCylceNum().get())) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -1303,6 +1299,7 @@ public class LoopManiaWorld {
     public Character getCharacter() {
         return this.character;
     }
+
     public List<BuildingProperty> getBuildings() {
         return this.buildings;
     }
