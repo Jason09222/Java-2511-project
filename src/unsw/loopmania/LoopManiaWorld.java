@@ -82,7 +82,6 @@ public class LoopManiaWorld {
     // private int potionsOwned;
     private int experience;
     private int ringOwned;
-    private Goals goal;
 
     private boolean shouldSpawnDoggie;
     private boolean shouldSpawnMuske;
@@ -126,7 +125,6 @@ public class LoopManiaWorld {
         campfires = new ArrayList<>();
         unPickedItem = new ArrayList<>();
         startCastle = new HeroCastle(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
-        goal = new Goals();
         shouldSpawnDoggie = false;
         shouldSpawnMuske = false;
         hasSpawnMuske = false;

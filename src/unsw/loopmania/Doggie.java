@@ -13,12 +13,12 @@ public class Doggie extends EnemyProperty{
     private final int SupportR = 1;
     private final int gold = 100;
     private final int speed = 2;
-    private final int damage = 20;
+    private int damage = 20;
     //private final boolean cirtical = true;
     private final boolean weak = false;
     private final int hp = 000;
     private final int exp = 100;
-    private final int criticalPoss = 10;
+    private int criticalPoss = 10;
     private Image basicEnemyImage;
 
     public Doggie(PathPosition position) {

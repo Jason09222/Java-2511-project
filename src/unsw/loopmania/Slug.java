@@ -14,12 +14,12 @@ public class Slug extends EnemyProperty{
     private final int SupportR = 1;
     private final int gold = 100;
     private final int speed = 2;
-    private final int damage = 20;
+    private int damage = 20;
     //private final boolean cirtical = true;
     private final boolean weak = false;
     private final int hp = 300;
     private final int exp = 100;
-    private final int criticalPoss = 0;
+    private int criticalPoss = 0;
     private Image basicEnemyImage;
     public Slug(PathPosition position) {
         super(position);

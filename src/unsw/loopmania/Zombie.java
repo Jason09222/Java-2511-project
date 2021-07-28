@@ -12,12 +12,12 @@ public class Zombie extends EnemyProperty{
     private final int SupportR = 4;
     private final int gold = 300;
     private final int speed = 2;
-    private final int damage = 40;
+    private int damage = 40;
     //private final boolean cirtical = true;
     private final boolean weak = false;
     private final int hp = 500;
     private final int exp = 100;
-    private final int criticalPoss = 10;
+    private int criticalPoss = 10;
     private Image zombieImage;
     public Zombie(PathPosition position) {
         super(position);

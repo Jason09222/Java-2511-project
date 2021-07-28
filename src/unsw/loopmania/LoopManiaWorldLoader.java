@@ -118,6 +118,12 @@ public abstract class LoopManiaWorldLoader {
                 onLoad(tower);
                 entity = tower;
                 break;
+            case "zombiePit":
+                ZombiePit zombiePit = new ZombiePit(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+                world.getBuildings().add(zombiePit);
+                onLoad(zombiePit);
+                entity = zombiePit;
+                break;
             }
             
 
@@ -202,7 +208,7 @@ public abstract class LoopManiaWorldLoader {
             totalGoal.addGoal(subgoal);
         } else if (goal.getString("goal").equals("cycles")) {
             value = goal.getInt("quantity");
-            subgoal = new SubGoalGold(world, value);
+            subgoal = new SubGoalCycle(world, value);
             totalGoal.addGoal(subgoal);
         } else if (goal.getString("goal").equals("gold")) {
             value = goal.getInt("quantity");

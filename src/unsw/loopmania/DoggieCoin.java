@@ -3,6 +3,7 @@ package unsw.loopmania;
 import java.util.List;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.ImageView;
 
 public class DoggieCoin extends ItemProperty{
     private int price;
@@ -33,6 +34,12 @@ public class DoggieCoin extends ItemProperty{
 
     public void setPrice(int value) {
         this.price = value;
+    }
+
+    @Override
+    public ImageView onLoadItems() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }

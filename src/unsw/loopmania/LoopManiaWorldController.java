@@ -310,8 +310,6 @@ public class LoopManiaWorldController {
         goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
         allyImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
 
-        allyImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
-
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
 
