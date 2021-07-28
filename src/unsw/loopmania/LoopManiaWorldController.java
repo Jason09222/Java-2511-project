@@ -177,16 +177,12 @@ public class LoopManiaWorldController {
      */
     private Timeline timeline;
 
-    private Image armourImage;
-    private Image swordImage;
     private Image brilliantBlueNewImage;
     private Image goldImage;
     private Image expImage;
     private Image heartImage;
-    private Image helmetImage;
-    private Image shieldImage;
-    private Image staffImage;
-    private Image stakeImage;
+    private Image swordImage;
+
     private Image theOneRingImage;
 
     // private Image basicEnemyImage;
@@ -306,17 +302,13 @@ public class LoopManiaWorldController {
         heroCastleImage = new Image((new File("src/images/heros_castle.png")).toURI().toString());
 
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
-        stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
-        shieldImage = new Image((new File("src/images/shield.png")).toURI().toString());
-        armourImage = new Image((new File("src/images/armour.png")).toURI().toString());
-        staffImage = new Image((new File("src/images/staff.png")).toURI().toString());
-        helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
-
+        
         brilliantBlueNewImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
-        goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
         heartImage = new Image((new File("src/images/heart.png")).toURI().toString());
         theOneRingImage = new Image((new File("src/images/the_one_ring.png")).toURI().toString());
         expImage = new Image((new File("src/images/exp.png")).toURI().toString());
+        goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
+        allyImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
 
         allyImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
 
@@ -645,8 +637,8 @@ public class LoopManiaWorldController {
     }
 
     private void loadArmour() {
-        Armour armour = (Armour) world.addUnequippedItem(ItemType.ARMOUR);
-        onLoad(armour);
+        Armour armour = (Armour)world.addUnequippedItem(ItemType.ARMOUR);
+        armour.onLoadItems();
     }
 
     /**
@@ -836,44 +828,7 @@ public class LoopManiaWorldController {
         cards.getChildren().add(view);
     }
 
-    /**
-     * load a sword into the GUI. Particularly, we must connect to the drag
-     * detection event handler, and load the image into the unequippedInventory
-     * GridPane.
-     *
-     * @param sword
-     */
-    /*
-     * private void onLoad(Sword sword) { ImageView view = new
-     * ImageView(swordImage); addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM,
-     * unequippedInventory, equippedItems); addEntity(sword, view);
-     * unequippedInventory.getChildren().add(view); }
-     *
-     * private void onLoad(Shield shield) { ImageView view = new
-     * ImageView(shieldImage); addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM,
-     * unequippedInventory, equippedItems); addEntity(shield, view);
-     * unequippedInventory.getChildren().add(view); }
-     *
-     * private void onLoad(Stake stake) { ImageView view = new
-     * ImageView(stakeImage); addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM,
-     * unequippedInventory, equippedItems); addEntity(stake, view);
-     * unequippedInventory.getChildren().add(view); }
-     *
-     * private void onLoad(Staff staff) { ImageView view = new
-     * ImageView(staffImage); addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM,
-     * unequippedInventory, equippedItems); addEntity(staff, view);
-     * unequippedInventory.getChildren().add(view); }
-     *
-     * private void onLoad(Helmet helmet) { ImageView view = new
-     * ImageView(helmetImage); addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM,
-     * unequippedInventory, equippedItems); addEntity(helmet, view);
-     * unequippedInventory.getChildren().add(view); }
-     *
-     * private void onLoad(Armour armour) { ImageView view = new
-     * ImageView(armourImage); addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM,
-     * unequippedInventory, equippedItems); addEntity(armour, view);
-     * unequippedInventory.getChildren().add(view); }
-     */
+
     /**
      * loads an item into the GUI depending on the ItemType given connects the item
      * to the drag detection event handler and places it in unequippedInventory if
@@ -883,41 +838,17 @@ public class LoopManiaWorldController {
      * @param item
      */
     private void onLoad(ItemProperty item) {
-        ImageView view;
-        switch (item.getType()) {
-            case SWORD:
-                view = new ImageView(swordImage);
-                break;
-            case STAKE:
-                view = new ImageView(stakeImage);
-                break;
-            case STAFF:
-                view = new ImageView(staffImage);
-                break;
-            case HELMET:
-                view = new ImageView(helmetImage);
-                break;
-            case ARMOUR:
-                view = new ImageView(armourImage);
-                break;
-            case SHIELD:
-                view = new ImageView(shieldImage);
-                break;
-            case HEALTHPOTION:
-                view = new ImageView(brilliantBlueNewImage);
-                break;
-            default:
-                view = new ImageView(goldImage);
-        }
+        ImageView view = item.onLoadItems();
+        
         if (item.getType() == ItemType.OTHER || item.getType() == ItemType.HEALTHPOTION) {
-            addEntity(item, view);
             squares.getChildren().add(view);
-        } else {
+            addEntity(item, view);
+        }
+        else {
             addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
             addEntity(item, view);
             unequippedInventory.getChildren().add(view);
         }
-
     }
 
     /**

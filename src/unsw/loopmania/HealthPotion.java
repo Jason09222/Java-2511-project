@@ -1,8 +1,11 @@
 package unsw.loopmania;
 
+import java.io.File;
 import java.util.List;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * represents an equipped or unequipped HealthPotion in the backend world
@@ -10,8 +13,10 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class HealthPotion extends ItemProperty {
     private final int price = 2000;
     private final int health = 200;
+    private Image brilliantBlueNewImage;
     public HealthPotion(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.HEALTHPOTION);
+        brilliantBlueNewImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
     }
     @Override
     public int getPrice() {
@@ -31,5 +36,10 @@ public class HealthPotion extends ItemProperty {
             toRemoveHealthPotion.add(this);
         }
         
+    }
+
+    @Override
+    public ImageView onLoadItems() {
+        return new ImageView(brilliantBlueNewImage);
     }
 }

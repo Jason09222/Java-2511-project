@@ -1,16 +1,22 @@
 package unsw.loopmania;
 
+import java.io.File;
 import java.util.List;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * represents an equipped or unequipped Gold in the backend world
  */
 public class Gold extends ItemProperty {
     private final int value = 200;
+    private Image goldImage;
+    
     public Gold(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.OTHER);
+        goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
     }
     @Override
     public int getPrice() {
@@ -28,5 +34,10 @@ public class Gold extends ItemProperty {
             toRemoveGold.add(this);
         }
         
+    }
+
+    @Override
+    public ImageView onLoadItems() {
+        return new ImageView(goldImage);
     }
 }
