@@ -34,6 +34,8 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.control.Label;
@@ -139,6 +141,36 @@ public class LoopManiaWorldController {
     private Label cycleNum;
 
     @FXML
+    private Label BattleSlugNumImage;
+
+    @FXML
+    private Label BattleZombieNumImage;
+
+    @FXML
+    private Label BattleVampireNumImage;
+
+    @FXML
+    private Label BattleDoggieNumImage;
+
+    @FXML
+    private Label BattleMuskNumImage;
+
+    @FXML
+    private Label BattleSlugNum;
+
+    @FXML
+    private Label BattleZombieNum;
+
+    @FXML
+    private Label BattleVampireNum;
+
+    @FXML
+    private Label BattleDoggieNum;
+
+    @FXML
+    private Label BattleMuskNum;
+
+    @FXML
     private Label ringNum;
 
     @FXML
@@ -155,6 +187,12 @@ public class LoopManiaWorldController {
 
     @FXML
     private StackPane layout3;
+
+    @FXML
+    private StackPane layout4;
+
+    @FXML
+    private StackPane layout5;
 
     // all image views including tiles, character, enemies, cards... even though
     // cards in separate gridpane...
@@ -211,7 +249,12 @@ public class LoopManiaWorldController {
     private IntegerProperty allyInNum;
     private IntegerProperty healthPotionInNum;
     private IntegerProperty ringInNum;
+    private IntegerProperty battleSlugInNum;
     private IntegerProperty cycleInNum;
+    private IntegerProperty battleZombieInNum;
+    private IntegerProperty battleVampireInNum;
+    private IntegerProperty battleDoggieInNum;
+    private IntegerProperty battleMuskInNum;
     private SimpleIntegerProperty allyInWorld;
 
     // private Experience gold;
@@ -302,14 +345,12 @@ public class LoopManiaWorldController {
         heroCastleImage = new Image((new File("src/images/heros_castle.png")).toURI().toString());
 
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
-        
+
         brilliantBlueNewImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
         heartImage = new Image((new File("src/images/heart.png")).toURI().toString());
         theOneRingImage = new Image((new File("src/images/the_one_ring.png")).toURI().toString());
         expImage = new Image((new File("src/images/exp.png")).toURI().toString());
         goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
-        allyImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
-
         allyImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
 
         currentlyDraggedImage = null;
@@ -436,6 +477,82 @@ public class LoopManiaWorldController {
         layout2.getChildren().add(cycleNum);
         StackPane.setAlignment(cycleNum, Pos.BOTTOM_RIGHT);
 
+        BattleSlugNumImage = new Label("Slug");
+        BattleSlugNum = new Label("0");
+        battleSlugInNum = world.getBattleSlugNum();
+        BattleSlugNum.textProperty().bind(battleSlugInNum.asString());
+        BattleSlugNum.setTextFill(Color.PURPLE);
+        BattleSlugNum.setFont(new Font("Cambria", 40));
+
+        BattleSlugNumImage.setFont(new Font("Cambria", 30));
+        BattleSlugNumImage.setTextFill(Color.BLACK);
+        layout4.getChildren().add(BattleSlugNumImage);
+        StackPane.setAlignment(BattleSlugNumImage, Pos.TOP_LEFT);
+        layout4.getChildren().add(BattleSlugNum);
+        StackPane.setAlignment(BattleSlugNum, Pos.TOP_RIGHT);
+
+
+        BattleZombieNumImage = new Label("Zombie");
+        BattleZombieNum = new Label("0");
+        battleZombieInNum = world.getBattleZombieNum();
+        BattleZombieNum.textProperty().bind(battleZombieInNum.asString());
+        BattleZombieNum.setTextFill(Color.PURPLE);
+        BattleZombieNum.setFont(new Font("Cambria", 40));
+
+        BattleZombieNumImage.setFont(new Font("Cambria", 30));
+        BattleZombieNumImage.setTextFill(Color.BLACK);
+        layout4.getChildren().add(BattleZombieNumImage);
+        StackPane.setAlignment(BattleZombieNumImage, Pos.CENTER_LEFT);
+        layout4.getChildren().add(BattleZombieNum);
+        StackPane.setAlignment(BattleZombieNum, Pos.CENTER_RIGHT);
+
+
+        BattleVampireNumImage = new Label("Vampire");
+        BattleVampireNum = new Label("0");
+        battleVampireInNum = world.getBattleVampireNum();
+        BattleVampireNum.textProperty().bind(battleVampireInNum.asString());
+        BattleVampireNum.setTextFill(Color.PURPLE);
+        BattleVampireNum.setFont(new Font("Cambria", 40));
+
+        BattleVampireNumImage.setFont(new Font("Cambria", 30));
+        BattleVampireNumImage.setTextFill(Color.BLACK);
+        layout4.getChildren().add(BattleVampireNumImage);
+        StackPane.setAlignment(BattleVampireNumImage, Pos.BOTTOM_LEFT);
+        layout4.getChildren().add(BattleVampireNum);
+        StackPane.setAlignment(BattleVampireNum, Pos.BOTTOM_RIGHT);
+
+
+        BattleDoggieNumImage = new Label("Doggie");
+        BattleDoggieNum = new Label("0");
+        battleDoggieInNum = world.getBattleDoggieNum();
+        BattleDoggieNum.textProperty().bind(battleDoggieInNum.asString());
+        BattleDoggieNum.setTextFill(Color.PURPLE);
+        BattleDoggieNum.setFont(new Font("Cambria", 40));
+
+        BattleDoggieNumImage.setFont(new Font("Cambria", 30));
+        BattleDoggieNumImage.setTextFill(Color.BLACK);
+        layout5.getChildren().add(BattleDoggieNumImage);
+        StackPane.setAlignment(BattleDoggieNumImage, Pos.TOP_LEFT);
+        layout5.getChildren().add(BattleDoggieNum);
+        StackPane.setAlignment(BattleDoggieNum, Pos.TOP_RIGHT);
+
+
+
+        BattleMuskNumImage = new Label("Musk");
+        BattleMuskNum = new Label("0");
+        battleMuskInNum = world.getBattleMuskNum();
+        BattleMuskNum.textProperty().bind(battleMuskInNum.asString());
+        BattleMuskNum.setTextFill(Color.PURPLE);
+        BattleMuskNum.setFont(new Font("Cambria", 40));
+
+        BattleMuskNumImage.setFont(new Font("Cambria", 30));
+        BattleMuskNumImage.setTextFill(Color.BLACK);
+        layout5.getChildren().add(BattleMuskNumImage);
+        StackPane.setAlignment(BattleMuskNumImage, Pos.CENTER_LEFT);
+        layout5.getChildren().add(BattleMuskNum);
+        StackPane.setAlignment(BattleMuskNum, Pos.CENTER_RIGHT);
+
+
         ImageView heartView = new ImageView(heartImage);
         hpProgress = new ProgressBar();
         hpInWorld = world.getHp();
@@ -471,6 +588,13 @@ public class LoopManiaWorldController {
         layout2.getChildren().add(expNum);
         StackPane.setAlignment(expNum, Pos.CENTER_RIGHT);
 
+
+
+        File audioFile = new File("src/images/audio.mp3");
+        Media audio = new Media(audioFile.toURI().toString());
+        MediaPlayer audioPlayer = new MediaPlayer(audio);
+        audioPlayer.setAutoPlay(true);
+
     }
 
     /**
@@ -502,7 +626,11 @@ public class LoopManiaWorldController {
             healthPotionInNum.set(world.getHealthPotion());
             ringInNum.set(world.getRing());
             cycleInNum.set(world.getCycle());
-
+            battleSlugInNum.set(world.getBattleSlugNum().get());
+            battleZombieInNum.set(world.getBattleZombieNum().get());
+            battleVampireInNum.set(world.getBattleVampireNum().get());
+            battleDoggieInNum.set(world.getBattleDoggieNum().get());
+            battleMuskInNum.set(world.getBattleMuskNum().get());
             List<ItemProperty> items = world.possiblySpawnItems();
             for (ItemProperty item : items) {
                 onLoad(item);
@@ -840,7 +968,7 @@ public class LoopManiaWorldController {
      */
     public void onLoad(ItemProperty item) {
         ImageView view = item.onLoadItems();
-        
+
         if (item.getType() == ItemType.OTHER || item.getType() == ItemType.HEALTHPOTION) {
             squares.getChildren().add(view);
             addEntity(item, view);

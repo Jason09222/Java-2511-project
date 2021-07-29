@@ -41,6 +41,11 @@ public class Armour extends ItemProperty {
     public ImageView onLoadItems() {
         return new ImageView(armourImage);
     }
+    @Override
+    public boolean canBePurchased() {
+        // TODO Auto-generated method stub
+        return true;
+    }
     
 
 }

@@ -14,12 +14,12 @@ public class Slug extends EnemyProperty{
     private final int SupportR = 1;
     private final int gold = 100;
     private final int speed = 2;
-    private final int damage = 20;
+    private int damage = 20;
     //private final boolean cirtical = true;
     private final boolean weak = false;
     private final int hp = 300;
     private final int exp = 100;
-    private final int criticalPoss = 0;
+    private int criticalPoss = 0;
     private Image basicEnemyImage;
     public Slug(PathPosition position) {
         super(position);
@@ -49,20 +49,20 @@ public class Slug extends EnemyProperty{
         if (Math.pow((l.getCharacter().getX() - getX()), 2) + Math.pow((l.getCharacter().getY() - getY()), 2) > Math
                     .pow(getFightRadius(), 2)) {
             return;
-                    }
+        }
 
         boolean hasAttacked = false;
         for (Ally ally : l.getAllies()) {
             if (ally.getHp() <= 0) {
                 continue;
             }
-            
+
             l.getCharacter().setInBattle(true);
             inBattle = true;
             //e.attack_ally(ally);
             hasAttacked = true;
             //if (ally.getHp() <= 0) {
-            
+
             ally.setHp(ally.getHp() - getDamage());
             if (ally.getHp() <= 0) {
                 defeatedAllies.add(ally);
@@ -76,12 +76,12 @@ public class Slug extends EnemyProperty{
             for (ItemProperty item : equipments) {
                 if (item == null) {
                     continue;
-                } 
+                }
                 item.useDuringBattle(this, l.getCharacter());
             }
             attack_character(l.getCharacter());
         }
-        
+
     }
 
     @Override
@@ -96,7 +96,7 @@ public class Slug extends EnemyProperty{
         return false;
     }
 
-    
+
 
 }
 

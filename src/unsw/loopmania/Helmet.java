@@ -48,4 +48,9 @@ public class Helmet extends ItemProperty {
     public ImageView onLoadItems() {
         return new ImageView(helmetImage);
     }
+    @Override
+    public boolean canBePurchased() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 }

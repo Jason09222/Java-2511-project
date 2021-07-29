@@ -61,4 +61,10 @@ public class Staff extends ItemProperty {
     public ImageView onLoadItems() {
         return new ImageView(staffImage);
     }
+
+    @Override
+    public boolean canBePurchased() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 }

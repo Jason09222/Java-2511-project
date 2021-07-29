@@ -11,7 +11,7 @@ public class Vampire extends EnemyProperty{
     private final int SupportR = 5;
     private final int gold = 500;
     private int speed = 3;
-    private final int damage = 60;
+    private int damage = 60;
     //private final boolean cirtical = true;
     private final boolean weak = false;
     private final int hp = 800;

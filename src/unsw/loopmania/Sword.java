@@ -47,4 +47,10 @@ public class Sword extends ItemProperty {
     public ImageView onLoadItems() {
         return new ImageView(swordImage);
     }
+
+    @Override
+    public boolean canBePurchased() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 }

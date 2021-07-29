@@ -40,4 +40,9 @@ public class Gold extends ItemProperty {
     public ImageView onLoadItems() {
         return new ImageView(goldImage);
     }
+    @Override
+    public boolean canBePurchased() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }

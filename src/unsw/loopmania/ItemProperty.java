@@ -16,5 +16,6 @@ public abstract class ItemProperty extends BasicItem {
     abstract public void characterStepOn(LoopManiaWorld l,List<ItemProperty> toRemoveGold, List<ItemProperty> toRemoveHealthPotion);
     abstract public int getPrice();
     abstract public ImageView onLoadItems();
+    abstract public boolean canBePurchased();
     
 }

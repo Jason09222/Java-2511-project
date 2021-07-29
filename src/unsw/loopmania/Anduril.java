@@ -1,51 +1,56 @@
 package unsw.loopmania;
 
+import java.io.File;
 import java.util.List;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class DoggieCoin extends ItemProperty{
-    private int price;
-    public DoggieCoin(SimpleIntegerProperty x, SimpleIntegerProperty y, ItemType type) {
+/**
+ * represents an equipped or unequipped TheOneRing in the backend world
+ */
+public class Anduril extends RareItem {
+    private final int damage = 250;
+    private Image andurilImage;
+    public Anduril(SimpleIntegerProperty x, SimpleIntegerProperty y, ItemType type) {
         super(x, y, type);
-        price = 200;
+        andurilImage = new Image((new File("src/images/anduril.png")).toURI().toString());
         //TODO Auto-generated constructor stub
     }
 
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
-        return;
-        
+        // TODO Auto-generated method stub
+        if (e.isBoss()) {
+            c.setDamage(c.getDamage() + 3 * damage);
+        } else {
+            c.setDamage(c.getDamage());
+        }
     }
 
     @Override
     public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemoveGold,
             List<ItemProperty> toRemoveHealthPotion) {
-        return;
+        // TODO Auto-generated method stub
         
     }
 
     @Override
     public int getPrice() {
         // TODO Auto-generated method stub
-        return price;
-    }
-
-    public void setPrice(int value) {
-        this.price = value;
+        return 0;
     }
 
     @Override
     public ImageView onLoadItems() {
         // TODO Auto-generated method stub
-        return null;
+        return new ImageView(andurilImage);
     }
 
     @Override
     public boolean canBePurchased() {
         // TODO Auto-generated method stub
-        return true;
+        return false;
     }
-    
 }

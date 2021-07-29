@@ -9,7 +9,7 @@ public class SubGoalBoss implements GoalCompsite{
 
     @Override
     public boolean goalReached() {
-        //if(world.isBossAlive()) return false;
+        if(world.isBossAlive()) return false;
         return true;
     }
 }

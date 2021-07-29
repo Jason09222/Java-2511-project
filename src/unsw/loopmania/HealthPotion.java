@@ -42,4 +42,9 @@ public class HealthPotion extends ItemProperty {
     public ImageView onLoadItems() {
         return new ImageView(brilliantBlueNewImage);
     }
+    @Override
+    public boolean canBePurchased() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }
