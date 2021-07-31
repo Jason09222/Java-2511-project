@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
 /**
  * represents an equipped or unequipped Armour in the backend world
@@ -46,6 +47,7 @@ public class Armour extends ItemProperty {
         // TODO Auto-generated method stub
         return true;
     }
+
     
 
 }

@@ -132,6 +132,7 @@ public class LoopManiaWorld {
     }
 
 
+
     public GoalLogic getGoal() {
         return totaGoal;
     }
@@ -216,6 +217,10 @@ public class LoopManiaWorld {
 
     public int getCycle() {
         return this.pathCycle / orderedPath.size();
+    }
+
+    public List<ItemProperty> getUnequippedInventoryItems() {
+        return this.unequippedInventoryItems;
     }
 
     /**
@@ -1348,6 +1353,7 @@ public class LoopManiaWorld {
             return 2000;
         }
         return 0;
+    }
 
     public IntegerProperty getBattleSlugNum() {
         int num = 0;

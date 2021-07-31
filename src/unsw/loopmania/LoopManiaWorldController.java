@@ -597,6 +597,12 @@ public class LoopManiaWorldController {
 
     }
 
+    public GridPane getUnequippedInventory() {
+        return this.unequippedInventory;
+    }
+
+    
+
     /**
      * create and run the timer
      */
@@ -611,6 +617,7 @@ public class LoopManiaWorldController {
             world.runTickMoves();
             if (world.isShopTime()) {
                 try {
+                    
                     switchToShop();
                 }
                 catch (IOException e) {
