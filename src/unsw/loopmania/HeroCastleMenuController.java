@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 //import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.io.File;
 
@@ -216,19 +217,20 @@ public class HeroCastleMenuController {
 
     @FXML
     void handlePurchaseSword(ActionEvent event) {
-        if (world.getGold().getValue() >= world.getItemPrice(ItemType.SWORD)) {
+        if (!purchaseSword.getText().equals("\u2713") && world.getGold().getValue() >= world.getItemPrice(ItemType.SWORD)) {
             buyItem(ItemType.SWORD);
-
+            purchaseSword.setText("\u2713");
         }
         
     }
 
 
     @FXML
-    public void initialise() {
+    public void initialize() {
         gold = new Label("0");
         gold.textProperty().bind(world.getGold().asString());
         gold.setTextFill(Color.ORANGE);
+        gold.setFont(new Font("Cambria", 40));
         currentGold.getChildren().add(gold);
         StackPane.setAlignment(gold, Pos.CENTER_RIGHT);
     }
