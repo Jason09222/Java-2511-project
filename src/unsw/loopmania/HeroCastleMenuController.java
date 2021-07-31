@@ -5,12 +5,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 //import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
 import java.io.File;
 
@@ -95,23 +97,40 @@ public class HeroCastleMenuController {
     private Button sell;
 
     @FXML
+    private StackPane currentGold;
+
+
+    private int nextAvailableX = 0;
+    private int nextAvailableY = 0;
+
+    @FXML
     void updateInventory(ActionEvent event) {
         initialiseInventory();
         for(ItemProperty item: world.getUnequippedInventoryItems()) {
-            ImageView view = item.onLoadItems();
-            inventory.getChildren().add(view);
-            view.setOnMouseClicked(e->selected(item));
+            if (item != null) {
+
+                ImageView view = item.onLoadItems();
+                inventory.add(view, nextAvailableX, nextAvailableY);
+                if (nextAvailableX == LoopManiaWorld.unequippedInventoryWidth - 1) {
+                    nextAvailableX = 0;
+                    nextAvailableY++;
+                } else {
+                    nextAvailableX++;
+                }
+    
+    
+                view.setOnMouseClicked(e->selected(item));
+            }
         }
     }
 
-    //@FXML
     void selected(ItemProperty item) {
         initialisePane();
         ImageView view = item.onLoadItems();
         view.setFitHeight(100);
         view.setFitWidth(100);
         paneToSell.getChildren().add(view);
-        Label label = new Label(item.getType().name());
+        Label label = new Label(item.getType().name() + ":  $" + item.getPrice());
         paneToSell.getChildren().add(label);
         StackPane.setAlignment(label, Pos.BOTTOM_CENTER);
         StackPane.setAlignment(view, Pos.TOP_CENTER);
@@ -207,8 +226,14 @@ public class HeroCastleMenuController {
 
     @FXML
     public void initialise() {
+        gold = new Label("0");
         gold.textProperty().bind(world.getGold().asString());
+        gold.setTextFill(Color.ORANGE);
+        currentGold.getChildren().add(gold);
+        StackPane.setAlignment(gold, Pos.CENTER_RIGHT);
     }
+
+
 
     @FXML
     public void sellItem(ActionEvent event) {
@@ -217,7 +242,7 @@ public class HeroCastleMenuController {
         for (Node each: paneToSell.getChildren()) {
             if (each instanceof Label) {
                 Label label = (Label)each;
-                text = label.getText();
+                text = label.getText().split(":")[0];
             }
         }
 
@@ -233,13 +258,14 @@ public class HeroCastleMenuController {
     }
 
     public void removeItem(String text) {
-        /*for (ItemProperty item: world.getUnequippedInventoryItems()) {
-            switch(text) {
-
+        for (ItemProperty item: world.getUnequippedInventoryItems()) {
+            if(item.getType().name().equals(text)) {
+                world.getUnequippedInventoryItems().remove(item);
+                world.addGold(item.getPrice());
+                world.getGold().set(world.getGolds());
+                return;
             }
         }
-        world.getUnequippedInventoryItems().remove(item);*/
-        return;
     }
 
 

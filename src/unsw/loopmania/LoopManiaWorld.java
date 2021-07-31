@@ -132,6 +132,7 @@ public class LoopManiaWorld {
     }
 
 
+
     public GoalLogic getGoal() {
         return totaGoal;
     }

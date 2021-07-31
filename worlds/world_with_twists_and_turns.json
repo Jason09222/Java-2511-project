@@ -4,9 +4,7 @@
   "rare_items": [],
   "goal-condition": {"goal": "experience", "quantity": 123456},
   "entities": [
-    {"x": 0, "y": 0, "type": "hero_castle"},
-    {"x": 3, "y": 0, "type": "vampire_castle"},
-    {"x": 1, "y": 2, "type": "zombiePit"}
+    {"x": 0, "y": 0, "type": "hero_castle"}
   ],
   "path": {
     "type": "path_tile",
