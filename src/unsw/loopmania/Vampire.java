@@ -57,12 +57,12 @@ public class Vampire extends EnemyProperty{
         int int_random = rand.nextInt(getCriticalPoss());
         if (int_random == 0) {
             int times = rand.nextInt(10);
-            c.setHp(c.getHp() - this.getDamage() * times);
+            c.setHp(c.getHp().get() - this.getDamage() * times);
             //TODO random additional damage with every vampire attack, for a random number of vampire attacks
             return;
         }
         //TODO deduct hp of ally/Character
-        c.setHp(c.getHp() - this.getDamage());
+        c.setHp(c.getHp().get() - this.getDamage());
         return;
     }
 
@@ -74,11 +74,11 @@ public class Vampire extends EnemyProperty{
     }
 
     @Override
-    public void attack(LoopManiaWorld l, List<Ally> defeatedAllies, List<EnemyProperty> transferZombies,
+    public boolean attack(LoopManiaWorld l, List<Ally> defeatedAllies, List<EnemyProperty> transferZombies,
             boolean inBattle, ItemProperty[] equipments) {
         if (Math.pow((l.getCharacter().getX() - getX()), 2) + Math.pow((l.getCharacter().getY() - getY()), 2) > Math
         .pow(getFightRadius(), 2)) {
-            return;
+            return false;
         }
 
         boolean hasAttacked = false;
@@ -112,7 +112,7 @@ public class Vampire extends EnemyProperty{
             //for (ItemProperty item : l)
             attack_character(l.getCharacter());
         }
-        
+        return true;
     }
 
     @Override

@@ -72,22 +72,19 @@ public class LoopManiaWorld {
 
     private List<Ally> allies;
 
-    private int goldOwned;
-
     private int potionsOwned;
 
     private SimpleIntegerProperty alliesOwned;
     private int doggieCoinOwned;
 
-    // private int potionsOwned;
-    private int experience;
-    private int ringOwned;
+    private IntegerProperty experience;
+    private DoubleProperty expDouble;
+    private IntegerProperty ringOwned;
 
     private boolean shouldSpawnDoggie;
     private boolean shouldSpawnMuske;
     private boolean hasSpawnMuske;
-
-
+    private IntegerProperty gold;
     private GoalLogic totaGoal;
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse
@@ -114,12 +111,14 @@ public class LoopManiaWorld {
         equippedItems = new Equipment(unequippedInventoryItems);
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
-        goldOwned = 0;
+        gold = new SimpleIntegerProperty(0);
         potionsOwned = 0;
         transferZombies = new ArrayList<EnemyProperty>();
 
-        experience = 0;
-        ringOwned = 0;
+        experience = new SimpleIntegerProperty(0);
+        expDouble = new SimpleDoubleProperty((double) 0 / 123456.00);
+        ringOwned = new SimpleIntegerProperty(0);
+        alliesOwned = new SimpleIntegerProperty(0);
         buildings = new ArrayList<>();
         allies = new ArrayList<>();
         campfires = new ArrayList<>();
@@ -163,6 +162,7 @@ public class LoopManiaWorld {
 
     public void addAlly(Ally ally) {
         allies.add(ally);
+        alliesOwned.set(alliesOwned.get() + 1);
     }
 
     public int getWidth() {
@@ -195,15 +195,10 @@ public class LoopManiaWorld {
         // like this with specific input types...
         nonSpecifiedEntities.add(entity);
     }
-
-    public int getGolds() {
-        return this.goldOwned;
-    }
-
     public int getDoggieCoin() {
         return this.doggieCoinOwned;
     }
-    public int getHpValue() {
+    public IntegerProperty getHpValue() {
         return character.getHp();
     }
 
@@ -211,7 +206,7 @@ public class LoopManiaWorld {
         return potionsOwned;
     }
 
-    public int getRing() {
+    public IntegerProperty getRing() {
         return ringOwned;
     }
 
@@ -374,6 +369,7 @@ public class LoopManiaWorld {
     public void killAlly(Ally ally) {
         ally.destroy();
         allies.remove(ally);
+        alliesOwned.set(alliesOwned.get() - 1);
     }
 
     /**
@@ -395,8 +391,12 @@ public class LoopManiaWorld {
             // influence radii and battle radii
             // boolean hasAttacked = false;
             e.setAllPropertyBack();
-            e.attack(this, defeatedAllies, transferZombies, inBattle, getEquipItems());
-
+            if (e.attack(this, defeatedAllies, transferZombies, inBattle, getEquipItems())) {
+                inBattle = true;
+                e.setInBattle(true);
+                character.setInBattle(true);
+            }
+            
         }
         for (EnemyProperty enemy : transferZombies) {
             enemies.add(enemy);
@@ -408,8 +408,8 @@ public class LoopManiaWorld {
                 if (e.getHP() <= 0) {
                     continue;
                 }
-                if (Math.pow((character.getX() - e.getX()), 2) + Math.pow((character.getY() - e.getY()), 2) <= 4) {
-                    inBattle = true;
+                if (e.getInBattle()){
+                    //inBattle = true;
                     ally.attack(e);
                     if (e.getHP() <= 0) {
                         defeatedEnemies.add(e);
@@ -425,8 +425,8 @@ public class LoopManiaWorld {
             }
             // add character attacked
             if (Math.pow((character.getX() - e.getX()), 2) + Math.pow((character.getY() - e.getY()), 2) <= 4) {
-                inBattle = true;
-                e.setInBattle(true);
+                //inBattle = true;
+                //e.setInBattle(true);
                 character.attack(e, equippedItems.getEquipment());
                 if (e.getHP() <= 0) {
                     defeatedEnemies.add(e);
@@ -440,8 +440,7 @@ public class LoopManiaWorld {
             // if we killEnemy in prior loop, we get
             // java.util.ConcurrentModificationException
             // due to mutating list we're iterating over
-            experience += e.getExp();
-            // goldOwned += e.getGold();
+            addExperience(e.getExp());
             killEnemy(e);
         }
 
@@ -523,7 +522,7 @@ public class LoopManiaWorld {
         Random rand = new Random();
         int result = rand.nextInt(30);
         if (result == 0) {
-            ringOwned += 1;
+            ringOwned.set(ringOwned.get() + 1);
         }
 
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
@@ -552,7 +551,6 @@ public class LoopManiaWorld {
         SimpleIntegerProperty y = new SimpleIntegerProperty(firstAvailableSlot.getValue1());
         // insert new item as it is now we know we have a slot available
         ItemProperty item;
-        // ringOwned+=1;
         switch (type) {
             case SWORD:
                 item = new Sword(x, y);
@@ -642,7 +640,7 @@ public class LoopManiaWorld {
             shouldSpawnDoggie = true;
         }
 
-        if (getCycle() == 40 && experience >= 10000 && !hasSpawnMuske) {
+        if (getCycle() == 40 && experience.get() >= 10000 && !hasSpawnMuske) {
             shouldSpawnMuske = true;
         }
         moveBasicEnemies();
@@ -702,7 +700,7 @@ public class LoopManiaWorld {
         for (ItemProperty item : toRemoveGold) {
             unPickedItem.remove(item);
             item.destroy();
-            goldOwned += ((Gold)item).getPrice();
+            gold.set(gold.get() + ((Gold)item).getPrice());
         }
         toRemoveGold.clear();
 
@@ -873,59 +871,53 @@ public class LoopManiaWorld {
     }
 
     public DoubleProperty getExp() {
-        return new SimpleDoubleProperty((double) experience / 123456.00);
+        return expDouble;
     }
 
     public IntegerProperty getExpInt() {
-        return new SimpleIntegerProperty(experience);
+        return experience;
     }
 
     public IntegerProperty getCylceNum() {
         return new SimpleIntegerProperty(this.pathCycle / orderedPath.size());
     }
 
-    public IntegerProperty getRingNum() {
-        return new SimpleIntegerProperty(this.ringOwned);
-    }
-
-    public IntegerProperty getGold() {
-        return new SimpleIntegerProperty(this.goldOwned);
-    }
-
+    
     public IntegerProperty getAllyNum() {
-        return new SimpleIntegerProperty(allies.size());
+        return alliesOwned;
     }
-
+    
     public IntegerProperty getHealthPotionNum() {
         return new SimpleIntegerProperty(potionsOwned);
     }
-
+    
     public DoubleProperty getHp() {
-        return new SimpleDoubleProperty((double) this.character.getHp() / 500.00);
+        return character.getHpProgress();
     }
-
+    
     public IntegerProperty getHpInt() {
-        return new SimpleIntegerProperty(this.character.getHp());
+        return character.getHp();
     }
-
-    public void addGold(int numGained) {
-        this.goldOwned += numGained;
+    
+    public void addGold(int num) {
+        gold.set(gold.get() + num);
     }
-
     public void addDoggieCoin(int num) {
         this.doggieCoinOwned += num;
     }
-
+    /*
     public void spendGold(int numLost) {
         this.goldOwned -= numLost;
     }
-
+    */
+    /*
     public int getExperience() {
         return this.experience;
     }
-
+    */
     public void addExperience(int numGained) {
-        this.experience += numGained;
+        this.experience.set(experience.get() + numGained);
+        this.expDouble.set((double) (experience.get() + numGained) / 123456.00);
     }
 
     public BuildingProperty getShortestCampfire(EnemyProperty e) {
@@ -1267,9 +1259,9 @@ public class LoopManiaWorld {
     }
 
     public boolean isGameOver() {
-        if (character.getHp() <= 0) {
-            if (ringOwned > 0) {
-                ringOwned--;
+        if (character.getHp().get() <= 0) {
+            if (ringOwned.get() > 0) {
+                ringOwned.set(ringOwned.get() - 1);;
                 character.setHp(500);
                 return false;
             }
@@ -1380,5 +1372,9 @@ public class LoopManiaWorld {
     }
     public List<Card> getCardEntities() {
         return this.cardEntities;
+    }
+
+    public IntegerProperty getGold() {
+        return this.gold;
     }
 }

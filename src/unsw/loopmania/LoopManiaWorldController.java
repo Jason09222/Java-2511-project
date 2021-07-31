@@ -255,7 +255,6 @@ public class LoopManiaWorldController {
     private IntegerProperty battleVampireInNum;
     private IntegerProperty battleDoggieInNum;
     private IntegerProperty battleMuskInNum;
-    private SimpleIntegerProperty allyInWorld;
 
     // private Experience gold;
 
@@ -454,7 +453,7 @@ public class LoopManiaWorldController {
 
         ImageView ringView = new ImageView(theOneRingImage);
         ringNum = new Label("0");
-        ringInNum = world.getRingNum();
+        ringInNum = world.getRing();
         ringNum.textProperty().bind(ringInNum.asString());
         ringNum.setTextFill(Color.GREEN);
         ringNum.setFont(new Font("Cambria", 40));
@@ -554,14 +553,15 @@ public class LoopManiaWorldController {
 
 
         ImageView heartView = new ImageView(heartImage);
-        hpProgress = new ProgressBar();
-        hpInWorld = world.getHp();
-        hpProgress.progressProperty().bind(hpInWorld);
-
         hpNum = new Label("0");
         hpInNum = world.getHpInt();
         hpNum.textProperty().bind(hpInNum.asString());
         hpNum.setTextFill(Color.RED);
+        
+        hpProgress = new ProgressBar();
+        hpInWorld = world.getHp();
+        hpProgress.progressProperty().bind(hpInWorld);
+
 
         layout.getChildren().add(hpProgress);
         StackPane.setAlignment(hpProgress, Pos.BOTTOM_RIGHT);
@@ -624,14 +624,8 @@ public class LoopManiaWorldController {
                     e.printStackTrace();
                 }
             }
-            goldInt.set(world.getGolds());
-            hpInNum.set(world.getHpValue());
-            hpInWorld.set((double) world.getHpValue() / 500.00);
-            expInNum.set(world.getExperience());
-            expInWorld.set((double) world.getExperience() / 123456.00);
-            allyInNum.set(world.getAllies().size());
+            //allyInNum.set(world.getAllies().size());
             healthPotionInNum.set(world.getHealthPotion());
-            ringInNum.set(world.getRing());
             cycleInNum.set(world.getCycle());
             battleSlugInNum.set(world.getBattleSlugNum().get());
             battleZombieInNum.set(world.getBattleZombieNum().get());
