@@ -37,4 +37,9 @@ public class TheOneRing extends RareItem {
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public boolean canBePurchased() {
+        return false;
+    }
 }

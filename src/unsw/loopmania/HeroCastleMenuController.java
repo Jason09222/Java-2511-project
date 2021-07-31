@@ -104,6 +104,7 @@ public class HeroCastleMenuController {
     private int nextAvailableX = 0;
     private int nextAvailableY = 0;
 
+
     @FXML
     void updateInventory(ActionEvent event) {
         initialiseInventory();
@@ -139,6 +140,8 @@ public class HeroCastleMenuController {
 
     public void initialiseInventory() {
         inventory.getChildren().clear();
+        this.nextAvailableX = 0;
+        this.nextAvailableY = 0;
     }
 
     @FXML
@@ -221,21 +224,13 @@ public class HeroCastleMenuController {
 
     @FXML
     public void initialize() {
-        gold = new Label("0");
+        gold = new Label(String.valueOf(world.getGolds()));
         gold.textProperty().bind(world.getGold().asString());
         gold.setTextFill(Color.ORANGE);
         gold.setFont(new Font("Cambria", 40));
         currentGold.getChildren().add(gold);
         StackPane.setAlignment(gold, Pos.CENTER_RIGHT);
 
-        /*// add the empty slot images for the unequipped inventory
-        Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
-        for (int x = 0; x < LoopManiaWorld.unequippedInventoryWidth; x++) {
-            for (int y = 0; y < LoopManiaWorld.unequippedInventoryHeight; y++) {
-                ImageView emptySlotView = new ImageView(inventorySlotImage);
-                inventory.add(emptySlotView, x, y);
-            }
-        }*/
     }
 
 
@@ -252,20 +247,20 @@ public class HeroCastleMenuController {
         }
 
         removeItem(text);
+        sell.setText("\u2713");
+        world.getGold().set(world.getGolds());
     }
 
     public void initialisePane() {
-        for (Node each: paneToSell.getChildren()) {
-            paneToSell.getChildren().remove(each);
-        }
+        paneToSell.getChildren().clear();
     }
 
     public void removeItem(String text) {
         for (ItemProperty item: world.getUnequippedInventoryItems()) {
             if(item.getType().name().equals(text)) {
                 world.getUnequippedInventoryItems().remove(item);
+                controller.unLoad(item);
                 world.addGold(item.getPrice());
-                world.getGold().set(world.getGolds());
                 return;
             }
         }
