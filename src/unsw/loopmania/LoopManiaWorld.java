@@ -373,6 +373,7 @@ public class LoopManiaWorld {
         ally.destroy();
         allies.remove(ally);
         alliesOwned.set(alliesOwned.get() - 1);
+        if (alliesOwned.get() < 0) alliesOwned.set(0); 
     }
 
     /**
@@ -535,7 +536,6 @@ public class LoopManiaWorld {
             removeItemByPositionInUnequippedInventoryItems(0);
             firstAvailableSlot = getFirstAvailableSlotForItem();
             // gives random amount of cash/experience reward for discarding oldest item
-            rand = new Random();
             result = rand.nextInt(10) % 2;
             switch (result) {
                 case 0:
@@ -585,6 +585,7 @@ public class LoopManiaWorld {
                 item = null;
 
         }
+        if (item == null) return null;
         unequippedInventoryItems.add(item);
         return item;
     }
@@ -615,6 +616,7 @@ public class LoopManiaWorld {
         equippedItems.equip(item);
         ItemProperty equippedItem = equippedItems.spawnEquippedItem(item.getType().getIndex(), item.getType());
         item.destroy();
+        unequippedInventoryItems.remove(item);
         return equippedItem;
     }
 
@@ -639,7 +641,7 @@ public class LoopManiaWorld {
             character.moveDownPath();
             updatePathCycle();
         }
-        if (pathCycle % orderedPath.size() == 0 && pathCycle >= 20 && pathCycle % 5 == 0) {
+        if (pathCycle % orderedPath.size() == 0 && getCycle() >= 20 && getCycle() % 5 == 0) {
             shouldSpawnDoggie = true;
         }
 

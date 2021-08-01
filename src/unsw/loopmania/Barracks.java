@@ -20,7 +20,8 @@ public class Barracks extends BuildingProperty{
         // and put it in the global data
         PathPosition position = super.getNearestPath(l);
         Ally newAlly = new Ally(position);
-        l.getAllies().add(newAlly);
+        //l.getAllies().add(newAlly);
+        l.addAlly(newAlly);;
     }
 
     @Override
