@@ -13,7 +13,7 @@ public class Doggie extends EnemyProperty{
     private final int SupportR = 1;
     private final int gold = 100;
     private final int speed = 2;
-    private int damage = 20;
+    private int damage = 60;
     //private final boolean cirtical = true;
     private final boolean weak = false;
     private final int hp = 1000;

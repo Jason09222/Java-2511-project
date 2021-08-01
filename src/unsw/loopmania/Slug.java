@@ -14,10 +14,10 @@ public class Slug extends EnemyProperty{
     private final int SupportR = 1;
     private final int gold = 100;
     private final int speed = 2;
-    private int damage = 2;
+    private int damage = 10;
     //private final boolean cirtical = true;
     private final boolean weak = false;
-    private final int hp = 3000;
+    private final int hp = 600;
     private final int exp = 100;
     private int criticalPoss = 0;
     public Slug(PathPosition position) {
