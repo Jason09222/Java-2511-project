@@ -43,10 +43,10 @@ public class ElanMuske extends EnemyProperty{
             // aimed for see the price change with doggie, muske has 50% of chance to jump over character
             Random rand = new Random();
             int result = rand.nextInt(2);
-            if (result == 1) {
+            /*if (result == 1) {
                 return false;
-            }
-
+            }*/
+            if (l.getCycle() <= 5) return false;
             if (Math.pow((l.getCharacter().getX() - getX()), 2) + Math.pow((l.getCharacter().getY() - getY()), 2) > Math
             .pow(getFightRadius(), 2)) {
                 return false;

@@ -45,6 +45,8 @@ public class LoopManiaWorld {
 
     private int pathCycle = 0;
 
+    private DoggieCoinPrice doggieCoinPrice;
+
     /**
      * generic entitites - i.e. those which don't have dedicated fields
      */
@@ -137,6 +139,8 @@ public class LoopManiaWorld {
         doggieCoinOwned = 0;
 
         doggieCoinMarket = new DoggieCoinMarket(this);
+        doggieCoinPrice = new DoggieCoinPrice();
+        doggieCoinMarket.registerObserver(doggieCoinPrice);
     }
 
 
@@ -589,7 +593,7 @@ public class LoopManiaWorld {
             shouldSpawnDoggie = true;
         }
 
-        if (getCycle() == 40 && experience.get() >= 10000 && !hasKilledMuske.get() && !hasSpawnMuske.get()) {
+        if (getCycle() == 4 && experience.get() >= 100 && !hasKilledMuske.get() && !hasSpawnMuske.get()) {
             shouldSpawnMuske = true;
         }
         moveBasicEnemies();

@@ -263,6 +263,9 @@ public class HeroCastleMenuController {
         potionBought = 0;
         armourBought = 0;
 
+        doggiePrice.setText("0");
+        doggiePrice.textProperty().bind(DoggieCoinPrice.price.asString());
+
     }
 
 
