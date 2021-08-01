@@ -10,7 +10,8 @@ import javafx.scene.image.ImageView;
 
 public class TreeStump extends RareItem{
     private final int defense = 20;
-    Image treeStumpImage;
+    private Image treeStumpImage;
+
     public TreeStump(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.SHIELD);
         treeStumpImage = new Image((new File("src/images/tree_stump.png")).toURI().toString());

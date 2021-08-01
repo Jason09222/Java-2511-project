@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <!-- TODO = modify and expand the range of menus available from the menu menu, and develop game modes you can select when starting a new game -->
@@ -17,12 +18,16 @@
       <Button fx:id="startNormalModeButton" onAction="#switchToGame" prefHeight="26.0" prefWidth="114.0" text="Normal Mode" />
       <Button fx:id="startBerserkerModeButton" mnemonicParsing="false" onAction="#switchToBerserkerGame" prefHeight="28.0" prefWidth="114.0" text="Berserker Mode" />
       <Button fx:id="startSurvivalModeButton" mnemonicParsing="false" onAction="#switchToSurvivalGame" prefHeight="30.0" prefWidth="115.0" text="Survival Mode" />
-      <Button fx:id="startConfusingModeButton" mnemonicParsing="false" onAction="#switchToConfusingGame" prefHeight="30.0" prefWidth="114.0" text="Confusing Mode" />
-      <ImageView fitHeight="26.0" fitWidth="22.0" onMouseClicked="#mute">
-         <image>
-            <Image url="@../../images/unmute.png" />
-         </image>
-      </ImageView>
+      <Button fx:id="startConfusingModeButton" alignment="CENTER" mnemonicParsing="false" onAction="#switchToConfusingGame" prefHeight="30.0" prefWidth="114.0" text="Confusing Mode" />
+      <StackPane fx:id="music" prefHeight="25.0" prefWidth="309.0">
+         <children>
+            <ImageView fx:id="play" fitHeight="26.0" fitWidth="22.0" onMouseClicked="#mute" StackPane.alignment="CENTER">
+               <image>
+                  <Image url="@../../images/unmute.png" />
+               </image>
+            </ImageView>
+         </children>
+      </StackPane>
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

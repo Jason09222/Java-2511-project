@@ -6,7 +6,10 @@ import java.io.IOException;
 import javax.swing.GroupLayout.Alignment;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
@@ -20,16 +23,23 @@ public class MainMenuController {
      */
     private MenuSwitcher gameSwitcher;
     private LoopManiaWorld world;
+    private LoopManiaWorldController controller;
     
     
 
     public void setGameSwitcher(MenuSwitcher gameSwitcher){
         this.gameSwitcher = gameSwitcher;
     }
-
-    public MainMenuController(LoopManiaWorld world) {
+    
+    public MainMenuController(LoopManiaWorld world, LoopManiaWorldController controller) {
         this.world = world;
+        this.controller = controller;
     }
+    @FXML
+    private ImageView play;
+
+    @FXML
+    private StackPane music;
 
     /**
      * facilitates switching to main game upon button click
@@ -40,6 +50,8 @@ public class MainMenuController {
         world.setMode(ModeType.STANDARD);
         gameSwitcher.switchMenu();
     }
+
+
 
     @FXML
     private void switchToBerserkerGame() throws IOException {
@@ -61,7 +73,14 @@ public class MainMenuController {
     }
 
     @FXML
-    private void mute() {
-        
+    private void mute(MouseEvent event) {
+        controller.setMute(true);
+        Image mute = new Image((new File("src/images/mute.png")).toURI().toString());
+        ImageView view = new ImageView(mute);
+        view.setFitHeight(30);
+        view.setFitWidth(30);
+        music.getChildren().remove(play);
+        music.getChildren().add(view);
+        StackPane.setAlignment(view, Pos.CENTER);
     }
 }
