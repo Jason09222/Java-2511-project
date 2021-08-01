@@ -20,6 +20,7 @@ import java.io.File;
 import javax.swing.Action;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 
 public class HeroCastleMenuController {
@@ -109,6 +110,9 @@ public class HeroCastleMenuController {
     @FXML
     private StackPane currentGold;
 
+    @FXML
+    private Label doggieCoinOwned;
+
 
     private int nextAvailableX = 0;
     private int nextAvailableY = 0;
@@ -134,11 +138,29 @@ public class HeroCastleMenuController {
 
 
         }
+    
     }
 
     @FXML
     void updateInventory(ActionEvent event) {
         update();
+    }
+
+    @FXML
+    void selectDoggie(MouseEvent event) {
+        /*initialisePane();
+        Image doggieImage = new Image((new File("src/images/doggiecoin.png")).toURI().toString());
+        ImageView view = new ImageView(doggieImage);
+        view.setFitHeight(100);
+        view.setFitWidth(100);
+        paneToSell.getChildren().add(view);
+        Label label = new Label(item.getType().name() + ":  $" + world.getItemPrice(item.getType()).get());
+        paneToSell.getChildren().add(label);
+        StackPane.setAlignment(label, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(view, Pos.TOP_CENTER);*/
+        DoggieCoin coin = new DoggieCoin(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0), ItemType.DOGGIECOIN);
+        selected(coin);
+        coin.destroy();
     }
 
     void selected(ItemProperty item) {
@@ -173,8 +195,9 @@ public class HeroCastleMenuController {
         if (itemType == ItemType.HEALTHPOTION) {
             world.addPotion(1);
             
-        }
-        else {
+        } else if (itemType == ItemType.DOGGIECOIN) {
+            world.addDoggieCoin(1);
+        } else {
             ItemProperty item = world.addUnequippedItem(itemType);
             controller.onLoad(item);
         }
@@ -266,9 +289,25 @@ public class HeroCastleMenuController {
         doggiePrice.setText("0");
         doggiePrice.textProperty().bind(DoggieCoinPrice.price.asString());
 
+        doggieCoinOwned.setText(String.valueOf(world.getDoggieCoin().get()));
+        //doggieCoinOwned.textProperty().bind(world.getDoggieCoin().asString());
     }
 
+    @FXML
+    public void addCoin(ActionEvent event) {
+        String inital = doggieCoinOwned.getText();
+        int now = Integer.parseInt(inital) + 1;
+        if (now > world.getDoggieCoin().get()) return;
+        doggieCoinOwned.setText(String.valueOf(now));
+    }
 
+    @FXML
+    public void decreaseCoin(ActionEvent event) {
+        String inital = doggieCoinOwned.getText();
+        int now = Integer.parseInt(inital) - 1;
+        if (now < 0) return;
+        doggieCoinOwned.setText(String.valueOf(now));
+    }
 
     @FXML
     public void sellItem(ActionEvent event) {
@@ -292,6 +331,13 @@ public class HeroCastleMenuController {
     }
 
     public void removeItem(String text) {
+        if (text.equals("DOGGIECOIN")) {
+            int number = Integer.parseInt(doggieCoinOwned.getText());
+            goldInt.set(goldInt.get() + number * DoggieCoinPrice.price.get());
+            world.addDoggieCoin(-1 * number);
+            doggieCoinOwned.setText(String.valueOf(world.getDoggieCoin().get()));
+            return;
+        }
         for (ItemProperty item: world.getUnequippedInventoryItems()) {
             if(item.getType().name().equals(text)) {
                 world.getUnequippedInventoryItems().remove(item);
