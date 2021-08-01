@@ -218,6 +218,8 @@ public class LoopManiaWorldController {
     private File battleMusicSpring;
     private File battleMusicSummer;
     private File battleMusicWinter;
+    private File mainMenuMusic;
+    MediaPlayer mainMenuAudioPlayer;
     MediaPlayer shopAudioPlayer;
     MediaPlayer audioPlayer;
     MediaPlayer battleAutumnAudioPlayer;
@@ -393,9 +395,17 @@ public class LoopManiaWorldController {
         audio = new Media(battleMusicSummer.toURI().toString());
         battleSummerAudioPlayer = new MediaPlayer(audio);
 
+        mainMenuMusic = new File("src/images/mainMenuMusic.mp3"); 
+        audio = new Media(mainMenuMusic.toURI().toString());
+        mainMenuAudioPlayer = new MediaPlayer(audio);
+        mainMenuAudioPlayer.setAutoPlay(true);
+        mainMenuAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mainMenuAudioPlayer.play();
+        
         Image pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
         Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
         Rectangle2D imagePart = new Rectangle2D(0, 0, 32, 32);
+
 
         // Add the ground first so it is below all other entities (inculding all the
         // twists and turns)
@@ -632,7 +642,7 @@ public class LoopManiaWorldController {
     public void startTimer() {
         // TODO = handle more aspects of the behaviour required by the specification
         System.out.println("starting timer");
-
+        mainMenuAudioPlayer.pause();
 
 
         PVZaudio = new File("src/images/audio.mp3");
