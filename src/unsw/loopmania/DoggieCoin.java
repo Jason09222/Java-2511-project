@@ -24,7 +24,7 @@ public class DoggieCoin extends ItemProperty{
     }
 
     @Override
-    public void useDuringBattle(EnemyProperty e, Character c) {
+    public void useDuringBattle(EnemyProperty e, Character c, ModeType mode) {
         return;
 
     }

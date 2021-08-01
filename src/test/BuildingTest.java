@@ -290,7 +290,7 @@ public class BuildingTest {
         //Can't add buliding in world
         // assertEquals(world.getBuildings().size(), 1);
         //world.getBuildings().add(trap);
-        //trap.destroyTrap(world);
+        trap.destroyTrap(world);
         assertEquals(world.getBuildings().size(), 0);
 
         assertEquals(vampire.getHP(), 800);// Should kill the ememy

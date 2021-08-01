@@ -23,8 +23,18 @@ public class Anduril extends RareItem {
     }
 
     @Override
-    public void useDuringBattle(EnemyProperty e, Character c) {
+    public void useDuringBattle(EnemyProperty e, Character c, ModeType mode) {
         // TODO Auto-generated method stub
+        if (mode == ModeType.CONFUSING) {
+            int defense = 20; 
+            if (e.isBoss()) {
+                e.setDamage(e.getDamage() - defense * 3);
+            } else {
+                e.setDamage(e.getDamage() - defense);
+            }
+    
+            if (e.getDamage() < 0) e.setDamage(0);
+        }
         if (e.isBoss()) {
             c.setDamage(c.getDamage() + 3 * damage);
         } else {
@@ -53,5 +63,5 @@ public class Anduril extends RareItem {
         return false;
     }
 
-    
+
 }

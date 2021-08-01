@@ -101,7 +101,7 @@ public class LoopManiaWorld {
      */
     private List<Pair<Integer, Integer>> orderedPath;
 
-    
+
 
     /**
      * create the world (constructor)
@@ -231,6 +231,10 @@ public class LoopManiaWorld {
         return this.pathCycle / orderedPath.size();
     }
 
+    public void setCycle(int n) {
+        this.pathCycle = n * orderedPath.size();
+    }
+
     public List<ItemProperty> getUnequippedInventoryItems() {
         return this.unequippedInventoryItems;
     }
@@ -353,7 +357,7 @@ public class LoopManiaWorld {
         ally.destroy();
         allies.remove(ally);
         alliesOwned.set(alliesOwned.get() - 1);
-        if (alliesOwned.get() < 0) alliesOwned.set(0); 
+        if (alliesOwned.get() < 0) alliesOwned.set(0);
     }
 
     /**
@@ -381,7 +385,7 @@ public class LoopManiaWorld {
                 e.setInBattle(true);
                 character.setInBattle(true);
             }
-            
+
         }
         for (EnemyProperty enemy : transferZombies) {
             enemies.add(enemy);
@@ -412,7 +416,7 @@ public class LoopManiaWorld {
             if (e.getInBattle()) {
                 //inBattle = true;
                 //e.setInBattle(true);
-                character.attack(e, equippedItems.getEquipment());
+                character.attack(e, equippedItems.getEquipment(), getMode());
                 if (e.getHP() <= 0) {
                     defeatedEnemies.add(e);
                 }
@@ -693,7 +697,7 @@ public class LoopManiaWorld {
      *
      * @param item item to be removed
      */
-    private void removeUnequippedInventoryItem(Entity item) {
+    public void removeUnequippedInventoryItem(Entity item) {
         item.destroy();
         unequippedInventoryItems.remove(item);
     }
@@ -721,7 +725,7 @@ public class LoopManiaWorld {
      *
      * @param index index from 0 to length-1
      */
-    private void removeItemByPositionInUnequippedInventoryItems(int index) {
+    public void removeItemByPositionInUnequippedInventoryItems(int index) {
         Entity item = unequippedInventoryItems.get(index);
         item.destroy();
         unequippedInventoryItems.remove(index);
@@ -752,7 +756,7 @@ public class LoopManiaWorld {
      *
      * @param x x coordinate which can range from 0 to width-1
      */
-    private void shiftCardsDownFromXCoordinate(int x) {
+    public void shiftCardsDownFromXCoordinate(int x) {
         for (Card c : cardEntities) {
             if (c.getX() >= x) {
                 c.x().set(c.getX() - 1);
@@ -791,7 +795,7 @@ public class LoopManiaWorld {
      * @return null if random choice is that wont be spawning an enemy or it isn't
      *         possible, or random coordinate pair if should go ahead
      */
-    private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition() {
+    public Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition() {
         // TODO = modify this
 
         // has a chance spawning a basic enemy on a tile the character isn't on or
@@ -850,23 +854,23 @@ public class LoopManiaWorld {
         return new SimpleIntegerProperty(this.pathCycle / orderedPath.size());
     }
 
-    
+
     public IntegerProperty getAllyNum() {
         return alliesOwned;
     }
-    
+
     public IntegerProperty getHealthPotionNum() {
         return new SimpleIntegerProperty(potionsOwned);
     }
-    
+
     public DoubleProperty getHp() {
         return character.getHpProgress();
     }
-    
+
     public IntegerProperty getHpInt() {
         return character.getHp();
     }
-    
+
     public void addGold(int num) {
         gold.set(gold.get() + num);
     }
@@ -1146,7 +1150,7 @@ public class LoopManiaWorld {
 
 
 
-    
+
 
     public boolean checkPathTile(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         Pair<Integer, Integer> position = new Pair<>(x.get(), y.get());
@@ -1229,6 +1233,9 @@ public class LoopManiaWorld {
 
     public boolean isGameOver() {
         if (character.getHp().get() <= 0) {
+            /*if (getMode() == ModeType.CONFUSING) {
+
+            } */
             if (ringOwned.get() > 0) {
                 ringOwned.set(ringOwned.get() - 1);;
                 character.setHp(500);
@@ -1289,7 +1296,7 @@ public class LoopManiaWorld {
         }
         else if (itemType == ItemType.HEALTHPOTION) {
             return HealthPotion.price;
-        } 
+        }
         else if (itemType == ItemType.DOGGIECOIN) {
             return DoggieCoinPrice.price;
         }

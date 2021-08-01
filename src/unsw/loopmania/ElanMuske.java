@@ -13,10 +13,10 @@ public class ElanMuske extends EnemyProperty{
     private final int SupportR = 1;
     private final int gold = 100;
     private final int speed = 2;
-    private int damage = 150;
+    private int damage = 100;
     //private final boolean cirtical = true;
     private final boolean weak = false;
-    private final int hp = 3000;
+    private final int hp = 2000;
     private final int exp = 100;
     private int criticalPoss = 10;
 

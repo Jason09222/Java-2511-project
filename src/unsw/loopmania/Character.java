@@ -85,13 +85,13 @@ public class Character extends MovingEntity {
 
 
     //TODO : check equipped item and use weapon
-    public void attack(EnemyProperty e, ItemProperty[] equipments) {
+    public void attack(EnemyProperty e, ItemProperty[] equipments, ModeType mode) {
         //TODO
         for (ItemProperty item : equipments) {
             if (item == null) {
                 continue;
             } 
-            item.useDuringBattle(e, this);
+            item.useDuringBattle(e, this, mode);
         }
         if (getStuntimes() > 0) {
             setStunTimes(getStuntimes() - 1);

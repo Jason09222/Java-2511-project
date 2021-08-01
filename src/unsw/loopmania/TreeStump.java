@@ -20,8 +20,16 @@ public class TreeStump extends RareItem{
     }
 
     @Override
-    public void useDuringBattle(EnemyProperty e, Character c) {
+    public void useDuringBattle(EnemyProperty e, Character c, ModeType mode) {
         // TODO Auto-generated method stub
+        if (mode == ModeType.CONFUSING) {
+            int damage = 250;
+            if (e.isBoss()) {
+                c.setDamage(c.getDamage() + 3 * damage);
+            } else {
+                c.setDamage(c.getDamage());
+            }
+        }
         if (e.isBoss()) {
             e.setDamage(e.getDamage() - defense * 3);
         } else {
@@ -29,7 +37,6 @@ public class TreeStump extends RareItem{
         }
 
         if (e.getDamage() < 0) e.setDamage(0);
-
     }
 
 
