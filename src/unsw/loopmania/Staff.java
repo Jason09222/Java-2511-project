@@ -38,7 +38,7 @@ public class Staff extends ItemProperty {
     }
 
     @Override
-    public void useDuringBattle(EnemyProperty e, Character c) {
+    public void useDuringBattle(EnemyProperty e, Character c, ModeType mode) {
         // TODO Auto-generated method stub
         c.setDamage(c.getDamage() + damage);
 

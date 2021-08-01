@@ -15,9 +15,16 @@ public class TheOneRing extends RareItem {
     }
 
     @Override
-    public void useDuringBattle(EnemyProperty e, Character c) {
+    public void useDuringBattle(EnemyProperty e, Character c, ModeType mode) {
         // TODO Auto-generated method stub
-        
+        if (mode == ModeType.CONFUSING) {
+            int damage = 250;
+            if (e.isBoss()) {
+                c.setDamage(c.getDamage() + 3 * damage);
+            } else {
+                c.setDamage(c.getDamage());
+            }
+        }
     }
 
     @Override

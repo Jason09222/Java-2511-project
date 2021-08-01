@@ -50,14 +50,7 @@ public class Character extends MovingEntity {
 
     public void setHp(int hp) {
         // TODO: Check if it reaches the highest possible hp
-        if (hp < this.hp.get()) {
-            superPower.set(superPower.get() + this.hp.get() - hp);
-            superPowerProgress.set((double)(superPower.get() +  this.hp.get() - hp) / 400.00);
-            if (superPower.get() > 400) {
-                superPower.set(400);
-                superPowerProgress.set((double) 400 / 400.00);
-            }
-        }
+        
         if (hp < 0) {
             this.hp.set(0);
             this.hpProgress.set((double) 0 / 500.00);
@@ -92,13 +85,13 @@ public class Character extends MovingEntity {
 
 
     //TODO : check equipped item and use weapon
-    public void attack(EnemyProperty e, ItemProperty[] equipments) {
+    public void attack(EnemyProperty e, ItemProperty[] equipments, ModeType mode) {
         //TODO
         for (ItemProperty item : equipments) {
             if (item == null) {
                 continue;
             } 
-            item.useDuringBattle(e, this);
+            item.useDuringBattle(e, this, mode);
         }
         if (getStuntimes() > 0) {
             setStunTimes(getStuntimes() - 1);
@@ -141,6 +134,7 @@ public class Character extends MovingEntity {
     }
 
     public void useSuperPower() {
+        if (superPower.get() < 400) return;
         superPowerDuration = 10;
         superPower.set(0);
         superPowerProgress.set((double) 0 / 400.00);
@@ -151,6 +145,15 @@ public class Character extends MovingEntity {
     public void setSuperPowerDuration(int time) {
         this.superPowerDuration = time;
     } 
+
+    public void charingSuperPower(int value) {
+        superPower.set(superPower.get() + value);
+        superPowerProgress.set((double)(superPower.get() + value) / 400.00);
+        if (superPower.get() > 400) {
+            superPower.set(400);
+            superPowerProgress.set((double) 400 / 400.00);
+        }
+    }
 }
 
 

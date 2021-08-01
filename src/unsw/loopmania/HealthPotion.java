@@ -22,7 +22,7 @@ public class HealthPotion extends ItemProperty {
         return health;
     }
     @Override
-    public void useDuringBattle(EnemyProperty e, Character c) {
+    public void useDuringBattle(EnemyProperty e, Character c, ModeType mode) {
         return;
 
     }

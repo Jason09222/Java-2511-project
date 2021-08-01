@@ -13,7 +13,7 @@ public class Doggie extends EnemyProperty{
     private final int SupportR = 1;
     private final int gold = 100;
     private final int speed = 2;
-    private int damage = 20;
+    private int damage = 60;
     //private final boolean cirtical = true;
     private final boolean weak = false;
     private final int hp = 1000;
@@ -84,7 +84,7 @@ public class Doggie extends EnemyProperty{
 
     @Override
     public void setAllPropertyBack() {
-        setDamage(20);
+        setDamage(60);
         setCriticalPoss(10);
     }
 
@@ -94,6 +94,7 @@ public class Doggie extends EnemyProperty{
     @Override
     public void attack_character(Character c) {
         super.attack_character(c);
+        c.charingSuperPower(20);
         Random rand = new Random();
         int result = rand.nextInt(criticalPoss);
         if (result == 0) {

@@ -37,9 +37,9 @@ public class BasicEnemyTest {
         position.moveDownPath();
         Slug slug = new Slug(position);
         assertEquals("Slug", slug.getType());
-        assertEquals(300, slug.getHP());
+        assertEquals(3000, slug.getHP());
         assertEquals(100, slug.getExp());
-        assertEquals(20, slug.getDamage());
+        assertEquals(2, slug.getDamage());
         assertEquals(1, slug.getFightRadius());
         assertEquals(1, slug.getSupportRadius());
         assertFalse(slug.getIsWeak());
@@ -53,7 +53,7 @@ public class BasicEnemyTest {
         assertEquals("Down", slug.getLastDirec());
         Ally ally = new Ally(position);
         slug.attack_ally(ally);
-        assertEquals(80, ally.getHp());
+        assertEquals(98, ally.getHp());
         assertEquals(2, slug.getDistance(3, 4));
         Character character = new Character(position);
         world.setCharacter(character);
@@ -171,7 +171,9 @@ public class BasicEnemyTest {
         zombie.attack_character(character);
         zombie.setAllPropertyBack();
         world.setCharacter(character);
-        assertFalse(zombie.attack(world, new ArrayList<>(), new ArrayList<>(), true, world.getEquipItems()));
+        world.getAllies().add(ally);
+        world.setCycle(6);
+        assertTrue(zombie.attack(world, new ArrayList<>(), new ArrayList<>(), true, world.getEquipItems()));
         assertTrue(zombie.isBoss());
         Zombie zombie2 = new Zombie(position);
         zombie2.setHP(100);

@@ -13,7 +13,7 @@ public abstract class ItemProperty extends BasicItem {
         //TODO Auto-generated constructor stub
     }
 
-    abstract public void useDuringBattle(EnemyProperty e, Character c);
+    abstract public void useDuringBattle(EnemyProperty e, Character c, ModeType mode);
     abstract public void characterStepOn(LoopManiaWorld l,List<ItemProperty> toRemoveGold, List<ItemProperty> toRemoveHealthPotion);
     abstract public ImageView onLoadItems();
     abstract public boolean canBePurchased();

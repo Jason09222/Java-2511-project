@@ -135,6 +135,12 @@ public class LoopManiaWorldController {
     private ProgressBar expProgress;
 
     @FXML
+    private ProgressBar superProgressBar;
+
+    @FXML
+    private Label powerLabel;
+
+    @FXML
     private Label hpNum;
 
     @FXML
@@ -264,6 +270,8 @@ public class LoopManiaWorldController {
     @FXML
     private Label healthPotionNum;
 
+    @FXML
+    private Label superLabel;
     private IntegerProperty allyInNum;
     private IntegerProperty healthPotionInNum;
     private IntegerProperty ringInNum;
@@ -273,7 +281,8 @@ public class LoopManiaWorldController {
     private IntegerProperty battleVampireInNum;
     private IntegerProperty battleDoggieInNum;
     private IntegerProperty battleMuskInNum;
-
+    private DoubleProperty superProgress;
+    private IntegerProperty supercharged;
     // private Experience gold;
 
     private IntegerProperty hpInNum;
@@ -387,23 +396,29 @@ public class LoopManiaWorldController {
         battleMusicAutumn = new File("src/images/BATTLE_AUTUMN.mp3"); 
         Media audio = new Media(battleMusicAutumn.toURI().toString());
         battleAutumnAudioPlayer = new MediaPlayer(audio);
+        battleAutumnAudioPlayer.setVolume(0.2);
 
         battleMusicWinter = new File("src/images/BATTLE_WINTER.mp3"); 
         audio = new Media(battleMusicWinter.toURI().toString());
         battleWinterAudioPlayer = new MediaPlayer(audio);
+        battleWinterAudioPlayer.setVolume(0.2);
 
         battleMusicSpring = new File("src/images/BATTLE_SPRING.mp3"); 
         audio = new Media(battleMusicSpring.toURI().toString());
         battleSpringAudioPlayer = new MediaPlayer(audio);
+        battleSpringAudioPlayer.setVolume(0.2);
 
         battleMusicSummer = new File("src/images/BATTLE_SUMMER.mp3"); 
         audio = new Media(battleMusicSummer.toURI().toString());
         battleSummerAudioPlayer = new MediaPlayer(audio);
+        battleSummerAudioPlayer.setVolume(0.2);
 
         mainMenuMusic = new File("src/images/mainMenuMusic.mp3"); 
         audio = new Media(mainMenuMusic.toURI().toString());
         mainMenuAudioPlayer = new MediaPlayer(audio);
         if (!getMute()) mainMenuAudioPlayer.setAutoPlay(true);
+        mainMenuAudioPlayer.setVolume(0.2);
+        mainMenuAudioPlayer.setAutoPlay(true);
         mainMenuAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         if (!getMute()) mainMenuAudioPlayer.play();
         
@@ -629,6 +644,16 @@ public class LoopManiaWorldController {
         layout2.getChildren().add(expNum);
         StackPane.setAlignment(expNum, Pos.CENTER_RIGHT);
 
+        
+        superProgressBar = new ProgressBar();
+        superProgress = world.getSuperPowerProgress();
+        superProgressBar.progressProperty().bind(superProgress);
+        superStackPane.getChildren().add(superProgressBar);
+        StackPane.setAlignment(superProgressBar, Pos.BOTTOM_CENTER);
+        
+        powerLabel.setTextFill(Color.RED);
+        powerLabel.setFont(new Font("Cambria", 30));
+        
 
 
         
@@ -661,6 +686,8 @@ public class LoopManiaWorldController {
         Media audio = new Media(PVZaudio.toURI().toString());
         audioPlayer = new MediaPlayer(audio);
         if (!getMute()) audioPlayer.setAutoPlay(true);
+        audioPlayer.setVolume(0.2);
+        audioPlayer.setAutoPlay(true);
         audioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         // trigger adding code to process main game logic to queue. JavaFX will target
         // framerate of 0.3 seconds
@@ -671,24 +698,34 @@ public class LoopManiaWorldController {
             if (result == 0) {
                 if (world.getCharacter().getInBattle()) {
                     audioPlayer.pause();
-                    
+
                     if (!getMute())battleAutumnAudioPlayer.setAutoPlay(true);
+                    battleAutumnAudioPlayer.setAutoPlay(true);
                     battleAutumnAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
                     if (!getMute()) battleAutumnAudioPlayer.play();
                 } else {
                     battleAutumnAudioPlayer.stop();
                     if (!getMute()) audioPlayer.play();
+                    battleWinterAudioPlayer.stop();
+                    battleSpringAudioPlayer.stop();
+                    battleSummerAudioPlayer.stop();
+                    audioPlayer.play();
                 }
             } else if (result == 1) {
                 if (world.getCharacter().getInBattle()) {
                     audioPlayer.pause();
-                    
+
                     if (!getMute()) battleWinterAudioPlayer.setAutoPlay(true);
+                    battleWinterAudioPlayer.setAutoPlay(true);
                     battleWinterAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
                     if (!getMute()) battleWinterAudioPlayer.play();
                 } else {
+                    battleAutumnAudioPlayer.stop();
                     battleWinterAudioPlayer.stop();
                     if (!getMute()) audioPlayer.play();
+                    battleSpringAudioPlayer.stop();
+                    battleSummerAudioPlayer.stop();
+                    audioPlayer.play();
                 }
             } else if (result == 2) {
                 if (world.getCharacter().getInBattle()) {
@@ -698,8 +735,12 @@ public class LoopManiaWorldController {
                     battleSpringAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
                     if (!getMute()) battleSpringAudioPlayer.play();
                 } else {
+                    battleAutumnAudioPlayer.stop();
+                    battleWinterAudioPlayer.stop();
                     battleSpringAudioPlayer.stop();
                     if (!getMute()) audioPlayer.play();
+                    battleSummerAudioPlayer.stop();
+                    audioPlayer.play();
                 }
             } else {
                 if (world.getCharacter().getInBattle()) {
@@ -709,6 +750,9 @@ public class LoopManiaWorldController {
                     battleSummerAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
                     if (!getMute()) battleSummerAudioPlayer.play();
                 } else {
+                    battleAutumnAudioPlayer.stop();
+                    battleWinterAudioPlayer.stop();
+                    battleSpringAudioPlayer.stop();
                     battleSummerAudioPlayer.stop();
                     if (!getMute()) audioPlayer.play();
                 }
@@ -724,6 +768,8 @@ public class LoopManiaWorldController {
                     Media stopAudio = new Media(shopMusic.toURI().toString());
                     shopAudioPlayer = new MediaPlayer(stopAudio);
                     if (!getMute()) shopAudioPlayer.setAutoPlay(true);
+                    shopAudioPlayer.setVolume(0.1);
+                    shopAudioPlayer.setAutoPlay(true);
                     shopAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
                 }
                 catch (IOException e) {
@@ -866,6 +912,7 @@ public class LoopManiaWorldController {
         // TODO = load more types of weapon
         // start by getting first available coordinates
         Sword sword = (Sword) world.addUnequippedItem(ItemType.SWORD);
+        //world.addRareItem(sword);
         onLoad(sword);
     } 
 
@@ -968,9 +1015,8 @@ public class LoopManiaWorldController {
         int totalRewards = 7;
         Random rand = new Random();
         int result = rand.nextInt(1000) % totalRewards;
-        loadAnduril();
-        loadTreeStump();
-        /*switch (result) {
+        
+        switch (result) {
             case 0:
                 loadSword();
                 break;
@@ -990,13 +1036,13 @@ public class LoopManiaWorldController {
                 loadStake();
                 break;
             case 6:
-                result = rand.nextInt(10);
+                result = rand.nextInt(3);
                 if (result == 0) loadAnduril();
                 else if (result == 1) loadTreeStump();
                 break;
             default:
                 return;
-        }*/
+        }
     }
 
     /**
@@ -1465,6 +1511,9 @@ public class LoopManiaWorldController {
                 break;
             case E:
                 world.spendPotions();
+                break;
+            case R:
+                world.useSuperPower();
                 break;
             default:
                 break;

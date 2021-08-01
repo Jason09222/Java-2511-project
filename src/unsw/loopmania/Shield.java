@@ -23,7 +23,7 @@ public class Shield extends ItemProperty {
     }
 
     @Override
-    public void useDuringBattle(EnemyProperty e, Character c) {
+    public void useDuringBattle(EnemyProperty e, Character c, ModeType mode) {
         // TODO Auto-generated method stub
         if (e.getDamage() < defense) {
             e.setDamage(0);

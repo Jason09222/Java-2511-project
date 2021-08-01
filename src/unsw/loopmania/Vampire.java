@@ -11,10 +11,10 @@ public class Vampire extends EnemyProperty{
     private final int SupportR = 5;
     private final int gold = 500;
     private int speed = 3;
-    private int damage = 60;
+    private int damage = 40;
     //private final boolean cirtical = true;
     private final boolean weak = false;
-    private final int hp = 800;
+    private final int hp = 1000;
     private final int exp = 300;
 
     private int criticalPoss = 10;
@@ -61,13 +61,14 @@ public class Vampire extends EnemyProperty{
         }
         //TODO deduct hp of ally/Character
         c.setHp(c.getHp().get() - this.getDamage());
+        c.charingSuperPower(20);
         return;
     }
 
 
     @Override
     public void setAllPropertyBack() {
-        setDamage(60);
+        setDamage(40);
         setCriticalPoss(10);
     }
 

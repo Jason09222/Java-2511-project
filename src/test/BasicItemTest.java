@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.junit.jupiter.api.Test;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Gold;
@@ -19,16 +20,32 @@ import unsw.loopmania.Shield;
 import unsw.loopmania.Slug;
 import unsw.loopmania.Staff;
 import unsw.loopmania.Stake;
+import unsw.loopmania.SubGoalBoss;
+import unsw.loopmania.SubGoalCycle;
+import unsw.loopmania.SubGoalExp;
+import unsw.loopmania.SubGoalGold;
 import unsw.loopmania.Sword;
 import unsw.loopmania.TheOneRing;
+import unsw.loopmania.TowerCard;
+import unsw.loopmania.TrapCard;
 import unsw.loopmania.TreeStump;
 import unsw.loopmania.Vampire;
+import unsw.loopmania.VampireCastleCard;
+import unsw.loopmania.VillageCard;
+import unsw.loopmania.Zombie;
+import unsw.loopmania.ZombiePitCard;
 import unsw.loopmania.Anduril;
 // import unsw.loopmania.Zombie;
 import unsw.loopmania.Armour;
+import unsw.loopmania.BarracksCard;
+import unsw.loopmania.Campfire;
+import unsw.loopmania.CampfireCard;
 import unsw.loopmania.Character;
 import unsw.loopmania.Doggie;
 import unsw.loopmania.DoggieCoin;
+import unsw.loopmania.GoalAndLogic;
+import unsw.loopmania.GoalCompsite;
+import unsw.loopmania.GoalOrLogic;
 
 import org.javatuples.Pair;
 
@@ -237,8 +254,10 @@ public class BasicItemTest {
         assertEquals(armour.getType(), ItemType.SHIELD);
         assertEquals(armour.getX(), 1);
         assertEquals(armour.getY(), 2);
+        armour.getDefense();
         Character character = new Character(position);
-        armour.useDuringBattle(slug, character);
+        Vampire vampire = new Vampire(position);
+        armour.useDuringBattle(vampire, character);
         assertTrue(armour.canBePurchased());
         assertEquals(armour.getSlot(), 2);
         armour.characterStepOn(world, new ArrayList<>(), new ArrayList<>());
@@ -338,7 +357,7 @@ public class BasicItemTest {
         PathPosition position = new PathPosition(index, orderedPath);
         Armour armour = new Armour(x, y);
         Slug slug = new Slug(null);
-        assertEquals(armour.getDefense(slug), 10);
+        assertEquals(armour.getDefense(slug), 1);
         assertEquals(armour.getType(), ItemType.ARMOUR);
         assertEquals(armour.getX(), 1);
         assertEquals(armour.getY(), 2);
@@ -348,5 +367,44 @@ public class BasicItemTest {
         assertEquals(armour.getSlot(), 3);
         armour.characterStepOn(world, new ArrayList<>(), new ArrayList<>());
     }
+
+    @Test
+    public void testCard() {
+        String type = "type";
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(2);
+        TrapCard a = new TrapCard(type, x, y);
+        ZombiePitCard b = new ZombiePitCard(type, x, y);
+        TowerCard c = new TowerCard(type, x, y);
+        VillageCard d = new VillageCard(type, x, y);
+        CampfireCard e = new CampfireCard(type, x, y);
+        VampireCastleCard f = new VampireCastleCard(type, x, y);
+        BarracksCard g = new BarracksCard(type, x, y);
+        g.getType();
+    }
+
+    @Test
+    public void testGoal() {
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        GoalCompsite goal1 = new SubGoalBoss(world);
+        goal1.goalReached();
+        GoalAndLogic a = new GoalAndLogic();
+
+        GoalOrLogic b = new GoalOrLogic();
+        a.addGoal(goal1);
+        a.removeGoal(goal1);
+        GoalCompsite goal2 = new SubGoalCycle(world, 3);
+        goal2.goalReached();
+        GoalCompsite goal3 = new SubGoalExp(world, 2);
+        goal3.goalReached();
+        GoalCompsite goal4 = new SubGoalGold(world, 4);
+        goal4.goalReached();
+    }
+
 }
 
