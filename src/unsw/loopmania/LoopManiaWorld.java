@@ -100,9 +100,7 @@ public class LoopManiaWorld {
      */
     private List<Pair<Integer, Integer>> orderedPath;
 
-    // extension: press R to use
-    private IntegerProperty superPower;
-    private DoubleProperty superPowerProgress;
+    
 
     /**
      * create the world (constructor)
@@ -369,6 +367,9 @@ public class LoopManiaWorld {
 
         boolean inBattle = false;
         character.setDamageBack();
+        if (character.getSuperPowerDuration() > 0) {
+            character.setDamage(3 * character.getDamage());
+        }
         for (EnemyProperty e : enemies) {
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             // influence radii and battle radii
@@ -589,6 +590,9 @@ public class LoopManiaWorld {
      * immediately
      */
     public void runTickMoves() {
+        if (character.getSuperPowerDuration() > 0) {
+            character.setSuperPowerDuration(character.getSuperPowerDuration() - 1);
+        }
         doggieCoinMarket.notifyObservers();
         if (!character.getInBattle()) {
             character.moveDownPath();
@@ -1346,5 +1350,9 @@ public class LoopManiaWorld {
 
     public void setMode(ModeType mode) {
         this.mode = mode;
+    }
+
+    public DoubleProperty getSuperPowerProgress() {
+        return character.getSuperPowerProgress();
     }
 }

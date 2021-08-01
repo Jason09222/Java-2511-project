@@ -17,6 +17,11 @@ public class Character extends MovingEntity {
     private int damage = 100;
     private Boolean inBattle;
     private int stunTimes;
+
+    // extension: press R to use
+    private IntegerProperty superPower;
+    private DoubleProperty superPowerProgress;
+    private int superPowerDuration;
     public Character(PathPosition position) {
         super(position);
         hp = new SimpleIntegerProperty(500);
@@ -24,6 +29,9 @@ public class Character extends MovingEntity {
         setDamage(this.damage);
         this.inBattle = false;
         stunTimes = 0;
+        superPower = new SimpleIntegerProperty(0);
+        superPowerProgress = new SimpleDoubleProperty((double) 0/ 400.00);
+        superPowerDuration = 0;
     }
     public int getStuntimes() {
         return this.stunTimes;
@@ -42,6 +50,14 @@ public class Character extends MovingEntity {
 
     public void setHp(int hp) {
         // TODO: Check if it reaches the highest possible hp
+        if (hp < this.hp.get()) {
+            superPower.set(superPower.get() + this.hp.get() - hp);
+            superPowerProgress.set((double)(superPower.get() +  this.hp.get() - hp) / 400.00);
+            if (superPower.get() > 400) {
+                superPower.set(400);
+                superPowerProgress.set((double) 400 / 400.00);
+            }
+        }
         if (hp < 0) {
             this.hp.set(0);
             this.hpProgress.set((double) 0 / 500.00);
@@ -115,6 +131,26 @@ public class Character extends MovingEntity {
     public void setDamageBack() {
         setDamage(100);
     }
+
+    public IntegerProperty getSuperPower() {
+        return superPower;
+    }
+
+    public DoubleProperty getSuperPowerProgress() {
+        return superPowerProgress;
+    }
+
+    public void useSuperPower() {
+        superPowerDuration = 10;
+        superPower.set(0);
+        superPowerProgress.set((double) 0 / 400.00);
+    }
+    public int getSuperPowerDuration() {
+        return this.superPowerDuration;
+    }
+    public void setSuperPowerDuration(int time) {
+        this.superPowerDuration = time;
+    } 
 }
 
 

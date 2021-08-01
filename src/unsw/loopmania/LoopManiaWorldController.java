@@ -194,6 +194,8 @@ public class LoopManiaWorldController {
     @FXML
     private StackPane layout5;
 
+    @FXML StackPane superStackPane;
+
     // all image views including tiles, character, enemies, cards... even though
     // cards in separate gridpane...
     private List<ImageView> entityImages;
