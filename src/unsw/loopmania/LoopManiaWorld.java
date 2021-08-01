@@ -101,7 +101,8 @@ public class LoopManiaWorld {
     private List<Pair<Integer, Integer>> orderedPath;
 
     // extension: press R to use
-    
+    private IntegerProperty superPower;
+    private DoubleProperty superPowerProgress;
 
     /**
      * create the world (constructor)
