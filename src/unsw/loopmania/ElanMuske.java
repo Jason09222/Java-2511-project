@@ -19,7 +19,6 @@ public class ElanMuske extends EnemyProperty{
     private final int hp = 3000;
     private final int exp = 100;
     private int criticalPoss = 10;
-    private Image basicEnemyImage;
 
     public ElanMuske(PathPosition position) {
         super(position);
@@ -34,7 +33,6 @@ public class ElanMuske extends EnemyProperty{
         setGold(this.gold); //TODO can be changed
         setSpeed(this.speed);
         setCriticalPoss(criticalPoss);
-        basicEnemyImage = new Image((new File("src/images/ElanMuske.png")).toURI().toString());
     }
 
     @Override
@@ -51,13 +49,13 @@ public class ElanMuske extends EnemyProperty{
             .pow(getFightRadius(), 2)) {
                 return false;
             }
-    
+
             boolean hasAttacked = false;
             for (Ally ally : l.getAllies()) {
                 if (ally.getHp() <= 0) {
                     continue;
                 }
-                
+
                 l.getCharacter().setInBattle(true);
                 inBattle = true;
                 hasAttacked = true;
@@ -74,7 +72,7 @@ public class ElanMuske extends EnemyProperty{
                 for (ItemProperty item : equipments) {
                     if (item == null) {
                         continue;
-                    } 
+                    }
                     item.useDuringBattle(this, l.getCharacter());
                 }
                 attack_character(l.getCharacter());
@@ -86,7 +84,7 @@ public class ElanMuske extends EnemyProperty{
     @Override
     public ImageView onLoadEnemy() {
         // TODO Auto-generated method stub
-        return new ImageView(basicEnemyImage);
+        return new ImageView(new Image((new File("src/images/ElanMuske.png")).toURI().toString()));
     }
 
     @Override
@@ -106,7 +104,7 @@ public class ElanMuske extends EnemyProperty{
         // TODO Auto-generated method stub
         this.setDamage(150);
         this.setCriticalPoss(10);
-        
+
     }
-    
+
 }

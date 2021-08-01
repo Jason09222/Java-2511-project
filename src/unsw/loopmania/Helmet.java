@@ -14,16 +14,14 @@ import javafx.scene.image.ImageView;
 public class Helmet extends ItemProperty {
     private final int defense = 30;
     public static IntegerProperty price = new SimpleIntegerProperty(1500);
-    private Image helmetImage;
     // TODO = add more weapon/item types
     public Helmet(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.HELMET);
-        helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
     }
     public int getDefense() {
         return this.defense;
     }
-    
+
 
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
@@ -33,7 +31,7 @@ public class Helmet extends ItemProperty {
         } else {
             e.setDamage(0);
         }
-        
+
     }
     @Override
     public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemoveGold,
@@ -41,10 +39,10 @@ public class Helmet extends ItemProperty {
         // TODO Auto-generated method stub
         return;
     }
-    
+
     @Override
     public ImageView onLoadItems() {
-        return new ImageView(helmetImage);
+        return new ImageView(new Image((new File("src/images/helmet.png")).toURI().toString()));
     }
     @Override
     public boolean canBePurchased() {

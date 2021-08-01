@@ -14,20 +14,18 @@ import javafx.scene.layout.Pane;
  */
 public class Armour extends ItemProperty {
     public static IntegerProperty price = new SimpleIntegerProperty(1000);
-    private Image armourImage;
     // TODO = add more weapon/item types
     public Armour(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.ARMOUR);
-        armourImage = new Image((new File("src/images/armour.png")).toURI().toString());
     }
     public int getDefense(EnemyProperty enemy) {
         return enemy.getDamage()/2;
     }
-    
+
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
         e.setDamage(e.getDamage()/ 2);
-        
+
     }
     @Override
     public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemoveGold,
@@ -35,10 +33,10 @@ public class Armour extends ItemProperty {
         // TODO Auto-generated method stub
         return;
     }
-    
+
     @Override
     public ImageView onLoadItems() {
-        return new ImageView(armourImage);
+        return new ImageView(new Image((new File("src/images/armour.png")).toURI().toString()));
     }
     @Override
     public boolean canBePurchased() {
@@ -46,6 +44,6 @@ public class Armour extends ItemProperty {
         return true;
     }
 
-    
+
 
 }

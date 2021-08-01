@@ -18,7 +18,6 @@ public class Vampire extends EnemyProperty{
     private final int exp = 300;
 
     private int criticalPoss = 10;
-    private Image vampireImage;
     public Vampire(PathPosition position) {
         super(position);
         setType(type);
@@ -32,7 +31,6 @@ public class Vampire extends EnemyProperty{
         setGold(this.gold); //TODO can be changed
         setSpeed(this.speed);
         this.setCriticalPoss(criticalPoss);
-        vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
     }
 
     @Override
@@ -67,7 +65,7 @@ public class Vampire extends EnemyProperty{
     }
 
 
-    @Override 
+    @Override
     public void setAllPropertyBack() {
         setDamage(60);
         setCriticalPoss(10);
@@ -86,13 +84,13 @@ public class Vampire extends EnemyProperty{
             if (ally.getHp() <= 0) {
                 continue;
             }
-            
+
             l.getCharacter().setInBattle(true);
             inBattle = true;
             //e.attack_ally(ally);
             hasAttacked = true;
             //if (ally.getHp() <= 0) {
-            
+
             attack_ally(ally);
             if (ally.getHp() <= 0) {
                 defeatedAllies.add(ally);
@@ -106,7 +104,7 @@ public class Vampire extends EnemyProperty{
             for (ItemProperty item : equipments) {
                 if (item == null) {
                     continue;
-                } 
+                }
                 item.useDuringBattle(this, l.getCharacter());
             }
             //for (ItemProperty item : l)
@@ -118,7 +116,7 @@ public class Vampire extends EnemyProperty{
     @Override
     public ImageView onLoadEnemy() {
         // TODO Auto-generated method stub
-        return new ImageView(vampireImage);
+        return new ImageView( new Image((new File("src/images/vampire.png")).toURI().toString()));
     }
 
     @Override

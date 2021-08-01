@@ -14,31 +14,29 @@ import javafx.scene.image.ImageView;
 public class HealthPotion extends ItemProperty {
     public static IntegerProperty price = new SimpleIntegerProperty(2000);
     private final int health = 200;
-    private Image brilliantBlueNewImage;
     public HealthPotion(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.HEALTHPOTION);
-        brilliantBlueNewImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
     }
-    
+
     public int getHealth() {
         return health;
     }
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
         return;
-        
+
     }
     @Override
     public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemoveGold, List<ItemProperty> toRemoveHealthPotion) {
         if (l.getCharacter().getX() == getX() && l.getCharacter().getY() == getY()) {
             toRemoveHealthPotion.add(this);
         }
-        
+
     }
 
     @Override
     public ImageView onLoadItems() {
-        return new ImageView(brilliantBlueNewImage);
+        return new ImageView(new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString()));
     }
     @Override
     public boolean canBePurchased() {

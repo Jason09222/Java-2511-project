@@ -9,16 +9,14 @@ import javafx.scene.image.Image;
 
 public class Campfire extends BuildingProperty {
     private final int campRadius = 3; // TODO; the value may change later;
-    private Image campfireImage;
     public Campfire(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        campfireImage = new Image((new File("src/images/campfire.png")).toURI().toString());
     }
 
     public int getcampRadius() {
         return this.campRadius;
     }
-    
+
 
     public void doubleDamage(Character c) {
         // get the character's damage and double it
@@ -52,13 +50,13 @@ public class Campfire extends BuildingProperty {
         return;
     }
 
-    
+
 
     @Override
     public ImageView onLoadBuilding() {
         // TODO Auto-generated method stub
-        return new ImageView(campfireImage);
+        return new ImageView(new Image((new File("src/images/campfire.png")).toURI().toString()));
     }
-  
+
 
 }
