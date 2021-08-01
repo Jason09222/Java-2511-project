@@ -11,7 +11,7 @@ public class SubGoalExp implements GoalCompsite{
 
     @Override
     public boolean goalReached() {
-        if(world.getExperience() >= value) return true;
+        if(world.getExpInt().get() >= value) return true;
         return false;
     }
 }

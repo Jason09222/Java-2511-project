@@ -2,18 +2,25 @@ package unsw.loopmania;
 // import java.util.ArrayList;
 // import java.util.List;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  * represents the main character in the backend of the game world
  */
 public class Character extends MovingEntity {
     // TODO = potentially implement relationships between this class and other classes
-    private int hp = 500;
+    private IntegerProperty hp;
+    private DoubleProperty hpProgress;
     private int damage = 100;
     private Boolean inBattle;
     private int stunTimes;
     public Character(PathPosition position) {
         super(position);
-        setHp(this.hp);
+        hp = new SimpleIntegerProperty(500);
+        hpProgress = new SimpleDoubleProperty((double)500 / 500.00);
         setDamage(this.damage);
         this.inBattle = false;
         stunTimes = 0;
@@ -26,15 +33,26 @@ public class Character extends MovingEntity {
         this.stunTimes = newTimes;
     }
 
-    public int getHp() {
+    public IntegerProperty getHp() {
         return this.hp;
+    }
+    public DoubleProperty getHpProgress() {
+        return hpProgress;
     }
 
     public void setHp(int hp) {
         // TODO: Check if it reaches the highest possible hp
-        if (hp < 0) this.hp = 0;
-        else if (hp > 500) this.hp = 500;
-        else this.hp = hp;
+        if (hp < 0) {
+            this.hp.set(0);
+            this.hpProgress.set((double) 0 / 500.00);
+        } else if (hp > 500) {
+            this.hp.set(500);
+            this.hpProgress.set((double) 500 / 500.00);
+        }
+        else {
+            this.hp.set(hp);
+            this.hpProgress.set((double) hp / 500.00);
+        }
     }
 
     public int getDamage() {
@@ -74,10 +92,7 @@ public class Character extends MovingEntity {
     }
 
     public void useHealthPotion(HealthPotion healthPotion) {
-        hp += healthPotion.getHealth();
-        if (hp >= 500) {
-            hp = 500;
-        }
+        setHp(500);
     }  
 
     public void useSword(Sword sword, EnemyProperty enemy) {
@@ -94,7 +109,7 @@ public class Character extends MovingEntity {
     }
 
     public void useTheOneRing(TheOneRing theOneRing) {
-        hp = 500;
+        setHp(500);
     }
 
     public void setDamageBack() {

@@ -43,14 +43,14 @@ public class Slug extends EnemyProperty{
     }
 
     @Override
-    public void attack(LoopManiaWorld l, List<Ally> defeatedAllies, List<EnemyProperty> transferZombies, boolean inBattle, ItemProperty[] equipments) {
+    public boolean attack(LoopManiaWorld l, List<Ally> defeatedAllies, List<EnemyProperty> transferZombies, boolean inBattle, ItemProperty[] equipments) {
         // TODO Auto-generated method stub
 
         if (Math.pow((l.getCharacter().getX() - getX()), 2) + Math.pow((l.getCharacter().getY() - getY()), 2) > Math
                     .pow(getFightRadius(), 2)) {
-            return;
+            return false;
         }
-
+        inBattle = true;
         boolean hasAttacked = false;
         for (Ally ally : l.getAllies()) {
             if (ally.getHp() <= 0) {
@@ -58,7 +58,7 @@ public class Slug extends EnemyProperty{
             }
 
             l.getCharacter().setInBattle(true);
-            inBattle = true;
+            
             //e.attack_ally(ally);
             hasAttacked = true;
             //if (ally.getHp() <= 0) {
@@ -71,7 +71,7 @@ public class Slug extends EnemyProperty{
         }
         if (!hasAttacked) {
             l.getCharacter().setInBattle(true);
-            inBattle = true;
+            //inBattle = true;
             //for (ItemProperty item : l)
             for (ItemProperty item : equipments) {
                 if (item == null) {
@@ -81,7 +81,7 @@ public class Slug extends EnemyProperty{
             }
             attack_character(l.getCharacter());
         }
-
+        return true;
     }
 
     @Override

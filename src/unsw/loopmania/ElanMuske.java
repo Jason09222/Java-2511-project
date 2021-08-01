@@ -38,18 +38,18 @@ public class ElanMuske extends EnemyProperty{
     }
 
     @Override
-    public void attack(LoopManiaWorld l, List<Ally> defeatedAllies, List<EnemyProperty> transferZombies,
+    public boolean attack(LoopManiaWorld l, List<Ally> defeatedAllies, List<EnemyProperty> transferZombies,
             boolean inBattle, ItemProperty[] equipments) {
             // aimed for see the price change with doggie, muske has 50% of chance to jump over character
             Random rand = new Random();
             int result = rand.nextInt(2);
             if (result == 1) {
-                return;
+                return false;
             }
 
             if (Math.pow((l.getCharacter().getX() - getX()), 2) + Math.pow((l.getCharacter().getY() - getY()), 2) > Math
             .pow(getFightRadius(), 2)) {
-                return;
+                return false;
             }
     
             boolean hasAttacked = false;
@@ -80,7 +80,7 @@ public class ElanMuske extends EnemyProperty{
                 attack_character(l.getCharacter());
                 recoverEnemies(l.getEnemy());
             }
-        
+        return true;
     }
 
     @Override

@@ -40,11 +40,11 @@ public class Doggie extends EnemyProperty{
 
 
     @Override
-    public void attack(LoopManiaWorld l, List<Ally> defeatedAllies, List<EnemyProperty> transferZombies,
+    public boolean attack(LoopManiaWorld l, List<Ally> defeatedAllies, List<EnemyProperty> transferZombies,
             boolean inBattle, ItemProperty[] equipments) {
             if (Math.pow((l.getCharacter().getX() - getX()), 2) + Math.pow((l.getCharacter().getY() - getY()), 2) > Math
             .pow(getFightRadius(), 2)) {
-                return;
+                return false;
             }
     
             boolean hasAttacked = false;
@@ -73,7 +73,7 @@ public class Doggie extends EnemyProperty{
                 }
                 attack_character(l.getCharacter());
             }
-        
+        return true;
     }
 
     @Override

@@ -22,7 +22,7 @@ public class Village extends BuildingProperty{
 
     public void increaseHp(Character c) {
        
-        c.setHp(c.getHp() + this.getHpGain());
+        c.setHp(c.getHp().get() + this.getHpGain());
     }
 
     @Override

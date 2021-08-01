@@ -141,7 +141,7 @@ public class BasicEnemy extends MovingEntity {
     }
 
     public void attack_character(Character c) {
-        c.setHp(c.getHp() - this.getDamage());
+        c.setHp(c.getHp().get() - this.getDamage());
     }
 
 
