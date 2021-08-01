@@ -275,5 +275,10 @@ public class integrationTest {
         world.getShortestCampfire(zombie2);
         world.getRing().set(2);
         world.isGameOver();
+        Zombie zombie3 = new Zombie(position);
+        Zombie zombie4 = new Zombie(position);
+        world.getEnemy().add(zombie3);
+        world.getEnemy().add(zombie4);
+        world.moveBasicEnemies();
     }
 }
