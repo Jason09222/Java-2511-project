@@ -9,10 +9,8 @@ import javafx.scene.image.ImageView;
 
 public class Village extends BuildingProperty{
     private final int hpGain = 100; // TODO: the value might be changed
-    private Image villageImage;
     public Village(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        villageImage = new Image((new File("src/images/village.png")).toURI().toString());
     }
 
 
@@ -21,7 +19,7 @@ public class Village extends BuildingProperty{
     }
 
     public void increaseHp(Character c) {
-       
+
         c.setHp(c.getHp().get() + this.getHpGain());
     }
 
@@ -44,6 +42,6 @@ public class Village extends BuildingProperty{
     @Override
     public ImageView onLoadBuilding() {
         // TODO Auto-generated method stub
-        return new ImageView(villageImage);
+        return new ImageView(new Image((new File("src/images/village.png")).toURI().toString()));
     }
 }

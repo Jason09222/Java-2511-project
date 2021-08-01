@@ -13,10 +13,8 @@ import javafx.scene.image.ImageView;
  */
 public class Anduril extends RareItem {
     private final int damage = 250;
-    private Image andurilImage;
     public Anduril(SimpleIntegerProperty x, SimpleIntegerProperty y, ItemType type) {
         super(x, y, type);
-        andurilImage = new Image((new File("src/images/anduril.png")).toURI().toString());
         //TODO Auto-generated constructor stub
     }
 
@@ -34,14 +32,14 @@ public class Anduril extends RareItem {
     public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemoveGold,
             List<ItemProperty> toRemoveHealthPotion) {
         // TODO Auto-generated method stub
-        
+
     }
 
 
     @Override
     public ImageView onLoadItems() {
         // TODO Auto-generated method stub
-        return new ImageView(andurilImage);
+        return new ImageView(new Image((new File("src/images/anduril.png")).toURI().toString()));
     }
 
     @Override

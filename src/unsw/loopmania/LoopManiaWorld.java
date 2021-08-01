@@ -80,7 +80,7 @@ public class LoopManiaWorld {
     private int potionsOwned;
 
     private SimpleIntegerProperty alliesOwned;
-    private int doggieCoinOwned;
+    private IntegerProperty doggieCoinOwned;
 
     private IntegerProperty experience;
     private DoubleProperty expDouble;
@@ -139,7 +139,7 @@ public class LoopManiaWorld {
         shouldSpawnMuske = false;
         hasSpawnMuske = new SimpleBooleanProperty(false);
         hasKilledMuske = new SimpleBooleanProperty(false);
-        doggieCoinOwned = 0;
+        doggieCoinOwned = new SimpleIntegerProperty(0);
 
         doggieCoinMarket = new DoggieCoinMarket(this);
         shopTimes = 0;
@@ -212,7 +212,7 @@ public class LoopManiaWorld {
         // like this with specific input types...
         nonSpecifiedEntities.add(entity);
     }
-    public int getDoggieCoin() {
+    public IntegerProperty getDoggieCoin() {
         return this.doggieCoinOwned;
     }
     public IntegerProperty getHpValue() {
@@ -860,7 +860,7 @@ public class LoopManiaWorld {
         gold.set(gold.get() + num);
     }
     public void addDoggieCoin(int num) {
-        this.doggieCoinOwned += num;
+        this.doggieCoinOwned.set(this.getDoggieCoin().get() + num);
     }
     /*
     public void spendGold(int numLost) {
@@ -1280,7 +1280,7 @@ public class LoopManiaWorld {
             return HealthPotion.price;
         } 
         else if (itemType == ItemType.DOGGIECOIN) {
-            return DoggieCoin.price;
+            return DoggieCoinPrice.price;
         }
         return new SimpleIntegerProperty(0);
     }

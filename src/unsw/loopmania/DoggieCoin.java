@@ -16,7 +16,6 @@ public class DoggieCoin extends ItemProperty{
 
     BooleanProperty muskeSpawned;
     BooleanProperty muskeAlive;
-    private Image doggieImage = new Image((new File("src/images/doggiecoin.png")).toURI().toString()); 
 
     public DoggieCoin(SimpleIntegerProperty x, SimpleIntegerProperty y, ItemType type) {
         super(x, y, type);
@@ -27,14 +26,14 @@ public class DoggieCoin extends ItemProperty{
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
         return;
-        
+
     }
 
     @Override
     public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemoveGold,
             List<ItemProperty> toRemoveHealthPotion) {
         return;
-        
+
     }
 
 
@@ -44,7 +43,7 @@ public class DoggieCoin extends ItemProperty{
 
     @Override
     public ImageView onLoadItems() {
-        return new ImageView(doggieImage);
+        return new ImageView(new Image((new File("src/images/doggiecoin.png")).toURI().toString()));
     }
 
     @Override
@@ -53,5 +52,5 @@ public class DoggieCoin extends ItemProperty{
         return true;
     }
 
-    
+
 }

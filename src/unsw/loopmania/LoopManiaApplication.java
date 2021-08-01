@@ -85,7 +85,8 @@ public class LoopManiaApplication extends Application {
             switchToRoot(scene, gameOverRoot, primaryStage);
         });
 
-        mainController.setHeroCastleMenuSwitcher(() -> {switchToRoot(scene, heroCastleMenuRoot, primaryStage);});
+        mainController.setHeroCastleMenuSwitcher(() -> {switchToRoot(scene, heroCastleMenuRoot, primaryStage);
+                                                        heroCastleMenuController.resetShop();});
         heroCastleMenuController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();

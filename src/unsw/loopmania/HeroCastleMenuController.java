@@ -20,6 +20,7 @@ import java.io.File;
 import javax.swing.Action;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 
 public class HeroCastleMenuController {
@@ -110,6 +111,9 @@ public class HeroCastleMenuController {
     private StackPane currentGold;
 
     @FXML
+    private Label doggieCoinOwned;
+
+    @FXML
     private Label shopMessage;
 
 
@@ -137,11 +141,29 @@ public class HeroCastleMenuController {
 
 
         }
+    
     }
 
     @FXML
     void updateInventory(ActionEvent event) {
         update();
+    }
+
+    @FXML
+    void selectDoggie(MouseEvent event) {
+        /*initialisePane();
+        Image doggieImage = new Image((new File("src/images/doggiecoin.png")).toURI().toString());
+        ImageView view = new ImageView(doggieImage);
+        view.setFitHeight(100);
+        view.setFitWidth(100);
+        paneToSell.getChildren().add(view);
+        Label label = new Label(item.getType().name() + ":  $" + world.getItemPrice(item.getType()).get());
+        paneToSell.getChildren().add(label);
+        StackPane.setAlignment(label, Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(view, Pos.TOP_CENTER);*/
+        DoggieCoin coin = new DoggieCoin(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0), ItemType.DOGGIECOIN);
+        selected(coin);
+        coin.destroy();
     }
 
     void selected(ItemProperty item) {
@@ -160,6 +182,13 @@ public class HeroCastleMenuController {
         inventory.getChildren().clear();
         this.nextAvailableX = 0;
         this.nextAvailableY = 0;
+        Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
+        for (int x = 0; x < LoopManiaWorld.unequippedInventoryWidth; x++) {
+            for (int y = 0; y < LoopManiaWorld.unequippedInventoryHeight; y++) {
+                ImageView emptySlotView = new ImageView(inventorySlotImage);
+                inventory.add(emptySlotView, x, y);
+            }
+        }
     }
 
     @FXML
@@ -167,6 +196,7 @@ public class HeroCastleMenuController {
         resetButtons();
         controller.getShopAudioPlayer().pause();
         controller.getAudioPlayer().play();
+        resetShop();
         switchToGame();
     }
 
@@ -178,8 +208,9 @@ public class HeroCastleMenuController {
         if (itemType == ItemType.HEALTHPOTION) {
             world.addPotion(1);
             
-        }
-        else {
+        } else if (itemType == ItemType.DOGGIECOIN) {
+            world.addDoggieCoin(1);
+        } else {
             ItemProperty item = world.addUnequippedItem(itemType);
             controller.onLoad(item);
         }
@@ -191,6 +222,10 @@ public class HeroCastleMenuController {
     void handlePurchaseDoggie(ActionEvent event) {
         if (world.getGold().get() >= world.getItemPrice(ItemType.DOGGIECOIN).get()) {
             buyItem(ItemType.DOGGIECOIN);
+            shopMessage.setText("Shop Message: 1 doggie coin was purchased");
+        }
+        else {
+            shopMessage.setText("Shop Message: Not enough gold to buy doggie coin");
         }
     }
 
@@ -320,13 +355,29 @@ public class HeroCastleMenuController {
         StackPane.setAlignment(gold, Pos.CENTER_RIGHT);
         potionBought = 0;
         armourBought = 0;
-
+        update();
         doggiePrice.setText("0");
         doggiePrice.textProperty().bind(DoggieCoinPrice.price.asString());
 
+        doggieCoinOwned.setText(String.valueOf(world.getDoggieCoin().get()));
+        //doggieCoinOwned.textProperty().bind(world.getDoggieCoin().asString());
     }
 
+    @FXML
+    public void addCoin(ActionEvent event) {
+        String inital = doggieCoinOwned.getText();
+        int now = Integer.parseInt(inital) + 1;
+        if (now > world.getDoggieCoin().get()) return;
+        doggieCoinOwned.setText(String.valueOf(now));
+    }
 
+    @FXML
+    public void decreaseCoin(ActionEvent event) {
+        String inital = doggieCoinOwned.getText();
+        int now = Integer.parseInt(inital) - 1;
+        if (now < 0) return;
+        doggieCoinOwned.setText(String.valueOf(now));
+    }
 
     @FXML
     public void sellItem(ActionEvent event) {
@@ -350,6 +401,13 @@ public class HeroCastleMenuController {
     }
 
     public void removeItem(String text) {
+        if (text.equals("DOGGIECOIN")) {
+            int number = Integer.parseInt(doggieCoinOwned.getText());
+            goldInt.set(goldInt.get() + number * DoggieCoinPrice.price.get());
+            world.addDoggieCoin(-1 * number);
+            doggieCoinOwned.setText(String.valueOf(world.getDoggieCoin().get()));
+            return;
+        }
         for (ItemProperty item: world.getUnequippedInventoryItems()) {
             if(item.getType().name().equals(text)) {
                 world.getUnequippedInventoryItems().remove(item);
@@ -364,6 +422,11 @@ public class HeroCastleMenuController {
     public void resetButtons() {
         sell.setText("Sell");
         purchaseSword.setText("Buy");
+    }
+
+    public void resetShop() {
+        potionBought = 0;
+        armourBought = 0;
     }
 
 }

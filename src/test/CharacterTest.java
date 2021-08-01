@@ -7,9 +7,14 @@ import org.junit.jupiter.api.Test;
 import javafx.beans.property.SimpleIntegerProperty;
 import org.javatuples.Pair;
 import unsw.loopmania.Character;
+import unsw.loopmania.HealthPotion;
 //import unsw.loopmania.HealthPotion;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.Slug;
+import unsw.loopmania.Staff;
+import unsw.loopmania.Stake;
+import unsw.loopmania.Sword;
 import unsw.loopmania.TheOneRing;
 
 public class CharacterTest {
@@ -29,20 +34,39 @@ public class CharacterTest {
         character.setHp(10000);
         character.setHp(500);
         character.setHp(300);
-        assertEquals(300, character.getHp());
+        assertEquals(300, character.getHp().get());
         assertEquals(100, character.getDamage());
         character.setInBattle(true);
         assertEquals(true, character.getInBattle());
         SimpleIntegerProperty x = new SimpleIntegerProperty(1);
         SimpleIntegerProperty y = new SimpleIntegerProperty(2);
-        //HealthPotion healthPotion = new HealthPotion(x, y);
+        HealthPotion healthPotion = new HealthPotion(x, y);
         // character.useHealthPotion(healthPotion);
         // assertEquals(500, character.getHp());
         character.setHp(100);
         TheOneRing theOneRing = new TheOneRing(x, y);
         character.useTheOneRing(theOneRing);
-        assertEquals(500, character.getHp());
-
+        assertEquals(500, character.getHp().get());
+        character.getStuntimes();
+        character.setStunTimes(2);
+        character.getHpProgress();
+        character.setDamage(2);
+        character.getInBattle();
+        Slug e = new Slug(position);
+        character.attack(e, world.getEquipItems());
+        character.useHealthPotion(healthPotion);
+        character.setDamageBack();
+        character.setHp(-10);
+        character.setHp(501);
+        HealthPotion a = new HealthPotion(x, y);
+        character.useHealthPotion(a);
+        Sword s = new Sword(x, y);
+        Slug e2 = new Slug(position);
+        character.useSword(s, e2);
+        Staff t = new Staff(x, y);
+        character.useStaff(t, e2, world);
+        Stake k = new Stake(x, y);
+        character.useStake(k, e2);
         // TODO attack
     }
 }
