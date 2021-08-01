@@ -3,6 +3,7 @@ package unsw.loopmania;
 import java.io.File;
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,7 +14,7 @@ import javafx.scene.image.ImageView;
 public class Shield extends ItemProperty {
     // TODO = add more weapon/item types
     private final int defense = 10;
-    private final int price = 2000;
+    public static IntegerProperty price = new SimpleIntegerProperty(2000);
     private Image shieldImage;
     public Shield(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.SHIELD);
@@ -22,10 +23,7 @@ public class Shield extends ItemProperty {
     public int getDefense() {
         return this.defense;
     }
-    @Override
-    public int getPrice() {
-        return this.price;
-    }
+    
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
         // TODO Auto-generated method stub

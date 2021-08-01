@@ -3,6 +3,7 @@ package unsw.loopmania;
 import java.io.File;
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,10 +18,7 @@ public class TreeStump extends RareItem{
     public int getDefense() {
         return this.defense;
     }
-    @Override
-    public int getPrice() {
-        return 0;
-    }
+    
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
         // TODO Auto-generated method stub

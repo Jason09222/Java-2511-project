@@ -8,7 +8,8 @@ public enum ItemType {
     HELMET(1),
     SHIELD(2),
     OTHER(4),
-    HEALTHPOTION(4),    
+    HEALTHPOTION(4),
+    DOGGIECOIN(5),    
     ;
 
     private int index;

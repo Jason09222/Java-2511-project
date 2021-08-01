@@ -3,6 +3,7 @@ package unsw.loopmania;
 import java.io.File;
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,7 +13,7 @@ import javafx.scene.image.ImageView;
  */
 public class Stake extends ItemProperty {
     private final int damage = 150;
-    private final int price = 1500;
+    public static IntegerProperty price = new SimpleIntegerProperty(1500);
     private Image stakeImage;
     public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.STAKE);
@@ -27,10 +28,7 @@ public class Stake extends ItemProperty {
         }
 
     }
-    @Override
-    public int getPrice() {
-        return price;
-    }
+    
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
         // TODO Auto-generated method stub
