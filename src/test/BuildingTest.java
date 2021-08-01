@@ -58,6 +58,7 @@ public class BuildingTest {
         assertEquals(vampireCastleBuilding.getEnemies().size(), 2);
         vampireCastleBuilding.removeEnemy(slug);
         assertEquals(vampireCastleBuilding.getEnemies().size(), 1);
+
         //vampireCastleBuilding.characterSteppingOn();
         // assertEquals(vampireCastleBuilding.getCharacterStepOn(), true);
         //vampireCastleBuilding.characterLeave();
@@ -65,6 +66,10 @@ public class BuildingTest {
         assertNotEquals(vampireCastleBuilding.getNearestPath(world), null);
         vampireCastleBuilding.spawnVampire(world);
         assertEquals(world.getEnemy().get(0).getType(), "Vampire");
+        vampireCastleBuilding.addEnemiesWorld(world);
+        vampireCastleBuilding.spawnEnemy(world, new ArrayList<>());
+        vampireCastleBuilding.characterStepOn(world);
+        vampireCastleBuilding.enemyStepOn(world, new ArrayList<>());
     }
 
     @Test
@@ -103,6 +108,9 @@ public class BuildingTest {
         assertNotEquals(zombiePit.getNearestPath(world), null);
         zombiePit.spawnZombie(world);
         assertEquals(world.getEnemy().get(0).getType(), "Zombie");
+        zombiePit.spawnEnemy(world, new ArrayList<>());
+        zombiePit.characterStepOn(world);
+        zombiePit.enemyStepOn(world, new ArrayList<>());
     }
 
     @Test
@@ -143,12 +151,15 @@ public class BuildingTest {
         // tower.characterLeave();
         // assertEquals(tower.getCharacterStepOn(), false);
         assertNotEquals(tower.getNearestPath(world), null);
-        assertEquals(tower.getShootRadius(), 5);
+        assertEquals(tower.getShootRadius(), 500);
         assertEquals(tower.getDistance(3, 4), (Math.sqrt(Math.pow(2, 2) - Math.pow(2, 2))));
         tower.attack(world);
         vampire.setInBattle(true);
         world.getEnemy().add(vampire);
         assertEquals(vampire.getHP(), 800);//???
+        tower.spawnEnemy(world, new ArrayList<>());
+        tower.characterStepOn(world);
+        tower.enemyStepOn(world, new ArrayList<>());
 
     }
 
@@ -189,8 +200,12 @@ public class BuildingTest {
         Character character = new Character(position);
         // village.characterSteppingOn();
         character.setHp(1);
+        world.setCharacter(character);
         village.increaseHp(character);
-        assertEquals(character.getHp(), 101);
+        assertEquals(character.getHp().get(), 101);
+        village.spawnEnemy(world, new ArrayList<>());
+        village.characterStepOn(world);
+        village.enemyStepOn(world, new ArrayList<>());
     }
 
     @Test
@@ -231,6 +246,9 @@ public class BuildingTest {
         barracks.produceAlly(world);
         assertEquals(world.getAllies().size(), 1);
         // assertEquals(barracks.getCharacterStepOn(), true);
+        barracks.spawnEnemy(world, new ArrayList<>());
+        barracks.characterStepOn(world);
+        barracks.enemyStepOn(world, new ArrayList<>());
     }
 
     @Test
@@ -276,6 +294,9 @@ public class BuildingTest {
         assertEquals(world.getBuildings().size(), 0);
 
         assertEquals(vampire.getHP(), 800);// Should kill the ememy
+        trap.spawnEnemy(world, new ArrayList<>());
+        trap.characterStepOn(world);
+        trap.enemyStepOn(world, new ArrayList<>());
     }
 
     @Test
@@ -313,8 +334,12 @@ public class BuildingTest {
         assertNotEquals(campfire.getNearestPath(world), null);
         assertEquals(campfire.getcampRadius(), 3);
         Character character = new Character(position);
+        world.setCharacter(character);
         campfire.doubleDamage(character);
         assertEquals(vampire.getHP(), 600);
+        campfire.spawnEnemy(world, new ArrayList<>());
+        campfire.characterStepOn(world);
+        campfire.enemyStepOn(world, new ArrayList<>());
     }
 
     @Test
@@ -358,5 +383,8 @@ public void testHeroCastle() {
         assertEquals(heroCastle.getOfferWindow(), true);
         heroCastle.closeOfferWindow();
         assertEquals(heroCastle.getOfferWindow(), false);
+        heroCastle.spawnEnemy(world, new ArrayList<>());
+        heroCastle.characterStepOn(world);
+        heroCastle.enemyStepOn(world, new ArrayList<>());
     }
 }

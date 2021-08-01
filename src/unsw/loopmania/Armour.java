@@ -36,7 +36,7 @@ public class Armour extends ItemProperty {
 
     @Override
     public ImageView onLoadItems() {
-        return new ImageView(new Image((new File("src/images/armour.png")).toURI().toString()););
+        return new ImageView(new Image((new File("src/images/armour.png")).toURI().toString()));
     }
     @Override
     public boolean canBePurchased() {
