@@ -199,9 +199,8 @@ public class HeroCastleMenuController {
             shopMessage.setText("Shop Message: Cannot buy more armour in Berserker mode");
         }
         else {
-            if (!purchaseArmour.getText().equals("\u2713") && world.getGold().get() >= world.getItemPrice(ItemType.ARMOUR).get()) {
+            if (world.getGold().get() >= world.getItemPrice(ItemType.ARMOUR).get()) {
                 buyItem(ItemType.ARMOUR);
-                purchaseArmour.setText("\u2713");
                 armourBought++;
                 shopMessage.setText("Shop Message: Armour was purchased");
             }
@@ -219,9 +218,8 @@ public class HeroCastleMenuController {
             shopMessage.setText("Shop Message: Cannot buy more armour in Berserker mode");
         }
         else {
-            if (!purchaseHelmet.getText().equals("\u2713") && world.getGold().get() >= world.getItemPrice(ItemType.HELMET).get()) {
+            if (world.getGold().get() >= world.getItemPrice(ItemType.HELMET).get()) {
                 buyItem(ItemType.HELMET);
-                purchaseHelmet.setText("\u2713");
                 armourBought++;
                 shopMessage.setText("Shop Message: Helmet was purchased");
             }
@@ -240,9 +238,8 @@ public class HeroCastleMenuController {
             shopMessage.setText("Shop Message: Cannot buy more potions in Survival mode");
         }
         else {
-            if (!purchasePotion.getText().equals("\u2713") && world.getGold().get() >= world.getItemPrice(ItemType.HEALTHPOTION).get()) {
+            if (world.getGold().get() >= world.getItemPrice(ItemType.HEALTHPOTION).get()) {
                 buyItem(ItemType.HEALTHPOTION);
-                purchasePotion.setText("\u2713");
                 potionBought++;
                 shopMessage.setText("Shop Message: Potion was purchased");
             }
@@ -260,9 +257,8 @@ public class HeroCastleMenuController {
             shopMessage.setText("Shop Message: Cannot buy more armour in Berserker mode");
         }
         else {
-            if (!purchaseShield.getText().equals("\u2713") && world.getGold().get() >= world.getItemPrice(ItemType.SHIELD).get()) {
+            if (world.getGold().get() >= world.getItemPrice(ItemType.SHIELD).get()) {
                 buyItem(ItemType.SHIELD);
-                purchaseShield.setText("\u2713");
                 armourBought++;
                 shopMessage.setText("Shop Message: Shield was purchased");
             }
@@ -276,9 +272,8 @@ public class HeroCastleMenuController {
 
     @FXML
     void handlePurchaseStaff(ActionEvent event) {
-        if (!purchaseStaff.getText().equals("\u2713") && world.getGold().get() >= world.getItemPrice(ItemType.STAFF).get()) {
+        if (world.getGold().get() >= world.getItemPrice(ItemType.STAFF).get()) {
             buyItem(ItemType.STAFF);
-            purchaseStaff.setText("\u2713");
             shopMessage.setText("Shop Message: Staff was purchased");
         }
         else {
@@ -289,9 +284,8 @@ public class HeroCastleMenuController {
 
     @FXML
     void handlePurchaseStake(ActionEvent event) {
-        if (!purchaseStake.getText().equals("\u2713") &&world.getGold().get() >= world.getItemPrice(ItemType.STAKE).get()) {
+        if (world.getGold().get() >= world.getItemPrice(ItemType.STAKE).get()) {
             buyItem(ItemType.STAKE);
-            purchaseStake.setText("\u2713");
             shopMessage.setText("Shop Message: Stake was purchased");
         }
         else {
@@ -302,9 +296,8 @@ public class HeroCastleMenuController {
 
     @FXML
     void handlePurchaseSword(ActionEvent event) {
-        if (!purchaseSword.getText().equals("\u2713") && world.getGold().get() >= world.getItemPrice(ItemType.SWORD).get()) {
+        if (world.getGold().get() >= world.getItemPrice(ItemType.SWORD).get()) {
             buyItem(ItemType.SWORD);
-            purchaseSword.setText("\u2713");
             shopMessage.setText("Shop message: Sword was purchased");
         }
         else {
