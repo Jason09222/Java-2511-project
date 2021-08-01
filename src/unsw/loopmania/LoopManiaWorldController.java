@@ -194,6 +194,8 @@ public class LoopManiaWorldController {
     @FXML
     private StackPane layout5;
 
+    @FXML StackPane superStackPane;
+
     // all image views including tiles, character, enemies, cards... even though
     // cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -212,7 +214,20 @@ public class LoopManiaWorldController {
      * maze, as well as enemies, and running of battles
      */
     private Timeline timeline;
-
+    private File PVZaudio;
+    private File shopMusic;
+    private File battleMusicAutumn;
+    private File battleMusicSpring;
+    private File battleMusicSummer;
+    private File battleMusicWinter;
+    private File mainMenuMusic;
+    MediaPlayer mainMenuAudioPlayer;
+    MediaPlayer shopAudioPlayer;
+    MediaPlayer audioPlayer;
+    MediaPlayer battleAutumnAudioPlayer;
+    MediaPlayer battleWinterAudioPlayer;
+    MediaPlayer battleSpringAudioPlayer;
+    MediaPlayer battleSummerAudioPlayer;
     private Image brilliantBlueNewImage;
     private Image goldImage;
     private Image expImage;
@@ -366,10 +381,33 @@ public class LoopManiaWorldController {
     @FXML
     public void initialize() {
         // TODO = load more images/entities during initialization
+        battleMusicAutumn = new File("src/images/BATTLE_AUTUMN.mp3"); 
+        Media audio = new Media(battleMusicAutumn.toURI().toString());
+        battleAutumnAudioPlayer = new MediaPlayer(audio);
 
+        battleMusicWinter = new File("src/images/BATTLE_WINTER.mp3"); 
+        audio = new Media(battleMusicWinter.toURI().toString());
+        battleWinterAudioPlayer = new MediaPlayer(audio);
+
+        battleMusicSpring = new File("src/images/BATTLE_SPRING.mp3"); 
+        audio = new Media(battleMusicSpring.toURI().toString());
+        battleSpringAudioPlayer = new MediaPlayer(audio);
+
+        battleMusicSummer = new File("src/images/BATTLE_SUMMER.mp3"); 
+        audio = new Media(battleMusicSummer.toURI().toString());
+        battleSummerAudioPlayer = new MediaPlayer(audio);
+
+        mainMenuMusic = new File("src/images/mainMenuMusic.mp3"); 
+        audio = new Media(mainMenuMusic.toURI().toString());
+        mainMenuAudioPlayer = new MediaPlayer(audio);
+        mainMenuAudioPlayer.setAutoPlay(true);
+        mainMenuAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mainMenuAudioPlayer.play();
+        
         Image pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
         Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
         Rectangle2D imagePart = new Rectangle2D(0, 0, 32, 32);
+
 
         // Add the ground first so it is below all other entities (inculding all the
         // twists and turns)
@@ -590,10 +628,7 @@ public class LoopManiaWorldController {
 
 
 
-        File audioFile = new File("src/images/audio.mp3");
-        Media audio = new Media(audioFile.toURI().toString());
-        MediaPlayer audioPlayer = new MediaPlayer(audio);
-        audioPlayer.setAutoPlay(true);
+        
 
     }
 
@@ -609,16 +644,77 @@ public class LoopManiaWorldController {
     public void startTimer() {
         // TODO = handle more aspects of the behaviour required by the specification
         System.out.println("starting timer");
-        isPaused = false;
+        mainMenuAudioPlayer.pause();
+
+
+        PVZaudio = new File("src/images/audio.mp3");
+        Media audio = new Media(PVZaudio.toURI().toString());
+        audioPlayer = new MediaPlayer(audio);
+        audioPlayer.setAutoPlay(true);
+        audioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         // trigger adding code to process main game logic to queue. JavaFX will target
         // framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
 
             world.runTickMoves();
+            int result = world.getCycle() % 4;
+            if (result == 0) {
+                if (world.getCharacter().getInBattle()) {
+                    audioPlayer.pause();
+                    
+                    battleAutumnAudioPlayer.setAutoPlay(true);
+                    battleAutumnAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+                    battleAutumnAudioPlayer.play();
+                } else {
+                    battleAutumnAudioPlayer.stop();
+                    audioPlayer.play();
+                }
+            } else if (result == 1) {
+                if (world.getCharacter().getInBattle()) {
+                    audioPlayer.pause();
+                    
+                    battleWinterAudioPlayer.setAutoPlay(true);
+                    battleWinterAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+                    battleWinterAudioPlayer.play();
+                } else {
+                    battleWinterAudioPlayer.stop();
+                    audioPlayer.play();
+                }
+            } else if (result == 2) {
+                if (world.getCharacter().getInBattle()) {
+                    audioPlayer.pause();
+                    
+                    battleSpringAudioPlayer.setAutoPlay(true);
+                    battleSpringAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+                    battleSpringAudioPlayer.play();
+                } else {
+                    battleSpringAudioPlayer.stop();
+                    audioPlayer.play();
+                }
+            } else {
+                if (world.getCharacter().getInBattle()) {
+                    audioPlayer.pause();
+                    
+                    battleSummerAudioPlayer.setAutoPlay(true);
+                    battleSummerAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+                    battleSummerAudioPlayer.play();
+                } else {
+                    battleSummerAudioPlayer.stop();
+                    audioPlayer.play();
+                }
+            }
+            
             if (world.isShopTime()) {
                 try {
                     
                     switchToShop();
+                    audioPlayer.pause();
+                    
+                    shopMusic = new File("src/images/shopMusic.mp3");
+                    Media stopAudio = new Media(shopMusic.toURI().toString());
+                    shopAudioPlayer = new MediaPlayer(stopAudio);
+                    shopAudioPlayer.setAutoPlay(true);
+                    shopAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
                 }
                 catch (IOException e) {
                     e.printStackTrace();
@@ -1508,5 +1604,13 @@ public class LoopManiaWorldController {
 
             world.removeCard(0);
         }
+    }
+
+    public MediaPlayer getAudioPlayer() {
+        return audioPlayer;
+    }
+
+    public MediaPlayer getShopAudioPlayer() {
+        return shopAudioPlayer;
     }
 }

@@ -8,10 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class ZombiePit extends BuildingProperty {
-    private Image zombiePitImage;
     public ZombiePit(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        zombiePitImage = new Image((new File("src/images/zombie_pit.png")).toURI().toString());
     }
 
 
@@ -52,8 +50,8 @@ public class ZombiePit extends BuildingProperty {
     @Override
     public ImageView onLoadBuilding() {
         // TODO Auto-generated method stub
-        return new ImageView(zombiePitImage);
+        return new ImageView(new Image((new File("src/images/zombie_pit.png")).toURI().toString()));
     }
 
-    
+
 }

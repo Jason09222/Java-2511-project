@@ -19,7 +19,6 @@ public class Doggie extends EnemyProperty{
     private final int hp = 1000;
     private final int exp = 100;
     private int criticalPoss = 10;
-    private Image basicEnemyImage;
 
     public Doggie(PathPosition position) {
         super(position);
@@ -34,7 +33,6 @@ public class Doggie extends EnemyProperty{
         setGold(this.gold); //TODO can be changed
         setSpeed(this.speed);
         setCriticalPoss(criticalPoss);
-        basicEnemyImage = new Image((new File("src/images/doggie.png")).toURI().toString());
     }
 
 
@@ -80,7 +78,7 @@ public class Doggie extends EnemyProperty{
     @Override
     public ImageView onLoadEnemy() {
         // TODO Auto-generated method stub
-        return new ImageView(basicEnemyImage);
+        return new ImageView(new Image((new File("src/images/doggie.png")).toURI().toString()));
     }
 
 

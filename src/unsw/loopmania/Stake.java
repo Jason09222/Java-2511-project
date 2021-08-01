@@ -14,10 +14,8 @@ import javafx.scene.image.ImageView;
 public class Stake extends ItemProperty {
     private final int damage = 150;
     public static IntegerProperty price = new SimpleIntegerProperty(1500);
-    private Image stakeImage;
     public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.STAKE);
-        stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
     }
 
     public int getDamage(EnemyProperty enemy) {
@@ -28,7 +26,7 @@ public class Stake extends ItemProperty {
         }
 
     }
-    
+
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
         // TODO Auto-generated method stub
@@ -37,19 +35,19 @@ public class Stake extends ItemProperty {
         } else {
             c.setDamage(c.getDamage() + damage);
         }
-        
+
     }
 
     @Override
     public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemoveGold,
             List<ItemProperty> toRemoveHealthPotion) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public ImageView onLoadItems() {
-        return new ImageView(stakeImage);
+        return new ImageView(new Image((new File("src/images/stake.png")).toURI().toString()));
     }
 
     @Override

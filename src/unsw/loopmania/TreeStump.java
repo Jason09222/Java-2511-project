@@ -10,7 +10,6 @@ import javafx.scene.image.ImageView;
 
 public class TreeStump extends RareItem{
     private final int defense = 20;
-    private Image treeStumpImage;
     public TreeStump(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.SHIELD);
         treeStumpImage = new Image((new File("src/images/tree_stump.png")).toURI().toString());
@@ -18,7 +17,7 @@ public class TreeStump extends RareItem{
     public int getDefense() {
         return this.defense;
     }
-    
+
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
         // TODO Auto-generated method stub
@@ -29,19 +28,19 @@ public class TreeStump extends RareItem{
         }
 
         if (e.getDamage() < 0) e.setDamage(0);
-        
+
     }
-   
+
 
     @Override
     public ImageView onLoadItems() {
-        return new ImageView(treeStumpImage);
+        return new ImageView(new Image((new File("src/images/shield.png")).toURI().toString()));
     }
     @Override
     public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemoveGold,
             List<ItemProperty> toRemoveHealthPotion) {
         // TODO Auto-generated method stub
-        
+
     }
     @Override
     public boolean canBePurchased() {

@@ -15,15 +15,13 @@ public class Shield extends ItemProperty {
     // TODO = add more weapon/item types
     private final int defense = 10;
     public static IntegerProperty price = new SimpleIntegerProperty(2000);
-    private Image shieldImage;
     public Shield(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.SHIELD);
-        shieldImage = new Image((new File("src/images/shield.png")).toURI().toString());
     }
     public int getDefense() {
         return this.defense;
     }
-    
+
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
         // TODO Auto-generated method stub
@@ -35,9 +33,9 @@ public class Shield extends ItemProperty {
         if (e.getType().equals("Vampire")) {
             e.setCriticalPoss((int)(e.getCriticalPoss() / 0.4));
         }
-        
+
     }
-   
+
     @Override
     public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemoveGold,
             List<ItemProperty> toRemoveHealthPotion) {
@@ -47,7 +45,7 @@ public class Shield extends ItemProperty {
 
     @Override
     public ImageView onLoadItems() {
-        return new ImageView(shieldImage);
+        return new ImageView(new Image((new File("src/images/shield.png")).toURI().toString()));
     }
     @Override
     public boolean canBePurchased() {

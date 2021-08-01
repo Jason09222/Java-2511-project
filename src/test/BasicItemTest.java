@@ -1,6 +1,11 @@
 package test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Gold;
@@ -8,6 +13,7 @@ import unsw.loopmania.HealthPotion;
 import unsw.loopmania.Helmet;
 import unsw.loopmania.ItemType;
 import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.PathPosition;
 import unsw.loopmania.RareItem;
 import unsw.loopmania.Shield;
 import unsw.loopmania.Slug;
@@ -15,161 +21,332 @@ import unsw.loopmania.Staff;
 import unsw.loopmania.Stake;
 import unsw.loopmania.Sword;
 import unsw.loopmania.TheOneRing;
+import unsw.loopmania.TreeStump;
 import unsw.loopmania.Vampire;
+import unsw.loopmania.Anduril;
 // import unsw.loopmania.Zombie;
 import unsw.loopmania.Armour;
 import unsw.loopmania.Character;
+import unsw.loopmania.Doggie;
+import unsw.loopmania.DoggieCoin;
+
+import org.javatuples.Pair;
 
 public class BasicItemTest {
     @Test
     public void ItemSword() {
         SimpleIntegerProperty x = new SimpleIntegerProperty(1);
         SimpleIntegerProperty y = new SimpleIntegerProperty(2);
-        Sword sword = new Sword(x, y);
-        Character character = new Character(null);
-        Slug enemy = new Slug(null);
-        character.useSword(sword, enemy);
-        assertEquals(sword.getDamage(), 200);
-        assertEquals(sword.getPrice(), 1000);
-        assertEquals(sword.getType(), ItemType.SWORD);
-        assertEquals(sword.getX(), 1);
-        assertEquals(sword.getY(), 2);
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        int index = orderedPath.indexOf(pair1);
+        PathPosition position = new PathPosition(index, orderedPath);
+        Sword armour = new Sword(x, y);
+        Slug slug = new Slug(null);
+        assertEquals(armour.getType(), ItemType.SWORD);
+        assertEquals(armour.getX(), 1);
+        assertEquals(armour.getY(), 2);
+        Character character = new Character(position);
+        armour.useDuringBattle(slug, character);
+        assertTrue(armour.canBePurchased());
+        assertEquals(armour.getSlot(), 0);
+        world.setCharacter(character);
+        armour.characterStepOn(world, new ArrayList<>(), new ArrayList<>());
     }
 
     @Test
     public void ItemGold() {
         SimpleIntegerProperty x = new SimpleIntegerProperty(1);
         SimpleIntegerProperty y = new SimpleIntegerProperty(2);
-        Gold gold = new Gold(x, y);
-        assertEquals(gold.getValue(), 200);
-        assertEquals(gold.getType(), ItemType.OTHER);
-        assertEquals(gold.getX(), 1);
-        assertEquals(gold.getY(), 2);
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        int index = orderedPath.indexOf(pair1);
+        PathPosition position = new PathPosition(index, orderedPath);
+        Gold armour = new Gold(x, y);
+        Slug slug = new Slug(null);
+        assertEquals(armour.getType(), ItemType.OTHER);
+        assertEquals(armour.getX(), 1);
+        assertEquals(armour.getY(), 2);
+        Character character = new Character(position);
+        armour.useDuringBattle(slug, character);
+        assertFalse(armour.canBePurchased());
+        assertEquals(armour.getSlot(), 4);
+        world.setCharacter(character);
+        armour.characterStepOn(world, new ArrayList<>(), new ArrayList<>());
+    }
+
+
+    @Test
+    public void ItemDoggieCoin() {
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(2);
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        int index = orderedPath.indexOf(pair1);
+        PathPosition position = new PathPosition(index, orderedPath);
+        DoggieCoin armour = new DoggieCoin(x, y, ItemType.OTHER);
+        Slug slug = new Slug(null);
+        assertEquals(armour.getType(), ItemType.OTHER);
+        assertEquals(armour.getX(), 1);
+        assertEquals(armour.getY(), 2);
+        Character character = new Character(position);
+        armour.useDuringBattle(slug, character);
+        assertTrue(armour.canBePurchased());
+        assertEquals(armour.getSlot(), 4);
+        world.setCharacter(character);
+        armour.characterStepOn(world, new ArrayList<>(), new ArrayList<>());
     }
 
     @Test
     public void ItemTheOneRing() {
         SimpleIntegerProperty x = new SimpleIntegerProperty(1);
         SimpleIntegerProperty y = new SimpleIntegerProperty(2);
-        TheOneRing theonering = new TheOneRing(x, y);
-        Character character = new Character(null);
-        character.setHp(0);
-        character.useTheOneRing(theonering);
-        assertEquals(character.getHp(),500);
-        assertEquals(theonering.getType(), ItemType.OTHER);
-        assertEquals(theonering.getX(), 1);
-        assertEquals(theonering.getY(), 2);
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        int index = orderedPath.indexOf(pair1);
+        PathPosition position = new PathPosition(index, orderedPath);
+        TheOneRing armour = new TheOneRing(x, y);
+        Slug slug = new Slug(null);
+        assertEquals(armour.getType(), ItemType.OTHER);
+        assertEquals(armour.getX(), 1);
+        assertEquals(armour.getY(), 2);
+        Character character = new Character(position);
+        armour.useDuringBattle(slug, character);
+        assertFalse(armour.canBePurchased());
+        assertEquals(armour.getSlot(), 4);
+        armour.characterStepOn(world, new ArrayList<>(), new ArrayList<>());
     }
+
+
+    @Test
+    public void ItemAnduril() {
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(2);
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        int index = orderedPath.indexOf(pair1);
+        PathPosition position = new PathPosition(index, orderedPath);
+        Anduril armour = new Anduril(x, y, ItemType.OTHER);
+        Slug slug = new Slug(null);
+        assertEquals(armour.getType(), ItemType.OTHER);
+        assertEquals(armour.getX(), 1);
+        assertEquals(armour.getY(), 2);
+        Character character = new Character(position);
+        armour.useDuringBattle(slug, character);
+        assertFalse(armour.canBePurchased());
+        assertEquals(armour.getSlot(), 4);
+        armour.characterStepOn(world, new ArrayList<>(), new ArrayList<>());
+    }
+
+
+
+
 
     @Test
     public void ItemStake() {
         SimpleIntegerProperty x = new SimpleIntegerProperty(1);
         SimpleIntegerProperty y = new SimpleIntegerProperty(2);
-        Stake stake = new Stake(x, y);
-        Character character = new Character(null);
-        Vampire vampire = new Vampire(null);
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        int index = orderedPath.indexOf(pair1);
+        PathPosition position = new PathPosition(index, orderedPath);
+        Stake armour = new Stake(x, y);
         Slug slug = new Slug(null);
-        character.useStake(stake, vampire);
-        character.useStake(stake, slug);
-        assertEquals(vampire.getHP(), 400);
-        assertEquals(slug.getHP(), 50);
-        assertEquals(stake.getDamage(vampire), 300);
-        assertEquals(stake.getDamage(slug), 150);
-        assertEquals(stake.getPrice(), 1500);
-        assertEquals(stake.getType(), ItemType.STAKE);
-        assertEquals(stake.getX(), 1);
-        assertEquals(stake.getY(), 2);
+        assertEquals(armour.getType(), ItemType.STAKE);
+        assertEquals(armour.getX(), 1);
+        assertEquals(armour.getY(), 2);
+        Character character = new Character(position);
+        armour.useDuringBattle(slug, character);
+        assertTrue(armour.canBePurchased());
+        assertEquals(armour.getSlot(), 0);
+        world.setCharacter(character);
+        armour.characterStepOn(world, new ArrayList<>(), new ArrayList<>());
     }
 
     @Test
     public void ItemStaff() {
         SimpleIntegerProperty x = new SimpleIntegerProperty(1);
         SimpleIntegerProperty y = new SimpleIntegerProperty(2);
-        Staff staff = new Staff(x, y);
-        LoopManiaWorld loopManiaWorld = new LoopManiaWorld(1, 2, new ArrayList<>());
-        Vampire vampire = new Vampire(null);
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        int index = orderedPath.indexOf(pair1);
+        PathPosition position = new PathPosition(index, orderedPath);
+        Staff armour = new Staff(x, y);
         Slug slug = new Slug(null);
-        Character character = new Character(null);
-        character.useStaff(staff, vampire, loopManiaWorld);
-        character.useStaff(staff, slug, loopManiaWorld);
-        assertEquals(vampire.getHP(), 600);
-        assertEquals(slug.getHP(), 100);
-        assertEquals(staff.getDamage(), 100);
-        assertEquals(staff.getPrice(), 2000);
-        assertEquals(staff.getType(), ItemType.STAFF);
-        assertEquals(staff.getX(), 1);
-        assertEquals(staff.getY(), 2);
+        assertEquals(armour.getType(), ItemType.STAFF);
+        assertEquals(armour.getX(), 1);
+        assertEquals(armour.getY(), 2);
+        Character character = new Character(position);
+        armour.useDuringBattle(slug, character);
+        assertTrue(armour.canBePurchased());
+        assertEquals(armour.getSlot(), 0);
+        world.setCharacter(character);
+        armour.characterStepOn(world, new ArrayList<>(), new ArrayList<>());
     }
 
     @Test
     public void ItemShield() {
         SimpleIntegerProperty x = new SimpleIntegerProperty(1);
         SimpleIntegerProperty y = new SimpleIntegerProperty(2);
-        Shield shield = new Shield(x, y);
-        assertEquals(shield.getDefense(), 200);
-        assertEquals(shield.getPrice(), 2000);
-        assertEquals(shield.getType(), ItemType.SHIELD);
-        assertEquals(shield.getX(), 1);
-        assertEquals(shield.getY(), 2);
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        int index = orderedPath.indexOf(pair1);
+        PathPosition position = new PathPosition(index, orderedPath);
+        Shield armour = new Shield(x, y);
+        Slug slug = new Slug(null);
+        assertEquals(armour.getType(), ItemType.SHIELD);
+        assertEquals(armour.getX(), 1);
+        assertEquals(armour.getY(), 2);
+        Character character = new Character(position);
+        armour.useDuringBattle(slug, character);
+        assertTrue(armour.canBePurchased());
+        assertEquals(armour.getSlot(), 2);
+        armour.characterStepOn(world, new ArrayList<>(), new ArrayList<>());
     }
 
-    @Test
-    public void ItemRareItem() {
-        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
-        SimpleIntegerProperty y = new SimpleIntegerProperty(2);
-        RareItem rareItem = new RareItem(x, y, ItemType.OTHER);
-        //Should establish the class the one ring, not rareitem
-        assertEquals(rareItem.getType(), ItemType.OTHER);
-        assertEquals(rareItem.getX(), 1);
-        assertEquals(rareItem.getY(), 2);
-    }
+
 
     @Test
     public void ItemHelmet() {
         SimpleIntegerProperty x = new SimpleIntegerProperty(1);
         SimpleIntegerProperty y = new SimpleIntegerProperty(2);
-        Helmet helmet = new Helmet(x, y);
-        //Vampire vampire = new Vampire(null);
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        int index = orderedPath.indexOf(pair1);
+        PathPosition position = new PathPosition(index, orderedPath);
+        Helmet armour = new Helmet(x, y);
         Slug slug = new Slug(null);
-        Character character = new Character(null);
-        assertEquals(character.getHp()-slug.getDamage()+helmet.getDefense(), 630);
-        assertEquals(helmet.getDefense(), 150);
-        assertEquals(helmet.getPrice(), 1500);
-        assertEquals(helmet.getType(), ItemType.HELMET);
-        assertEquals(helmet.getX(), 1);
-        assertEquals(helmet.getY(), 2);
+        assertEquals(armour.getType(), ItemType.HELMET);
+        assertEquals(armour.getX(), 1);
+        assertEquals(armour.getY(), 2);
+        Character character = new Character(position);
+        armour.useDuringBattle(slug, character);
+        assertTrue(armour.canBePurchased());
+        assertEquals(armour.getSlot(), 1);
+        armour.characterStepOn(world, new ArrayList<>(), new ArrayList<>());
     }
+
+    @Test
+    public void ItemTreeStump() {
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(2);
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        int index = orderedPath.indexOf(pair1);
+        PathPosition position = new PathPosition(index, orderedPath);
+        TreeStump armour = new TreeStump(x, y);
+        Slug slug = new Slug(null);
+        assertEquals(armour.getType(), ItemType.SHIELD);
+        assertEquals(armour.getX(), 1);
+        assertEquals(armour.getY(), 2);
+        Character character = new Character(position);
+        armour.useDuringBattle(slug, character);
+        assertFalse(armour.canBePurchased());
+        assertEquals(armour.getSlot(), 2);
+        armour.characterStepOn(world, new ArrayList<>(), new ArrayList<>());
+    }
+
 
     @Test
     public void HealthPotion() {
         SimpleIntegerProperty x = new SimpleIntegerProperty(1);
         SimpleIntegerProperty y = new SimpleIntegerProperty(2);
-        HealthPotion healthPotion = new HealthPotion(x, y);
-        Character character = new Character(null);
-        character.setHp(200);
-        character.useHealthPotion(healthPotion);
-        assertEquals(character.getHp(), 400);
-        character.setHp(500);
-        character.shouldExist();
-        character.useHealthPotion(healthPotion);
-        assertEquals(healthPotion.getHealth(), 200);
-        assertEquals(healthPotion.getPrice(), 2000);
-        assertEquals(healthPotion.getType(), ItemType.HEALTHPOTION);
-        assertEquals(healthPotion.getX(), 1);
-        assertEquals(healthPotion.getY(), 2);
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        int index = orderedPath.indexOf(pair1);
+        PathPosition position = new PathPosition(index, orderedPath);
+        HealthPotion armour = new HealthPotion(x, y);
+        Slug slug = new Slug(null);
+        assertEquals(armour.getType(), ItemType.HEALTHPOTION);
+        assertEquals(armour.getX(), 1);
+        assertEquals(armour.getY(), 2);
+        Character character = new Character(position);
+        armour.useDuringBattle(slug, character);
+        assertFalse(armour.canBePurchased());
+        assertEquals(armour.getSlot(), 4);
+        world.setCharacter(character);
+        armour.characterStepOn(world, new ArrayList<>(), new ArrayList<>());
     }
 
     @Test
     public void ItemArmour() {
         SimpleIntegerProperty x = new SimpleIntegerProperty(1);
         SimpleIntegerProperty y = new SimpleIntegerProperty(2);
+        List<Pair<Integer, Integer>> list = new ArrayList<Pair<Integer, Integer>>();
+        Pair<Integer, Integer> pair1 = new Pair<>(1, 2);
+        Pair<Integer, Integer> pair2 = new Pair<>(2, 2);
+        list.add(pair1);
+        list.add(pair2);
+        LoopManiaWorld world = new LoopManiaWorld(5, 5, list);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        int index = orderedPath.indexOf(pair1);
+        PathPosition position = new PathPosition(index, orderedPath);
         Armour armour = new Armour(x, y);
         Slug slug = new Slug(null);
         assertEquals(armour.getDefense(slug), 10);
-        assertEquals(armour.getPrice(), 1000);
         assertEquals(armour.getType(), ItemType.ARMOUR);
         assertEquals(armour.getX(), 1);
         assertEquals(armour.getY(), 2);
+        Character character = new Character(position);
+        armour.useDuringBattle(slug, character);
+        assertTrue(armour.canBePurchased());
+        assertEquals(armour.getSlot(), 3);
+        armour.characterStepOn(world, new ArrayList<>(), new ArrayList<>());
     }
 }
 

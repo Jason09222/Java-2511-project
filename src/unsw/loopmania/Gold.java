@@ -13,17 +13,15 @@ import javafx.scene.image.ImageView;
  */
 public class Gold extends ItemProperty {
     public static IntegerProperty value = new SimpleIntegerProperty(200);
-    private Image goldImage;
-    
+
     public Gold(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.OTHER);
-        goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
     }
 
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
         return;
-        
+
     }
     @Override
     public void characterStepOn(LoopManiaWorld l,List<ItemProperty> toRemoveGold, List<ItemProperty> toRemoveHealthPotion) {
@@ -31,12 +29,12 @@ public class Gold extends ItemProperty {
         if (l.getCharacter().getX() == getX() && l.getCharacter().getY() == getY()) {
             toRemoveGold.add(this);
         }
-        
+
     }
 
     @Override
     public ImageView onLoadItems() {
-        return new ImageView(goldImage);
+        return new ImageView(new Image((new File("src/images/gold_pile.png")).toURI().toString()));
     }
     @Override
     public boolean canBePurchased() {

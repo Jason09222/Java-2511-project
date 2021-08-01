@@ -16,23 +16,21 @@ public class Sword extends ItemProperty {
     private final int damage = 200;
     public static IntegerProperty price = new SimpleIntegerProperty(1000);
 
-    private Image swordImage;
     public Sword(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.SWORD);
-        swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
     }
 
     public int getDamage() {
         return this.damage;
     }
-    
-    
+
+
 
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
         // TODO Auto-generated method stub
         c.setDamage(c.getDamage() + damage);
-        
+
     }
 
 
@@ -41,12 +39,12 @@ public class Sword extends ItemProperty {
     public void characterStepOn(LoopManiaWorld l, List<ItemProperty> toRemoveGold,
             List<ItemProperty> toRemoveHealthPotion) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public ImageView onLoadItems() {
-        return new ImageView(swordImage);
+        return new ImageView(new Image((new File("src/images/basic_sword.png")).toURI().toString()));
     }
 
     @Override
