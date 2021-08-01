@@ -793,7 +793,9 @@ public class LoopManiaWorldController {
         Random rand = new Random();
         int result = rand.nextInt(2);
         world.addGold(enemy.getGold());
-        if (enemy.getType().equals("Doggie")) world.addDoggieCoin(2);
+        if (enemy.getType().equals("Doggie")) {
+            world.addDoggieCoin(rand.nextInt(5));
+        }
         switch(result) {
             case 0:
                 generateCard();
@@ -1078,9 +1080,12 @@ public class LoopManiaWorldController {
                                  * Village) onLoad((Village)b); if (b instanceof ZombiePit)
                                  * onLoad((ZombiePit)b); if (b instanceof Barracks) onLoad((Barracks)b);
                                  */
-                                ImageView view = b.onLoadBuilding();
-                                addEntity(b, view);
-                                squares.getChildren().add(view);
+                                if (b != null) {
+
+                                    ImageView view = b.onLoadBuilding();
+                                    addEntity(b, view);
+                                    squares.getChildren().add(view);
+                                }
                                 // VampireCastleBuilding newBuilding =
                                 // (VampireCastleBuilding)world.convertCardToBuildingByCoordinates(nodeX, nodeY,
                                 // x, y);
