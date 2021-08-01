@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Random;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,7 +14,7 @@ import javafx.scene.image.ImageView;
  */
 public class Staff extends ItemProperty {
     private final int damage = 100;
-    private final int price = 2000;
+    public static IntegerProperty price = new SimpleIntegerProperty(2000);
     private Image staffImage;
     public Staff(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.STAFF);
@@ -23,10 +24,7 @@ public class Staff extends ItemProperty {
     public int getDamage() {
         return damage;
     }
-    @Override
-    public int getPrice() {
-        return price;
-    }
+    
 
     public void trance(EnemyProperty enemy, LoopManiaWorld world) {
         Random rand = new Random();

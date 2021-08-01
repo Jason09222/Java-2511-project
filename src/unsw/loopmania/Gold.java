@@ -3,6 +3,7 @@ package unsw.loopmania;
 import java.io.File;
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,17 +12,14 @@ import javafx.scene.image.ImageView;
  * represents an equipped or unequipped Gold in the backend world
  */
 public class Gold extends ItemProperty {
-    private final int value = 200;
+    public static IntegerProperty value = new SimpleIntegerProperty(200);
     private Image goldImage;
     
     public Gold(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.OTHER);
         goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
     }
-    @Override
-    public int getPrice() {
-        return value;
-    }
+
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
         return;

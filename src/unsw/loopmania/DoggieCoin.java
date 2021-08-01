@@ -2,14 +2,14 @@ package unsw.loopmania;
 
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.ImageView;
 
 public class DoggieCoin extends ItemProperty{
-    private int price;
+    public static IntegerProperty price = new SimpleIntegerProperty(200);
     public DoggieCoin(SimpleIntegerProperty x, SimpleIntegerProperty y, ItemType type) {
         super(x, y, type);
-        price = 200;
         //TODO Auto-generated constructor stub
     }
 
@@ -26,15 +26,10 @@ public class DoggieCoin extends ItemProperty{
         
     }
 
-    @Override
-    public int getPrice() {
-        // TODO Auto-generated method stub
-        return price;
-    }
 
-    public void setPrice(int value) {
-        this.price = value;
-    }
+    /*public void setPrice(int value) {
+        this.price.set(value);
+    }*/
 
     @Override
     public ImageView onLoadItems() {

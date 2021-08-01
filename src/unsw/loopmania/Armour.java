@@ -3,6 +3,7 @@ package unsw.loopmania;
 import java.io.File;
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,7 +13,7 @@ import javafx.scene.layout.Pane;
  * represents an equipped or unequipped Armour in the backend world
  */
 public class Armour extends ItemProperty {
-    private final int price = 1000;
+    public static IntegerProperty price = new SimpleIntegerProperty(1000);
     private Image armourImage;
     // TODO = add more weapon/item types
     public Armour(SimpleIntegerProperty x, SimpleIntegerProperty y) {
@@ -22,10 +23,7 @@ public class Armour extends ItemProperty {
     public int getDefense(EnemyProperty enemy) {
         return enemy.getDamage()/2;
     }
-    @Override
-    public int getPrice() {
-        return this.price;
-    }
+    
     @Override
     public void useDuringBattle(EnemyProperty e, Character c) {
         e.setDamage(e.getDamage()/ 2);

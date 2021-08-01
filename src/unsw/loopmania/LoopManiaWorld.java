@@ -700,7 +700,7 @@ public class LoopManiaWorld {
         for (ItemProperty item : toRemoveGold) {
             unPickedItem.remove(item);
             item.destroy();
-            gold.set(gold.get() + ((Gold)item).getPrice());
+            gold.set(gold.get() + (Gold.value.get()));
         }
         toRemoveGold.clear();
 
@@ -1299,29 +1299,32 @@ public class LoopManiaWorld {
         return !hasSpawnMuske;
     }
 
-    public int getItemPrice(ItemType itemType) {
+    public IntegerProperty getItemPrice(ItemType itemType) {
         if (itemType == ItemType.ARMOUR) {
-            return 1000;
+            return Armour.price;
         }
         else if (itemType == ItemType.HELMET) {
-            return 1500;
+            return Helmet.price;
         }
         else if (itemType == ItemType.SHIELD) {
-            return 2000;
+            return Shield.price;
         }
         else if (itemType == ItemType.STAFF) {
-            return 2000;
+            return Staff.price;
         }
         else if (itemType == ItemType.STAKE) {
-            return 1500;
+            return Stake.price;
         }
         else if (itemType == ItemType.SWORD) {
-            return 1000;
+            return Sword.price;
         }
         else if (itemType == ItemType.HEALTHPOTION) {
-            return 2000;
+            return HealthPotion.price;
+        } 
+        else if (itemType == ItemType.DOGGIECOIN) {
+            return DoggieCoin.price;
         }
-        return 0;
+        return new SimpleIntegerProperty(0);
     }
 
     public IntegerProperty getBattleSlugNum() {

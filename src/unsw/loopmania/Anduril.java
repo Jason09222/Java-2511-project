@@ -3,6 +3,7 @@ package unsw.loopmania;
 import java.io.File;
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,11 +37,6 @@ public class Anduril extends RareItem {
         
     }
 
-    @Override
-    public int getPrice() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
 
     @Override
     public ImageView onLoadItems() {
