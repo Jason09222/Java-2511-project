@@ -143,7 +143,6 @@ public class HeroCastleMenuController {
 
     void selected(ItemProperty item) {
         initialisePane();
-        sell.setText("SELL");
         ImageView view = item.onLoadItems();
         view.setFitHeight(100);
         view.setFitWidth(100);
@@ -185,16 +184,15 @@ public class HeroCastleMenuController {
     
     @FXML
     void handlePurchaseDoggie(ActionEvent event) {
-        if (world.getGold().get() >= world.getItemPrice(ItemType.ARMOUR).get()) {
-            buyItem(ItemType.ARMOUR);
+        if (world.getGold().get() >= world.getItemPrice(ItemType.DOGGIECOIN).get()) {
+            buyItem(ItemType.DOGGIECOIN);
         }
     }
 
     @FXML
     void handlePurchaseArmour(ActionEvent event) {
-        if (!purchaseArmour.getText().equals("\u2713") && world.getGold().get() >= world.getItemPrice(ItemType.ARMOUR).get()) {
+        if (world.getGold().get() >= world.getItemPrice(ItemType.ARMOUR).get()) {
             buyItem(ItemType.ARMOUR);
-            purchaseArmour.setText("\u2713");
             armourBought++;
         }
         
@@ -202,9 +200,8 @@ public class HeroCastleMenuController {
 
     @FXML
     void handlePurchaseHelmet(ActionEvent event) {
-        if (!purchaseHelmet.getText().equals("\u2713") && world.getGold().get() >= world.getItemPrice(ItemType.HELMET).get()) {
+        if (world.getGold().get() >= world.getItemPrice(ItemType.HELMET).get()) {
             buyItem(ItemType.HELMET);
-            purchaseHelmet.setText("\u2713");
             armourBought++;
         }
         
@@ -212,9 +209,8 @@ public class HeroCastleMenuController {
 
     @FXML
     void handlePurchasePotion(ActionEvent event) {
-        if (!purchasePotion.getText().equals("\u2713") && world.getGold().get() >= world.getItemPrice(ItemType.HEALTHPOTION).get()) {
+        if (world.getGold().get() >= world.getItemPrice(ItemType.HEALTHPOTION).get()) {
             buyItem(ItemType.HEALTHPOTION);
-            purchasePotion.setText("\u2713");
             potionBought++;
         }
         
@@ -222,9 +218,8 @@ public class HeroCastleMenuController {
 
     @FXML
     void handlePurchaseShield(ActionEvent event) {
-        if (!purchaseShield.getText().equals("\u2713") && world.getGold().get() >= world.getItemPrice(ItemType.SHIELD).get()) {
+        if (world.getGold().get() >= world.getItemPrice(ItemType.SHIELD).get()) {
             buyItem(ItemType.SHIELD);
-            purchaseShield.setText("\u2713");
             armourBought++;
         }
         
@@ -232,27 +227,24 @@ public class HeroCastleMenuController {
 
     @FXML
     void handlePurchaseStaff(ActionEvent event) {
-        if (!purchaseStaff.getText().equals("\u2713") && world.getGold().get() >= world.getItemPrice(ItemType.STAFF).get()) {
+        if (world.getGold().get() >= world.getItemPrice(ItemType.STAFF).get()) {
             buyItem(ItemType.STAFF);
-            purchaseStaff.setText("\u2713");
         }
         
     }
 
     @FXML
     void handlePurchaseStake(ActionEvent event) {
-        if (!purchaseStake.getText().equals("\u2713") &&world.getGold().get() >= world.getItemPrice(ItemType.STAKE).get()) {
+        if (world.getGold().get() >= world.getItemPrice(ItemType.STAKE).get()) {
             buyItem(ItemType.STAKE);
-            purchaseStake.setText("\u2713");
         }
         
     }
 
     @FXML
     void handlePurchaseSword(ActionEvent event) {
-        if (!purchaseSword.getText().equals("\u2713") && world.getGold().get() >= world.getItemPrice(ItemType.SWORD).get()) {
+        if (world.getGold().get() >= world.getItemPrice(ItemType.SWORD).get()) {
             buyItem(ItemType.SWORD);
-            purchaseSword.setText("\u2713");
         }
         
     }
@@ -266,13 +258,6 @@ public class HeroCastleMenuController {
         gold.setTextFill(Color.ORANGE);
         gold.setFont(new Font("Cambria", 40));
         //goldInt.set(world.getGolds());
-        Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
-        for (int x = 0; x < LoopManiaWorld.unequippedInventoryWidth; x++) {
-            for (int y = 0; y < LoopManiaWorld.unequippedInventoryHeight; y++) {
-                ImageView emptySlotView = new ImageView(inventorySlotImage);
-                inventory.add(emptySlotView, x, y);
-            }
-        }
         currentGold.getChildren().add(gold);
         StackPane.setAlignment(gold, Pos.CENTER_RIGHT);
         potionBought = 0;
@@ -284,7 +269,7 @@ public class HeroCastleMenuController {
 
     @FXML
     public void sellItem(ActionEvent event) {
-        if (sell.getText().equals("\u2713") || paneToSell.getChildren().size() == 0) return;
+        if (paneToSell.getChildren().size() == 0) return;
         String text = "";
         for (Node each: paneToSell.getChildren()) {
             if (each instanceof Label) {
@@ -294,7 +279,6 @@ public class HeroCastleMenuController {
         }
         
         removeItem(text);
-        sell.setText("\u2713");
         update();
         initialisePane();
         //goldInt.set(world.getGolds());
