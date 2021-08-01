@@ -18,6 +18,12 @@
 <AnchorPane fx:id="anchorPaneRoot" onKeyPressed="#handleKeyPress" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <!-- HBox is used to stack items horizontally left to right -->
    <HBox>
+      <VBox prefHeight="466.0" prefWidth="178.0">
+         <children>
+            <StackPane fx:id="layout4" prefHeight="130.0" prefWidth="179.0" />
+            <StackPane fx:id="layout5" prefHeight="130.0" prefWidth="179.0" />
+         </children>
+      </VBox>
       <!-- VBox is used to stack items vertically top to bottom -->
       <VBox>
          <children>
@@ -103,11 +109,9 @@
 
             <!-- clicking this button returns the human player to the main menu -->
             <Button onAction="#switchToMainMenu" text="Exit to Main Menu" />
-            <StackPane fx:id="layout" prefHeight="113.0" prefWidth="179.0" />
             <StackPane fx:id="layout2" prefHeight="134.0" prefWidth="179.0" />
+            <StackPane fx:id="layout" prefHeight="113.0" prefWidth="179.0" />
             <StackPane fx:id="layout3" prefHeight="31.0" prefWidth="179.0" />
-            <StackPane fx:id="layout4" prefHeight="130.0" prefWidth="179.0" />
-            <StackPane fx:id="layout5" prefHeight="130.0" prefWidth="179.0" />
          </children>
       </VBox>
    </HBox>

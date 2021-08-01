@@ -100,6 +100,9 @@ public class LoopManiaWorld {
      */
     private List<Pair<Integer, Integer>> orderedPath;
 
+    // extension: press R to use
+    
+
     /**
      * create the world (constructor)
      *
