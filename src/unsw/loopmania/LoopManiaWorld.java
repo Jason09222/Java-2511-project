@@ -418,7 +418,7 @@ public class LoopManiaWorld {
             // if we killEnemy in prior loop, we get
             // java.util.ConcurrentModificationException
             // due to mutating list we're iterating over
-            if (e.getType().equals("Muske")) {
+            if (e.getType().equals("ElanMuske")) {
                 hasKilledMuske.set(true);
             }
             addExperience(e.getExp());
