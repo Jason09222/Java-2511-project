@@ -112,6 +112,8 @@ public class HeroCastleMenuController {
 
     @FXML
     private Label doggieCoinOwned;
+
+    @FXML
     private Label shopMessage;
 
 
