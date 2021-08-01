@@ -2,8 +2,13 @@ package unsw.loopmania;
 
 import java.io.File;
 import java.io.IOException;
+
+import javax.swing.GroupLayout.Alignment;
+
 import javafx.fxml.FXML;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 
 /**
  * controller for the main menu.
@@ -53,5 +58,10 @@ public class MainMenuController {
     private void switchToConfusingGame() throws IOException {
         world.setMode(ModeType.CONFUSING);
         gameSwitcher.switchMenu();
+    }
+
+    @FXML
+    private void mute() {
+        
     }
 }

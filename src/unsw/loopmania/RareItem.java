@@ -6,6 +6,6 @@ public abstract class RareItem extends ItemProperty  {
     ItemType type;
     public RareItem(SimpleIntegerProperty x, SimpleIntegerProperty y, ItemType type) {
         super(x, y, type);
-        this.type = type;
+        //this.type = type;
     }
 }
