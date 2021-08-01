@@ -775,7 +775,7 @@ public class LoopManiaWorldController {
 
     private void loadArmour() {
         Armour armour = (Armour)world.addUnequippedItem(ItemType.ARMOUR);
-        armour.onLoadItems();
+        onLoad(armour);
     }
 
     /**
@@ -991,6 +991,7 @@ public class LoopManiaWorldController {
     public void unLoad(ItemProperty item) {
         ImageView view = item.onLoadItems();
         unequippedInventory.getChildren().remove(view);
+        
     }
 
     /**

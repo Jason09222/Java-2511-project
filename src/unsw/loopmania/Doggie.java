@@ -16,7 +16,7 @@ public class Doggie extends EnemyProperty{
     private int damage = 20;
     //private final boolean cirtical = true;
     private final boolean weak = false;
-    private final int hp = 000;
+    private final int hp = 1000;
     private final int exp = 100;
     private int criticalPoss = 10;
     private Image basicEnemyImage;
@@ -46,13 +46,13 @@ public class Doggie extends EnemyProperty{
             .pow(getFightRadius(), 2)) {
                 return false;
             }
-    
+
             boolean hasAttacked = false;
             for (Ally ally : l.getAllies()) {
                 if (ally.getHp() <= 0) {
                     continue;
                 }
-                
+
                 l.getCharacter().setInBattle(true);
                 inBattle = true;
                 hasAttacked = true;
@@ -68,12 +68,13 @@ public class Doggie extends EnemyProperty{
                 for (ItemProperty item : equipments) {
                     if (item == null) {
                         continue;
-                    } 
+                    }
                     item.useDuringBattle(this, l.getCharacter());
                 }
                 attack_character(l.getCharacter());
             }
         return true;
+
     }
 
     @Override
@@ -81,7 +82,7 @@ public class Doggie extends EnemyProperty{
         // TODO Auto-generated method stub
         return new ImageView(basicEnemyImage);
     }
-    
+
 
     @Override
     public void setAllPropertyBack() {
@@ -91,7 +92,7 @@ public class Doggie extends EnemyProperty{
 
 
 
-    
+
     @Override
     public void attack_character(Character c) {
         super.attack_character(c);
