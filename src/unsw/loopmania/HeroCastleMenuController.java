@@ -120,7 +120,6 @@ public class HeroCastleMenuController {
                     nextAvailableX++;
                 }
     
-    
                 view.setOnMouseClicked(e->selected(item));
             }
         }
@@ -152,7 +151,8 @@ public class HeroCastleMenuController {
 
     private void buyItem(ItemType itemType) {
         world.addGold(-1 * world.getItemPrice(itemType));
-        world.getGold().set(world.getGolds());
+        //world.getGold().set(world.getGolds());
+        gold.textProperty().bind(world.getGold().asString());
         if (itemType == ItemType.HEALTHPOTION) {
             world.addPotion(1);
 
@@ -225,19 +225,18 @@ public class HeroCastleMenuController {
     @FXML
     public void initialize() {
         gold = new Label(String.valueOf(world.getGolds()));
-        gold.textProperty().bind(world.getGold().asString());
+        //gold.textProperty().bind(world.getGold().asString());
         gold.setTextFill(Color.ORANGE);
         gold.setFont(new Font("Cambria", 40));
         currentGold.getChildren().add(gold);
         StackPane.setAlignment(gold, Pos.CENTER_RIGHT);
-
     }
 
 
 
     @FXML
     public void sellItem(ActionEvent event) {
-        if (paneToSell.getChildren().size() == 0) return;
+        if (sell.getText().equals("\u2713") || paneToSell.getChildren().size() == 0) return;
         String text = "";
         for (Node each: paneToSell.getChildren()) {
             if (each instanceof Label) {
@@ -248,7 +247,8 @@ public class HeroCastleMenuController {
 
         removeItem(text);
         sell.setText("\u2713");
-        world.getGold().set(world.getGolds());
+        //world.getGold().set(world.getGolds());
+        gold.textProperty().bind(world.getGold().asString());
     }
 
     public void initialisePane() {

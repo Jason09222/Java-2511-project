@@ -990,6 +990,7 @@ public class LoopManiaWorldController {
     public void unLoad(ItemProperty item) {
         ImageView view = item.onLoadItems();
         unequippedInventory.getChildren().remove(view);
+        
     }
 
     /**
