@@ -97,7 +97,7 @@ public class integrationTest {
         world.setCharacter(character);
         for (int i = 0; i < 20 * orderedPath.size(); i++) {
             // TODO = handle more aspects of the behaviour required by the specification
-            System.out.println("starting timer");
+            //System.out.println("starting timer");
 
             // trigger adding code to process main game logic to queue. JavaFX will target
             // framerate of 0.3 seconds
