@@ -14,8 +14,8 @@
       <!-- clicking button should start/resume the game -->
       <Button fx:id="startNormalModeButton" onAction="#switchToGame" prefHeight="26.0" prefWidth="114.0" text="Normal Mode" />
       <Button fx:id="startBerserkerModeButton" mnemonicParsing="false" onAction="#switchToBerserkerGame" prefHeight="28.0" prefWidth="114.0" text="Berserker Mode" />
-      <Button fx:id="startSurvivalModeButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="115.0" text="Survival Mode" />
-      <Button fx:id="startConfusingModeButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="114.0" text="Confusing Mode" />
+      <Button fx:id="startSurvivalModeButton" mnemonicParsing="false" onAction="#switchToSurvivalGame" prefHeight="30.0" prefWidth="115.0" text="Survival Mode" />
+      <Button fx:id="startConfusingModeButton" mnemonicParsing="false" onAction="#switchToConfusingGame" prefHeight="30.0" prefWidth="114.0" text="Confusing Mode" />
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

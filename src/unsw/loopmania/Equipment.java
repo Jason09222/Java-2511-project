@@ -34,6 +34,7 @@ public class Equipment {
 
     public boolean unEquip(int slot) {
         inv.add(items[slot]);
+        items[slot].destroy();
         items[slot] = null;
         return true;
     }
