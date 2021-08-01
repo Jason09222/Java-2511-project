@@ -9,8 +9,10 @@ import javax.swing.text.html.HTMLDocument.Iterator;
 import java.lang.Math;
 import org.javatuples.Pair;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.effect.BlurType;
@@ -84,10 +86,11 @@ public class LoopManiaWorld {
 
     private boolean shouldSpawnDoggie;
     private boolean shouldSpawnMuske;
-    private boolean hasSpawnMuske;
+    public BooleanProperty hasSpawnMuske;
+    public BooleanProperty hasKilledMuske;
     private IntegerProperty gold;
     private GoalLogic totaGoal;
-
+    private DoggieCoinMarket doggieCoinMarket;
     private ModeType mode;
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse
@@ -129,8 +132,11 @@ public class LoopManiaWorld {
         startCastle = new HeroCastle(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
         shouldSpawnDoggie = false;
         shouldSpawnMuske = false;
-        hasSpawnMuske = false;
+        hasSpawnMuske = new SimpleBooleanProperty(false);
+        hasKilledMuske = new SimpleBooleanProperty(false);
         doggieCoinOwned = 0;
+
+        doggieCoinMarket = new DoggieCoinMarket(this);
     }
 
 
@@ -251,7 +257,7 @@ public class LoopManiaWorld {
                 enemies.add(enemy);
                 spawningEnemies.add(enemy);
                 shouldSpawnMuske = false;
-                hasSpawnMuske = true;
+                hasSpawnMuske.set(true);
             }
         }
 
@@ -444,6 +450,9 @@ public class LoopManiaWorld {
             // if we killEnemy in prior loop, we get
             // java.util.ConcurrentModificationException
             // due to mutating list we're iterating over
+            if (e.getType().equals("Muske")) {
+                hasKilledMuske.set(true);
+            }
             addExperience(e.getExp());
             killEnemy(e);
         }
@@ -636,7 +645,7 @@ public class LoopManiaWorld {
      * immediately
      */
     public void runTickMoves() {
-
+        doggieCoinMarket.notifyObservers();
         if (!character.getInBattle()) {
             character.moveDownPath();
             updatePathCycle();
@@ -645,7 +654,7 @@ public class LoopManiaWorld {
             shouldSpawnDoggie = true;
         }
 
-        if (getCycle() == 40 && experience.get() >= 10000 && !hasSpawnMuske) {
+        if (getCycle() == 40 && experience.get() >= 10000 && !hasKilledMuske.get() && !hasSpawnMuske.get()) {
             shouldSpawnMuske = true;
         }
         moveBasicEnemies();
@@ -1301,7 +1310,7 @@ public class LoopManiaWorld {
         for (EnemyProperty e : enemies) {
             if (e.isBoss()) return true;
         }
-        return !hasSpawnMuske;
+        return !hasSpawnMuske.get();
     }
 
     public IntegerProperty getItemPrice(ItemType itemType) {
