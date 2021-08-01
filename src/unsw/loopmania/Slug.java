@@ -78,6 +78,7 @@ public class Slug extends EnemyProperty{
                 item.useDuringBattle(this, l.getCharacter());
             }
             attack_character(l.getCharacter());
+            l.getCharacter().charingSuperPower(2);
         }
         return true;
     }

@@ -135,6 +135,12 @@ public class LoopManiaWorldController {
     private ProgressBar expProgress;
 
     @FXML
+    private ProgressBar superProgressBar;
+
+    @FXML
+    private Label powerLabel;
+
+    @FXML
     private Label hpNum;
 
     @FXML
@@ -261,6 +267,8 @@ public class LoopManiaWorldController {
     @FXML
     private Label healthPotionNum;
 
+    @FXML
+    private Label superLabel;
     private IntegerProperty allyInNum;
     private IntegerProperty healthPotionInNum;
     private IntegerProperty ringInNum;
@@ -270,7 +278,8 @@ public class LoopManiaWorldController {
     private IntegerProperty battleVampireInNum;
     private IntegerProperty battleDoggieInNum;
     private IntegerProperty battleMuskInNum;
-
+    private DoubleProperty superProgress;
+    private IntegerProperty supercharged;
     // private Experience gold;
 
     private IntegerProperty hpInNum;
@@ -384,22 +393,27 @@ public class LoopManiaWorldController {
         battleMusicAutumn = new File("src/images/BATTLE_AUTUMN.mp3"); 
         Media audio = new Media(battleMusicAutumn.toURI().toString());
         battleAutumnAudioPlayer = new MediaPlayer(audio);
+        battleAutumnAudioPlayer.setVolume(0.2);
 
         battleMusicWinter = new File("src/images/BATTLE_WINTER.mp3"); 
         audio = new Media(battleMusicWinter.toURI().toString());
         battleWinterAudioPlayer = new MediaPlayer(audio);
+        battleWinterAudioPlayer.setVolume(0.2);
 
         battleMusicSpring = new File("src/images/BATTLE_SPRING.mp3"); 
         audio = new Media(battleMusicSpring.toURI().toString());
         battleSpringAudioPlayer = new MediaPlayer(audio);
+        battleSpringAudioPlayer.setVolume(0.2);
 
         battleMusicSummer = new File("src/images/BATTLE_SUMMER.mp3"); 
         audio = new Media(battleMusicSummer.toURI().toString());
         battleSummerAudioPlayer = new MediaPlayer(audio);
+        battleSummerAudioPlayer.setVolume(0.2);
 
         mainMenuMusic = new File("src/images/mainMenuMusic.mp3"); 
         audio = new Media(mainMenuMusic.toURI().toString());
         mainMenuAudioPlayer = new MediaPlayer(audio);
+        mainMenuAudioPlayer.setVolume(0.2);
         mainMenuAudioPlayer.setAutoPlay(true);
         mainMenuAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mainMenuAudioPlayer.play();
@@ -626,6 +640,16 @@ public class LoopManiaWorldController {
         layout2.getChildren().add(expNum);
         StackPane.setAlignment(expNum, Pos.CENTER_RIGHT);
 
+        
+        superProgressBar = new ProgressBar();
+        superProgress = world.getSuperPowerProgress();
+        superProgressBar.progressProperty().bind(superProgress);
+        superStackPane.getChildren().add(superProgressBar);
+        StackPane.setAlignment(superProgressBar, Pos.BOTTOM_CENTER);
+        
+        powerLabel.setTextFill(Color.RED);
+        powerLabel.setFont(new Font("Cambria", 30));
+        
 
 
         
@@ -650,6 +674,7 @@ public class LoopManiaWorldController {
         PVZaudio = new File("src/images/audio.mp3");
         Media audio = new Media(PVZaudio.toURI().toString());
         audioPlayer = new MediaPlayer(audio);
+        audioPlayer.setVolume(0.2);
         audioPlayer.setAutoPlay(true);
         audioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         // trigger adding code to process main game logic to queue. JavaFX will target
@@ -661,7 +686,6 @@ public class LoopManiaWorldController {
             if (result == 0) {
                 if (world.getCharacter().getInBattle()) {
                     audioPlayer.pause();
-                    
                     battleAutumnAudioPlayer.setAutoPlay(true);
                     battleAutumnAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
                     battleAutumnAudioPlayer.play();
@@ -672,7 +696,6 @@ public class LoopManiaWorldController {
             } else if (result == 1) {
                 if (world.getCharacter().getInBattle()) {
                     audioPlayer.pause();
-                    
                     battleWinterAudioPlayer.setAutoPlay(true);
                     battleWinterAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
                     battleWinterAudioPlayer.play();
@@ -713,6 +736,7 @@ public class LoopManiaWorldController {
                     shopMusic = new File("src/images/shopMusic.mp3");
                     Media stopAudio = new Media(shopMusic.toURI().toString());
                     shopAudioPlayer = new MediaPlayer(stopAudio);
+                    shopAudioPlayer.setVolume(0.1);
                     shopAudioPlayer.setAutoPlay(true);
                     shopAudioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
                 }
@@ -846,6 +870,7 @@ public class LoopManiaWorldController {
         // TODO = load more types of weapon
         // start by getting first available coordinates
         Sword sword = (Sword) world.addUnequippedItem(ItemType.SWORD);
+        //world.addRareItem(sword);
         onLoad(sword);
     }
 
@@ -1439,6 +1464,9 @@ public class LoopManiaWorldController {
                 break;
             case E:
                 world.spendPotions();
+                break;
+            case R:
+                world.useSuperPower();
                 break;
             default:
                 break;

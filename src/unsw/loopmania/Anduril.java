@@ -13,6 +13,8 @@ import javafx.scene.image.ImageView;
  */
 public class Anduril extends RareItem {
     private final int damage = 250;
+    
+    //extraProperty
     public Anduril(SimpleIntegerProperty x, SimpleIntegerProperty y, ItemType type) {
         super(x, y, type);
         //TODO Auto-generated constructor stub
@@ -26,6 +28,7 @@ public class Anduril extends RareItem {
         } else {
             c.setDamage(c.getDamage());
         }
+        
     }
 
     @Override
@@ -47,4 +50,6 @@ public class Anduril extends RareItem {
         // TODO Auto-generated method stub
         return false;
     }
+
+    
 }

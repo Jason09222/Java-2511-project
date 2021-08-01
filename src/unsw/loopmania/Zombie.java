@@ -94,6 +94,7 @@ public class Zombie extends EnemyProperty{
             }
             //for (ItemProperty item : l)
             attack_character(l.getCharacter());
+            l.getCharacter().charingSuperPower(5);
         }
         return true;
     }
