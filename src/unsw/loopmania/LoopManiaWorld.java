@@ -691,7 +691,7 @@ public class LoopManiaWorld {
      *
      * @param item item to be removed
      */
-    private void removeUnequippedInventoryItem(Entity item) {
+    public void removeUnequippedInventoryItem(Entity item) {
         item.destroy();
         unequippedInventoryItems.remove(item);
     }
@@ -719,7 +719,7 @@ public class LoopManiaWorld {
      *
      * @param index index from 0 to length-1
      */
-    private void removeItemByPositionInUnequippedInventoryItems(int index) {
+    public void removeItemByPositionInUnequippedInventoryItems(int index) {
         Entity item = unequippedInventoryItems.get(index);
         item.destroy();
         unequippedInventoryItems.remove(index);
@@ -750,7 +750,7 @@ public class LoopManiaWorld {
      *
      * @param x x coordinate which can range from 0 to width-1
      */
-    private void shiftCardsDownFromXCoordinate(int x) {
+    public void shiftCardsDownFromXCoordinate(int x) {
         for (Card c : cardEntities) {
             if (c.getX() >= x) {
                 c.x().set(c.getX() - 1);
@@ -789,7 +789,7 @@ public class LoopManiaWorld {
      * @return null if random choice is that wont be spawning an enemy or it isn't
      *         possible, or random coordinate pair if should go ahead
      */
-    private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition() {
+    public Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition() {
         // TODO = modify this
 
         // has a chance spawning a basic enemy on a tile the character isn't on or

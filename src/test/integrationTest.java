@@ -20,7 +20,11 @@ import unsw.loopmania.BasicItem;
 import unsw.loopmania.Campfire;
 import unsw.loopmania.CampfireCard;
 import unsw.loopmania.Character;
+import unsw.loopmania.ElanMuske;
 import unsw.loopmania.EnemyProperty;
+import unsw.loopmania.GoalCompsite;
+import unsw.loopmania.GoalLogic;
+import unsw.loopmania.GoalOrLogic;
 import unsw.loopmania.Gold;
 import unsw.loopmania.HealthPotion;
 import unsw.loopmania.Helmet;
@@ -28,11 +32,13 @@ import unsw.loopmania.HeroCastle;
 import unsw.loopmania.ItemType;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.LoopManiaWorldController;
+import unsw.loopmania.ModeType;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Shield;
 import unsw.loopmania.Slug;
 import unsw.loopmania.Staff;
 import unsw.loopmania.Stake;
+import unsw.loopmania.SubGoalGold;
 import unsw.loopmania.Sword;
 import unsw.loopmania.TheOneRing;
 import unsw.loopmania.Tower;
@@ -197,10 +203,10 @@ public class integrationTest {
         world.moveBasicEnemies();
         world.createbuilding("Village", x, y);
         world.createbuilding("Barracks", x, y);
-        world.createbuilding("Tower", x, y);
-        world.createbuilding("VampireCastleBuilding", x, y);
-        world.createbuilding("ZombiePit", x, y);
-        world.createbuilding("Campfire", x, y);
+        world.createbuilding("Tower", new SimpleIntegerProperty(1), new SimpleIntegerProperty(2));
+        world.createbuilding("VampireCastleBuilding", new SimpleIntegerProperty(1), new SimpleIntegerProperty(2));
+        world.createbuilding("ZombiePit", new SimpleIntegerProperty(1), new SimpleIntegerProperty(2));
+        world.createbuilding("Campfire", new SimpleIntegerProperty(1), new SimpleIntegerProperty(2));
         world.getShortestCampfire(slugb);
         assertEquals(true, world.checkBuildingAlrdyExisted(x, y));
         world.enemyStepOnBuilding();
@@ -211,11 +217,49 @@ public class integrationTest {
         world.addAlly(ally2);
         world.addAlly(ally3);
         world.runTickMoves();
+        world.getMode();
+        world.getCardEntities();
+        world.getUnequippedInventoryItems();
+        world.getRing();
+        world.getHealthPotion();
+        world.getDoggieCoin();
+        world.getGoal();
+        world.getSuperPowerProgress();
+        world.getHpValue();
+        world.setMode(ModeType.STANDARD);
 
-
-
-
-
-
+        GoalCompsite goal = new SubGoalGold(world, 300);
+        GoalLogic logic = new GoalOrLogic();
+        logic.addGoal(goal);
+        world.setGoal(logic);
+        world.isGameWin();
+        world.addUnequippedInventory(new Sword(x, y));
+        world.removeUnequippedInventoryItem(new Sword(x, y));
+        world.addDoggieCoin(3);
+        world.removeUnequippedInventoryItemByCoordinates(x.get(), y.get());
+        world.addUnequippedInventory(new Sword(x, y));
+        world.equipItemByCoordinates(x.get(), y.get());
+        world.removeItemByPositionInUnequippedInventoryItems(0);
+        world.removeCard(0);
+        world.shiftCardsDownFromXCoordinate(0);
+        world.getBattleMuskNum();
+        world.getBattleSlugNum();
+        world.getBattleDoggieNum();
+        world.getBattleVampireNum();
+        world.getBattleZombieNum();
+        world.getItemPrice(ItemType.STAFF);
+        world.getCardEntities().add(new VampireCastleCard("VampireCastleCard", x, y));
+        world.convertCardToBuildingByCoordinates(x.get(), y.get(), x.get(), y.get());
+        world.possiblyGetBasicEnemySpawnPosition();
+        world.possiblySpawnEnemies();
+        world.getBuildings().add(campfire);
+        world.getShortestCampfire(slugb);
+        world.getCharacter().setHp(0);
+        world.isGameOver();
+        ElanMuske musk = new ElanMuske(position);
+        world.getEnemy().add(musk);
+        world.isBossAlive();
+        world.getBuildings().add(new Campfire(x, y));
+        world.updatePathCycle();
     }
 }
