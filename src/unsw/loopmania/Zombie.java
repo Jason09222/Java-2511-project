@@ -90,7 +90,7 @@ public class Zombie extends EnemyProperty{
                 if (item == null) {
                     continue;
                 }
-                item.useDuringBattle(this, l.getCharacter());
+                item.useDuringBattle(this, l.getCharacter(), ModeType.STANDARD);
             }
             //for (ItemProperty item : l)
             attack_character(l.getCharacter());

@@ -18,11 +18,7 @@ public class Gold extends ItemProperty {
         super(x, y, ItemType.OTHER);
     }
 
-    @Override
-    public void useDuringBattle(EnemyProperty e, Character c) {
-        return;
-
-    }
+    
     @Override
     public void characterStepOn(LoopManiaWorld l,List<ItemProperty> toRemoveGold, List<ItemProperty> toRemoveHealthPotion) {
         // TODO Auto-generated method stub
@@ -40,5 +36,11 @@ public class Gold extends ItemProperty {
     public boolean canBePurchased() {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public void useDuringBattle(EnemyProperty e, Character c, ModeType mode) {
+        // TODO Auto-generated method stub
+        
     }
 }

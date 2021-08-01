@@ -67,7 +67,7 @@ public class Doggie extends EnemyProperty{
                     if (item == null) {
                         continue;
                     }
-                    item.useDuringBattle(this, l.getCharacter());
+                    item.useDuringBattle(this, l.getCharacter(), ModeType.STANDARD);
                 }
                 attack_character(l.getCharacter());
             }

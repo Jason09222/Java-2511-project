@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
  */
 public class Shield extends ItemProperty {
     // TODO = add more weapon/item types
-    private final int defense = 10;
+    private final int defense = 9;
     public static IntegerProperty price = new SimpleIntegerProperty(2000);
     public Shield(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, ItemType.SHIELD);
