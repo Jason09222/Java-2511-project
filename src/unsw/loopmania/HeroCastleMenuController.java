@@ -186,7 +186,7 @@ public class HeroCastleMenuController {
     void handleExitButton(ActionEvent event) {
         resetButtons();
         controller.getShopAudioPlayer().pause();
-        controller.getAudioPlayer().play();
+        if (!controller.getMute()) controller.getAudioPlayer().play();
         resetShop();
         switchToGame();
     }
