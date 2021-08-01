@@ -9,7 +9,9 @@ public enum ItemType {
     SHIELD(2),
     OTHER(4),
     HEALTHPOTION(4),
-    DOGGIECOIN(5),    
+    DOGGIECOIN(5),
+    ANDURIL(6),
+    TREESTUMP(7)    
     ;
 
     private int index;

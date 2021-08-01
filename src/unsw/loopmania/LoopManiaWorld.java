@@ -471,12 +471,12 @@ public class LoopManiaWorld {
      */
 
     public ItemProperty addUnequippedItem(ItemType type) {
+        
         Random rand = new Random();
         int result = rand.nextInt(30);
         if (result == 0) {
             ringOwned.set(ringOwned.get() + 1);
         }
-
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null) {
             // eject the oldest unequipped item and replace it... oldest item is that at
@@ -527,7 +527,12 @@ public class LoopManiaWorld {
                 potionsOwned += 1;
                 item = null;
                 break;
-
+            case ANDURIL:
+                item = new Anduril(x, y, ItemType.ANDURIL);
+                break;
+            case TREESTUMP:
+                item = new TreeStump(x, y);
+                break;
             default:
 
                 item = null;

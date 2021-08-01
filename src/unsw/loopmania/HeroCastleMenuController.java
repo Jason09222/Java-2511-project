@@ -112,7 +112,7 @@ public class HeroCastleMenuController {
 
     @FXML
     private Label doggieCoinOwned;
-    private Label shopMessage;
+    private Label shopMessage = new Label("");
 
 
     private int nextAvailableX = 0;
@@ -121,7 +121,7 @@ public class HeroCastleMenuController {
     public void update() {
         initialiseInventory();
         //goldInt.set(world.getGolds());
-        sell.setText("Sell");
+        //sell.setText("Sell");
         for(ItemProperty item: world.getUnequippedInventoryItems()) {
             if (item != null) {
 
@@ -149,21 +149,12 @@ public class HeroCastleMenuController {
 
     @FXML
     void selectDoggie(MouseEvent event) {
-        /*initialisePane();
-        Image doggieImage = new Image((new File("src/images/doggiecoin.png")).toURI().toString());
-        ImageView view = new ImageView(doggieImage);
-        view.setFitHeight(100);
-        view.setFitWidth(100);
-        paneToSell.getChildren().add(view);
-        Label label = new Label(item.getType().name() + ":  $" + world.getItemPrice(item.getType()).get());
-        paneToSell.getChildren().add(label);
-        StackPane.setAlignment(label, Pos.BOTTOM_CENTER);
-        StackPane.setAlignment(view, Pos.TOP_CENTER);*/
         DoggieCoin coin = new DoggieCoin(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0), ItemType.DOGGIECOIN);
         selected(coin);
         coin.destroy();
     }
 
+    
     void selected(ItemProperty item) {
         initialisePane();
         ImageView view = item.onLoadItems();

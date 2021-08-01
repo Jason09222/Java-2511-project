@@ -1,7 +1,12 @@
 package unsw.loopmania;
 
 import java.io.IOException;
+
+import javax.swing.GroupLayout.Alignment;
+
 import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 
 /**
  * controller for the main menu.
