@@ -97,7 +97,7 @@ public class LoopManiaApplication extends Application {
         gameRoot.requestFocus();
         primaryStage.setScene(scene);
         
-        
+        scene.getRoot().setStyle("-fx-font-family: 'serif', 'arial', 'helvetica'");
         primaryStage.show();
     }
 
